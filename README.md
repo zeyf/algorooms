@@ -1,3 +1,3 @@
-# algorooms
+# AlgoRooms
 
 The best thing since LeetCode
