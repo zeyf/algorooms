@@ -1,13 +1,18 @@
-// Import statements
+// Module imports
 import React from "react";
 
-export default () => {
+// Interface imports
+import { constraintInterface } from "./Interfaces";
+
+export default ({
+    constraint
+}: constraintInterface) => {
 
     // Code
 
     return (
         <span>
-            {/* Body */}
+            { constraint }
         </span>
     );
 

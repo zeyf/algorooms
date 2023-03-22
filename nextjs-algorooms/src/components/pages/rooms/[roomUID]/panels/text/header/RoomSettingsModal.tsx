@@ -1,7 +1,14 @@
-// Import statements
+// Module imports
 import React from "react";
 
-export default () => {
+// Interface imports
+import { roomSettingsModalInterface } from "./Interfaces";
+
+export default ({
+    topics,
+    difficulty,
+    link
+}:roomSettingsModalInterface) => {
 
     // Code
 

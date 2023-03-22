@@ -1,7 +1,10 @@
 // Import statements
 import React from "react";
+import { headerInterface } from "./Interfaces";
 
-export default () => {
+export default ({
+    questionTitle, questionIndex, questionDifficulty
+}:headerInterface) => {
 
     // Code
 

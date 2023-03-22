@@ -1,13 +1,29 @@
-// Import statements
+// Module imports
 import React from "react";
 
-export default () => {
+// Interface imports
+import { hintsInterface } from "./Interfaces";
+
+// Component imports
+import Hint from "./Hint";
+
+export default ({
+    hints
+}:hintsInterface) => {
 
     // Code
 
     return (
         <section>
-            {/* Body */}
+            <p>Hints</p>
+            <br/>
+
+            {
+                hints.map(
+                    (hint: string, index: number) => <Hint hint={ hint } index={ index } />
+                )
+            }
+
         </section>
     );
 
