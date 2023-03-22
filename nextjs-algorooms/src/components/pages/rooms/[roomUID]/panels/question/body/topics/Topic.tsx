@@ -1,13 +1,18 @@
-// Import statements
+// Module imports
 import React from "react";
 
-export default () => {
+// Interface imports
+import { topicInterface } from "./Interfaces";
+
+export default ({
+    topic
+}:topicInterface) => {
 
     // Code
 
     return (
         <span>
-            {/* Body */}
+            { topic }
         </span>
     );
 

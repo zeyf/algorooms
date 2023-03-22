@@ -1,13 +1,28 @@
-// Import statements
+// Module imports
 import React from "react";
 
-export default () => {
+// Interface imports
+import { roomMembersInterface } from "./Interfaces";
+
+// Component imports
+import RoomMember from "./RoomMember";
+
+export default ({
+    members
+}:roomMembersInterface) => {
 
     // Code
 
     return (
         <section>
-            {/* Body */}
+            <span>Members</span>
+            <br/>
+
+            {
+                members.map(
+                    (member:string) => <RoomMember member={ member } />
+                )
+            }
         </section>
     );
 

@@ -1,7 +1,12 @@
-// Import statements
+// Module imports
 import React from "react";
 
-export default () => {
+// Interface imports
+import { textEntryInterface } from "./Interfaces";
+
+export default ({
+
+}:textEntryInterface) => {
 
     // Code
 

@@ -1,13 +1,18 @@
-// Import statements
+// Module imports
 import React from "react";
 
-export default () => {
+// Interface imports
+import { roomMemberInterface } from "./Interfaces";
+
+export default ({
+    member
+}:roomMemberInterface) => {
 
     // Code
 
     return (
         <section>
-            {/* Body */}
+            { member }
         </section>
     );
 

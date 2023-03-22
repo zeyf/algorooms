@@ -1,7 +1,9 @@
 // Import statements
 import Head from "next/head";
 
-export default () => {
+export default ({
+    
+}) => {
 
     // Code
 

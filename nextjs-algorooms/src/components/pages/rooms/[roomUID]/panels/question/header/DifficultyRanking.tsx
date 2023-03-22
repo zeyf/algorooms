@@ -1,7 +1,10 @@
 // Import statements
 import React from "react";
+import { difficultyRankingInterface } from "./Interfaces";
 
-export default () => {
+export default ({
+    questionDifficulty
+}:difficultyRankingInterface) => {
 
     // Code
 
