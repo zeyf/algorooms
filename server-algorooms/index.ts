@@ -1,10 +1,9 @@
 // Imports
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
 import { createServer } from "http"
 import { Server } from "socket.io";
-
 
 // Initialization
 const app = express();
