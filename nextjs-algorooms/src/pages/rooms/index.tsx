@@ -1,6 +1,8 @@
+/* eslint-disable import/no-anonymous-default-export */
 // Import statements
 import Head from "next/head";
 
+// eslint-disable-next-line react/display-name
 export default ({
     
 }) => {
