@@ -11,6 +11,9 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    colors: {
+      navbar: '#051135',
+    },
     extend: {},
     fontFamily: {
       abc: ['Open Sans', 'sans-serif']
