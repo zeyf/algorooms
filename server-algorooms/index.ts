@@ -1,17 +1,22 @@
 // Imports
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors';
 import { createServer } from "http"
 import { Server } from "socket.io";
+
 
 // Initialization
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-    cors:{
-        origin: 'http://localhost:3000'
-    }
+
+})
+
+// Connecting MongoDB
+mongoose.connect("mongodb+srv://user:12345@algorooms.lau3kx4.mongodb.net/test?retryWrites=true&w=majority").then(() => {
+    console.log("connected to database")
+}).catch((err) => {
+    console.log(err)
 })
 
 io.on("connection", (socket) => {
@@ -23,7 +28,7 @@ io.on("connection", (socket) => {
 })
 
 // Start server
-httpServer.listen(3000, () => {
+httpServer.listen(3001, () => {
     console.log("Server is running");
 });
 
