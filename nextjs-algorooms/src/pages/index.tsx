@@ -7,7 +7,7 @@ const socket = io('http://localhost:3000')
 export default () => {
   return (
     <div className="bg-[#222C4A] w-screen h-screen">
-      <Header></Header>
+      <Header/>
     </div>
   )
 }

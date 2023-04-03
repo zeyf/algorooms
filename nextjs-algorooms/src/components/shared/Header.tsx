@@ -18,10 +18,9 @@ const Header = ({
         <Navbar fluid={true} rounded={true} className="w-screen h-15 bg-navbar drop-shaddow-{4px}">
             <Image alt="Logo" src={Logo} width={120} height={120} className=""/>
             <div className="flex flex-row space-x-7 items-center">
-                <Navbar.Link href="/" className="text-white -translate-y-3" >Sign In / Sign Up</Navbar.Link>
+                <Navbar.Link href="/api/auth/login" className="text-white -translate-y-3" >Sign In / Sign Up</Navbar.Link>
                 <IoPersonCircleOutline className="text-white w-6 h-6"></IoPersonCircleOutline>
             </div>
-
         </Navbar>
     );
 
