@@ -1,16 +1,22 @@
 // Imports
 import express from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import { createServer } from "http"
 import { Server } from "socket.io";
 
 
 // Initialization
 const app = express();
+
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
 
 })
+
+// middleware
+app.use(cors());
+
 
 // Connecting MongoDB
 mongoose.connect("mongodb+srv://user:12345@algorooms.lau3kx4.mongodb.net/test?retryWrites=true&w=majority").then(() => {
