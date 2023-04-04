@@ -1,11 +1,27 @@
 import Image from "next/image";
 import ProgressBar from "@/components/pages/profile/ProgressBar";
+import { useUser } from '@auth0/nextjs-auth0/client';
 
-const profile = () => {
+export default () => {
 
   const account_level = 68;
   const currExp = 1100;
   const maxExp = 6100;
+
+  const { user, isLoading, error } = useUser();
+
+  // If we are still checking whether or not the user is logged in through Auth0 layer
+  if (isLoading) {
+
+  } else {
+
+    // If we have already checked and have access to the true state of the user
+    // And we are not at a user
+    if (!user) {
+
+    };
+  
+  }
 
   return (
     <div className="grid auto-row-fr grid-cols-2">
@@ -18,7 +34,7 @@ const profile = () => {
               {/* Avatar */}
               <Image
                 className="rounded-full"
-                src="/dummy_data/borat.webp" 
+                src={(user && user.picture) || ""}
                 height={188}
                 width={188}
                 alt=""
@@ -72,6 +88,5 @@ const profile = () => {
       </div>
     </div>
   )
-}
 
-export default profile
+};

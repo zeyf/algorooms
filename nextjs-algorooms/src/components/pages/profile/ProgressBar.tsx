@@ -15,14 +15,16 @@ const ProgressBar = ({ backgroundColor, accentColor, numerator, denominator, wid
   
   // Code
   
-  const percentage: number = Math.floor(numerator / denominator * 100);
+  const completionPercentage: number = Math.floor(numerator / denominator * 100);
+  const completionComplement = 100 - completionPercentage;
   
   return (
-    <div className={`w-${width} h-${height} rounded-full bg-${backgroundColor} overflow-x-hidden`}>
+    <div className={`w-${width} h-${height} ${backgroundColor} rounded-full`}>
+
       <div
-        className={`h-full bg-${accentColor}`}
-        style={{ width: `${percentage}%`}}
-      />
+        className={`w-full h-${height} ${accentColor}`}
+        style={{ width: `${completionComplement}%`}}
+      ></div>
     </div>
   )
 }

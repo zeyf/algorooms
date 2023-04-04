@@ -1,5 +1,4 @@
 import { io } from "socket.io-client";
-import Header from "../components/shared/Header";
 import BigText from "@/components/pages/home/BigText";
 import Editor from "../components/images/Room.png";
 import Image from "next/image";
@@ -14,7 +13,6 @@ export default () => {
 
   return (
     <div className="bg-gradient-to-tr from-navbar to to-[#24366c] w-screen h-screen flex flex-col">
-      <Header/>
       <div className="w-1000 h-1000  flex flex-row space-x-16 justify-center mt-10">
         <div className="flex flex-col ">
           <BigText />

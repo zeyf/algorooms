@@ -33,9 +33,16 @@ const Header = ({
                 
                 {
                     isLoading || !user ? 
-                    <IoPersonCircleOutline className="text-white w-6 h-6"></IoPersonCircleOutline>
+                    <IoPersonCircleOutline className="text-white w-6 h-6"
+                        href="/api/auth/login"
+                    ></IoPersonCircleOutline>
                     :
-                    <img className="text-white w-6 h-6 rounded-full" alt="user" src={isLoading || !user ? "" : user.picture || ""} width={120} height={120}/>
+                    <a href={`/profile/${user.nickname}`}>
+                        <img className="text-white w-6 h-6 rounded-full" alt="user"
+                            src={isLoading || !user ? "" : user.picture || ""}
+                            width={120} height={120}
+                        />
+                    </a>
                 }
             </div>
         </div>
