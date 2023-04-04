@@ -3,6 +3,7 @@ import Header from "../components/shared/Header";
 import BigText from "@/components/pages/home/BigText";
 import Editor from "../components/images/Room.png";
 import Image from "next/image";
+import Buttons from "@/components/pages/home/button";
 
 // import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 // import { useUser } from '@auth0/nextjs-auth0/client';
@@ -15,7 +16,14 @@ export default () => {
     <div className="bg-gradient-to-tr from-navbar to to-[#24366c] w-screen h-screen flex flex-col">
       <Header/>
       <div className="w-1000 h-1000  flex flex-row space-x-16 justify-center mt-10">
-        <BigText />
+        <div className="flex flex-col ">
+          <BigText />
+          <div className="translate-x-20 -translate-y-14">
+            <Buttons />
+          </div>
+
+        </div>
+
         <Image src={Editor} alt="editor" width={900} height={900} className="rounded-lg translate-y-10 drop-shadow-lg"></Image>
       </div>
       <div className="absolute bottom-0 left-0 w-screen overflow-hidden leading-none rotate-180">
