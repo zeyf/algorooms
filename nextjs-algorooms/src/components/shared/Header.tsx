@@ -18,9 +18,12 @@ const Header = ({
     const { user, isLoading, error } = useUser();
 
     return (
-        <Navbar fluid={true} rounded={true} className="w-screen h-15 bg-navbar drop-shaddow-[4px]">
-            <Image alt="Logo" src={Logo} width={120} height={120}/>
-            <div className="flex flex-row space-x-7 items-center">
+        <div className="w-screen h-16 bg-navbar drop-shaddow-[4px] flex flex-row rounded-b-lg items-center">
+            <div className="absolute left-3">
+                <Image alt="Logo" src={Logo} width={125} height={125}/>
+            </div>
+
+            <div className="flex flex-row space-x-7 items-center absolute right-5">
 
                 {
                     user ?
@@ -36,7 +39,7 @@ const Header = ({
                     <img className="text-white w-6 h-6 rounded-full" alt="user" src={isLoading || !user ? "" : user.picture || ""} width={120} height={120}/>
                 }
             </div>
-        </Navbar>
+        </div>
     );
 
 };  

@@ -16,7 +16,8 @@ module.exports = {
     },
     extend: {},
     fontFamily: {
-      abc: ['Open Sans', 'sans-serif']
+      noto: ['Open Sans', 'sans-serif'],
+      monte: ['Montserrat', 'sans-serif']
     },
   },
   plugins: [
