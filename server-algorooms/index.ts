@@ -6,8 +6,12 @@ import { createServer } from "http"
 import { Server } from "socket.io";
 
 
+import UserRoutes from "./routes/User";
+
 // Initialization
 const app = express();
+
+app.use("/api/user", UserRoutes);
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -34,7 +38,7 @@ io.on("connection", (socket) => {
 })
 
 // Start server
-httpServer.listen(3001, () => {
+httpServer.listen(4000, () => {
     console.log("Server is running");
 });
 
