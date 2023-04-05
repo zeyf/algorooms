@@ -2,6 +2,7 @@
 // Import statements
 import Head from "next/head";
 import React from "react";
+import CreateRoomCard from "@/components/pages/rooms/CreateRoomCard";
 
 // eslint-disable-next-line react/display-name
 export default ({
@@ -19,8 +20,10 @@ export default ({
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main>
-                {/* Body */}
+            <main className="h-screen flex justify-center items-center bg-gradient-to-tr from-navbar to to-[#24366c]">
+                {/* <div className="flex justify-center items-center h-full"> */}
+                    <CreateRoomCard/>
+                {/* </div> */}
             </main>
         </>
     );
