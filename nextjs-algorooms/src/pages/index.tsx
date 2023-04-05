@@ -15,16 +15,15 @@ export default () => {
   return (
     <div className="bg-gradient-to-tr from-navbar to to-[#24366c] w-screen h-screen flex flex-col">
       <Header/>
-      <div className="w-1000 h-1000  flex flex-row space-x-16 justify-center mt-10">
-        <div className="flex flex-col ">
+      <div className="w-1000 h-1000  flex flex-row space-x-16 justify-center mt-10 ">
+        <div className="flex flex-col animate-fade-in-down">
           <BigText />
           <div className="translate-x-20 -translate-y-14">
             <Buttons />
           </div>
-
         </div>
 
-        <Image src={Editor} alt="editor" width={900} height={900} className="rounded-lg translate-y-10 drop-shadow-lg"></Image>
+        <Image src={Editor} alt="editor" width={900} height={900} className="rounded-lg translate-y-10 drop-shadow-lg animate-fade-in-down"></Image>
       </div>
       <div className="absolute bottom-0 left-0 w-screen overflow-hidden leading-none rotate-180">
         <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
