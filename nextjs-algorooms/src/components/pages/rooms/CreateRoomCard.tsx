@@ -19,22 +19,22 @@ const CreateRoomCard = () => {
             Select Number of People
           </p>
           <div className="flex justify-center gap-[11px] translate-y-[-50px]">
-            <button className="bg-[#19F8A7] hover:bg-[#051135] hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               1
             </button>
-            <button className="bg-[#19F8A7] hover:bg-[#051135] hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               2
             </button>
-            <button className="bg-[#19F8A7] hover:bg-[#051135] hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               3
             </button>
-            <button className="bg-[#19F8A7] hover:bg-[#051135] hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               4
             </button>
-            <button className="bg-[#19F8A7] hover:bg-[#051135] hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               5
             </button>
-            <button className="bg-[#19F8A7] hover:bg-[#051135] hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               6
             </button>
           </div>
@@ -64,8 +64,8 @@ const CreateRoomCard = () => {
             </Dropdown>
           </div>
           <div className="flex justify-center gap-[48px] translate-y-[-30px]">
-          <button className="w-[150px] h-[60px] bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] hover:text-white text-black font-bold py-2 px-4 rounded">Public</button>
-          <button className="w-[150px] h-[60px] bg-[#19F8A7] hover:bg-[#051135] hover:text-white text-black font-bold py-2 px-4 rounded">Private</button>
+          <button type="button" className="w-[150px] h-[60px] bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black font-bold py-2 px-4 rounded">Public</button>
+          <button type="button" className="w-[150px] h-[60px] bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black font-bold py-2 px-4 rounded">Private</button>
           </div>
           <div className="flex justify-center translate-y-[-20px]">
             <button type="submit" className="bg-[#19F8A7] hover:bg-[#051135] hover:text-white text-black w-[200px] h-[61px] font-bold rounded">Create Room</button>
