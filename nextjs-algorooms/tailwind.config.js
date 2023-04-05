@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports =withMT({
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -14,7 +17,23 @@ module.exports = {
     colors: {
       navbar: '#051135',
     },
-    extend: {},
+    extend: {
+        keyframes: {
+          'fade-in-down': {
+              '0%': {
+                  opacity: '0',
+                  transform: 'translateY(0px)'
+              },
+              '100%': {
+                  opacity: '1',
+                  transform: 'translateY()'
+              },
+          }
+      },
+      animation: {
+          'fade-in-down': 'fade-in-down 1s ease-out'
+      }
+    },
     fontFamily: {
       noto: ['Open Sans', 'sans-serif'],
       monte: ['Montserrat', 'sans-serif'],
@@ -24,4 +43,4 @@ module.exports = {
   plugins: [
     require("flowbite/plugin")
   ],
-}
+})
