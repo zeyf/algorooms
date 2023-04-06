@@ -14,6 +14,7 @@ export default () => {
 
   return (
     <div className="bg-gradient-to-tr from-navbar to to-[#24366c] w-screen h-screen flex flex-col">
+      <Header />
       <div className="w-1000 h-1000  flex flex-row space-x-16 justify-center mt-10 ">
         <div className="flex flex-col animate-fade-in-down">
           <BigText />
