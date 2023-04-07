@@ -26,6 +26,6 @@ export function AppUserContextComponent({ children }:any) {
             userError: error,
             user
         }}>
-            ({ children });
+            { children }
         </AppUserContext.Provider>
 };
