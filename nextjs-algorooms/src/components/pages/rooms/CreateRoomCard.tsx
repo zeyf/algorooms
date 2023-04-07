@@ -1,5 +1,6 @@
 import React from "react";
-import { Card, Label, Checkbox, Button, Dropdown } from "flowbite-react";
+import { Select, Option } from "@material-tailwind/react";
+import { Checkbox } from "@material-tailwind/react";
 
 const CreateRoomCard = () => {
   return (
@@ -38,30 +39,20 @@ const CreateRoomCard = () => {
               6
             </button>
           </div>
-          <div className="flex justify-center translate-y-[-30px] z-50 text-white">
-            <Dropdown label="Select Topics" inline={true}>
-              <Dropdown.Item>
-              <Checkbox id="arrays" />
-                Arrays</Dropdown.Item>
-              <Dropdown.Item>
-              <Checkbox id="trees" />
-                Trees</Dropdown.Item>
-              <Dropdown.Item>
-              <Checkbox id="linked" />
-                Linked List</Dropdown.Item>
-              <Dropdown.Item>
-              <Checkbox id="bitwise" />
-                Bit Wise</Dropdown.Item>
-              <Dropdown.Item>
-              <Checkbox id="stacks" />
-                Stacks</Dropdown.Item>
-              <Dropdown.Item>
-              <Checkbox id="graphing" />
-                Graphing</Dropdown.Item>
-              <Dropdown.Item>
-              <Checkbox id="hash" />
-                Hash</Dropdown.Item>
-            </Dropdown>
+          <div className="flex justify-center translate-y-[-40px] translate-x-[54px] z-50 text-white w-[348px]">
+            <Select variant="standard" label="Select Topics" className="border-white text-white">
+              <Option>Strings</Option>
+              <Option>Arrays</Option>
+              <Option>Stacks</Option>
+              <Option>Queues</Option>
+              <Option>Linked List</Option>
+              <Option>Trees</Option>
+              <Option>Tries</Option>
+              <Option>Recursion</Option>
+              <Option>Hash</Option>
+              <Option>Graphing</Option>
+              <Option>Bitwise</Option>
+            </Select>
           </div>
           <div className="flex justify-center gap-[48px] translate-y-[-30px]">
           <button type="button" className="w-[150px] h-[60px] bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black font-bold py-2 px-4 rounded">Public</button>
