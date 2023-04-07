@@ -2,23 +2,10 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-export interface Question {
-    title: string,
-    index: string,
-    difficulty: string,
-    topic: string,
-    description: string,
-    constraints: Array<string>,
-    hints: Array<string>
-};
-
+// Create the interface for the User
 export interface IUser extends mongoose.Document {
-    name: string,
-    nickname: string,
-    picture: string,
-    email: string,
-    sid: string,
-    sub: string,
+    username: string,
+    authuid: string,
     questionsSolved: {
         simpler: number,
         simple: number,
@@ -28,27 +15,11 @@ export interface IUser extends mongoose.Document {
 }
 
 export const userSchematic = new Schema({
-    name: {
+    authuid: {
         type: String,
         required: true
     },
-    nickname: {
-        type: String,
-        required: true
-    },
-    picture: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    sid: {
-        type: String,
-        required: true
-    },
-    sub: {
+    username: {
         type: String,
         required: true
     },
