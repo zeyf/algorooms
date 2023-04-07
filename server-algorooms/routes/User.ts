@@ -51,7 +51,8 @@ router.post("/create", async (req, res) => {
     const {
         body: {
             authuid,
-            username
+            username,
+            picture
         }
     } = req;
 
@@ -70,6 +71,7 @@ router.post("/create", async (req, res) => {
         await User.create({
             authuid,
             username,
+            picture,
             bestTopics: [],
             questionsSolved: {
                 simpler: 0,
