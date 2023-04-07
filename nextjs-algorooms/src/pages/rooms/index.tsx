@@ -3,6 +3,7 @@
 import Head from "next/head";
 import React from "react";
 import CreateRoomCard from "@/components/pages/rooms/CreateRoomCard";
+import Header from "@/components/shared/Header";
 
 // eslint-disable-next-line react/display-name
 export default ({
@@ -19,12 +20,20 @@ export default ({
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-
-            <main className="h-screen flex justify-center items-center bg-gradient-to-tr from-navbar to to-[#24366c]">
-                {/* <div className="flex justify-center items-center h-full"> */}
-                    <CreateRoomCard/>
-                {/* </div> */}
-            </main>
+            
+            <div className="bg-gradient-to-tr from-navbar to to-[#24366c] w-screen h-screen flex flex-col">
+                <Header/>
+                <div className="flex justify-center space-x-[171px] mt-[130px]">
+                    <div className="text-center">
+                        <h2 className="text-xl font-bold text-white mb-[70px]">Join a room</h2>
+                        <CreateRoomCard />
+                    </div>
+                    <div className="text-center">
+                        <h2 className="text-xl font-bold text-white mb-[70px]">Create a room</h2>
+                        <CreateRoomCard />
+                    </div>
+                </div> 
+            </div>
         </>
     );
 
