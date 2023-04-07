@@ -3,6 +3,7 @@
 import Head from "next/head";
 import React from "react";
 import CreateRoomCard from "@/components/pages/rooms/CreateRoomCard";
+import JoinRoomCard from "@/components/pages/rooms/JoinRoomCard";
 import Header from "@/components/shared/Header";
 
 // eslint-disable-next-line react/display-name
@@ -23,16 +24,18 @@ export default ({
             
             <div className="bg-gradient-to-tr from-navbar to to-[#24366c] w-screen h-screen flex flex-col">
                 <Header/>
-                <div className="flex justify-center space-x-[171px] mt-[130px]">
-                    <div className="text-center">
-                        <h2 className="text-xl font-bold text-white mb-[70px]">Join a room</h2>
-                        <CreateRoomCard />
-                    </div>
-                    <div className="text-center">
-                        <h2 className="text-xl font-bold text-white mb-[70px]">Create a room</h2>
-                        <CreateRoomCard />
-                    </div>
-                </div> 
+                <div className="flex flex-col h-screen justify-center">
+                    <div className="flex justify-center space-x-[171px]">
+                        <div className="text-center">
+                            <h2 className="text-5xl font-bold text-white mb-[70px]">Join a room</h2>
+                            <JoinRoomCard />
+                        </div>
+                        <div className="text-center">
+                            <h2 className="text-5xl font-bold text-white mb-[70px]">Create a room</h2>
+                            <CreateRoomCard />
+                        </div>
+                    </div> 
+                </div>
             </div>
         </>
     );
