@@ -31,7 +31,7 @@ export default () => {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        sub: user.sub,
+                        authuid: user.sub,
                         username
                     })
                 }
@@ -89,10 +89,3 @@ export default () => {
 
     }
 }
-
-
-
-/*
-
-{"_id":{"$oid":"642cb5ace599296bf682533f"},"name":"Zain Yousaf Fuentes","nickname":"zeyfcareer","picture":"https://lh3.googleusercontent.com/a/AGNmyxawOI3GHODyoH18r0tk79tjJwNSocMxU3l1idJW=s96-c","email":"zeyfcareer@gmail.com","sid":"O51bns8sveemEaF_TC0EmkaGocunrDd-","sub":"google-oauth2|112060771180563322197","questionsSolved":{"simpler":{"$numberLong":"1"},"simple":{"$numberLong":"34"},"notSimple":{"$numberLong":"432"}},"bestTopics":[]}
-*/
