@@ -4,12 +4,15 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import { createServer } from "http"
 import { Server } from "socket.io";
-
+import bodyParser from 'body-parser';
 
 import UserRoutes from "./routes/User";
 
 // Initialization
 const app = express();
+
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended : true }));
 
 app.use("/api/user", UserRoutes);
 
