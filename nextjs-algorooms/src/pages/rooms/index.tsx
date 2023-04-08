@@ -11,8 +11,6 @@ export default ({
     
 }) => {
 
-    // Code
-
     return (
         <>
             <Head>
@@ -27,11 +25,11 @@ export default ({
                 <div className="flex flex-col h-screen justify-center">
                     <div className="flex justify-center space-x-[171px]">
                         <div className="text-center">
-                            <h2 className="text-5xl font-bold text-white mb-[70px]">Join a room</h2>
+                            <h2 className="text-5xl font-bold text-white mb-[40px]">Join a room</h2>
                             <JoinRoomCard />
                         </div>
                         <div className="text-center">
-                            <h2 className="text-5xl font-bold text-white mb-[70px]">Create a room</h2>
+                            <h2 className="text-5xl font-bold text-white mb-[40px]">Create a room</h2>
                             <CreateRoomCard />
                         </div>
                     </div> 
