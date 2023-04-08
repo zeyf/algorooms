@@ -31,14 +31,18 @@ const JoinRoomCard = () => {
     {roomName: "Simple", topic: "Trees, Tries", occupied: 4, capacity: 6},
     {roomName: "On Point", topic: "Recurssion", occupied: 2, capacity: 3},
     {roomName: "Simple as well", topic: "Graphing, Hash", occupied: 1, capacity: 3},
+    {roomName: "Another Room1", topic: "Another Topic", occupied: 2, capacity: 4},
+    {roomName: "Another Room2", topic: "Another Topic", occupied: 2, capacity: 4},
   ];
 
   return (
-    <div className="w-[537px] h-[713px]">
-      <div className="h-full flex flex-col rounded-2xl bg-white bg-opacity-25 shadow-xl divide-y divide-gray-300">
+    <div className="w-[567px] h-[713px] overflow-y-auto" style={{ scrollSnapType: 'y mandatory' }}>
+      <div className="h-full flex flex-col rounded-2xl bg-white bg-opacity-25 shadow-xl divide-y divide-gray-300 overflow-y-auto">
         <div className="flex flex-col items-center justify-center flex-grow">
           {rooms.map((room, index) => (
-            <RoomJoinSection key={index} roomName={room.roomName} topic={room.topic} occupied={room.occupied} capacity={room.capacity}/>
+            <div key={index} style={{ scrollSnapAlign: 'start' }}>
+              <RoomJoinSection roomName={room.roomName} topic={room.topic} occupied={room.occupied} capacity={room.capacity} />
+            </div>
           ))}
         </div>
       </div>
