@@ -1,5 +1,7 @@
 import React from "react";
 import { MdPeople } from "react-icons/md";
+import { useRouter } from "next/router";
+import rooms from "./DummyRooms";
 
 type RoomJoinSectionProps = {
   roomName: string;
@@ -9,6 +11,7 @@ type RoomJoinSectionProps = {
 }
 
 const RoomJoinSection = ({roomName, topic, occupied, capacity}: RoomJoinSectionProps) => {
+  const router = useRouter()
   return (
     <div className="w-[452px] h-[77px] flex items-center border rounded-xl border-black border-[4px] mx-11 mt-11 bg-white shadow-lg relative">
       <div className="flex flex-col">
@@ -20,24 +23,16 @@ const RoomJoinSection = ({roomName, topic, occupied, capacity}: RoomJoinSectionP
       </div>
       <div className="absolute right-[120px]">
         <h2 className="text-3xl ml-10">{occupied}/{capacity}</h2>
-      </div>
-      <button className="bg-[#19F8A7] hover:bg-[#051135] w-[100px] h-[56px] hover:text-white text-black font-bold rounded-xl ml-auto mr-2 text-2xl">
-        Join
-      </button>
+      </div> 
+          {/* Remember to adjust element to include roomUID */}
+          <button onClick={() => {router.push("/rooms/roomUID")}} className="bg-[#19F8A7] hover:bg-[#051135] w-[100px] h-[56px] hover:text-white text-black font-bold rounded-xl ml-auto mr-2 text-2xl">
+            Join
+          </button>
     </div>
   );
 };
 
 const JoinRoomCard = () => {
-  const rooms = [
-    {roomName: "CS Amigos", topic: "Stacks, Queues", occupied: 2, capacity: 4},
-    {roomName: "Code Amigos", topic: "Linked List", occupied: 3, capacity: 5},
-    {roomName: "Simple", topic: "Trees, Tries", occupied: 4, capacity: 6},
-    {roomName: "On Point", topic: "Recurssion", occupied: 2, capacity: 3},
-    {roomName: "Simple as well", topic: "Graphing, Hash", occupied: 1, capacity: 3},
-    {roomName: "Another Room", topic: "Another Topic", occupied: 2, capacity: 4},
-    {roomName: "Another Room", topic: "Another Topic", occupied: 2, capacity: 4},
-  ];
 
   return (
     <div className="w-[567px] h-[713px] overflow-y-auto shadow-xl" style={{ scrollSnapType: 'y mandatory' }}>

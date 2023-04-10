@@ -1,8 +1,22 @@
 import React from "react";
 import { Select, Option } from "@material-tailwind/react";
 import { Checkbox } from "@material-tailwind/react";
+import rooms from "./DummyRooms";
+import { useState } from "react";
+
+type RoomJoinSectionProps = {
+  roomName: string;
+  topic: string;
+  occupied: number;
+  capacity: number;
+}
 
 const CreateRoomCard = () => {
+
+  const [topic, setTopic] = useState("")
+  const [roomName, setRoomName] = useState("");
+  const [capacity, setCapacity] = useState(1);
+
   return (
     <div className="w-[537px] h-[713px]">
       <div className="h-full flex flex-col rounded-2xl bg-white bg-opacity-25 shadow-xl">
@@ -12,6 +26,9 @@ const CreateRoomCard = () => {
               <input
                 type="text"
                 placeholder="Room Name"
+                onChange={(event) => {
+                  setRoomName(event.target.value);
+                }}
                 className="w-[348px] bg-white bg-opacity-0 border-b border-white border-t-0 border-l-0 border-r-0 placeholder-white text-white"
               />
             </div>
@@ -41,17 +58,17 @@ const CreateRoomCard = () => {
           </div>
           <div className="flex justify-center translate-y-[-40px] translate-x-[54px] z-50 text-white w-[348px]">
             <Select variant="standard" label="Select Topics" className="border-white text-white">
-              <Option>Strings</Option>
-              <Option>Arrays</Option>
-              <Option>Stacks</Option>
-              <Option>Queues</Option>
-              <Option>Linked List</Option>
-              <Option>Trees</Option>
-              <Option>Tries</Option>
-              <Option>Recursion</Option>
-              <Option>Hash</Option>
-              <Option>Graphing</Option>
-              <Option>Bitwise</Option>
+              <Option onClick={() => setTopic("Strings")}>Strings</Option>
+              <Option onClick={() => setTopic("Arrays")}>Arrays</Option>
+              <Option onClick={() => setTopic("Stacks")}>Stacks</Option>
+              <Option onClick={() => setTopic("Queues")}>Queues</Option>
+              <Option onClick={() => setTopic("Linked List")}>Linked List</Option>
+              <Option onClick={() => setTopic("Trees")}>Trees</Option>
+              <Option onClick={() => setTopic("Tries")}>Tries</Option>
+              <Option onClick={() => setTopic("Recursion")}>Recursion</Option>
+              <Option onClick={() => setTopic("Hash")}>Hash</Option>
+              <Option onClick={() => setTopic("Graphing")}>Graphing</Option>
+              <Option onClick={() => setTopic("Bitwise")}>Bitwise</Option>
             </Select>
           </div>
           <div className="flex justify-center gap-[48px] translate-y-[-30px]">
