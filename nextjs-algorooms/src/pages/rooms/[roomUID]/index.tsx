@@ -1,6 +1,7 @@
 // Import statements
 import React from "react";
 import CodeEditor from "@/components/pages/rooms/[roomUID]/panels/code/CodeEditor";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
 export default () => {  
 
@@ -19,3 +20,13 @@ export default () => {
 
 };
 
+// Auth-guarding the /rooms/[roomUID] page
+export const getServerSideProps = withPageAuthRequired({
+    async getServerSideProps(ctx) {
+        return {
+            props: {
+
+            }
+        };
+    }
+});

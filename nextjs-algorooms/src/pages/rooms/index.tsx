@@ -6,6 +6,8 @@ import CreateRoomCard from "@/components/pages/rooms/CreateRoomCard";
 import JoinRoomCard from "@/components/pages/rooms/JoinRoomCard";
 import Header from "@/components/shared/Header";
 
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+
 // eslint-disable-next-line react/display-name
 export default ({
     
@@ -39,3 +41,14 @@ export default ({
     );
 
 };
+
+// Auth-guarding the /rooms page
+export const getServerSideProps = withPageAuthRequired({
+    async getServerSideProps(ctx) {
+        return {
+            props: {
+
+            }
+        };
+    }
+});
