@@ -3,6 +3,8 @@ import { Select, Option } from "@material-tailwind/react";
 import { Checkbox } from "@material-tailwind/react";
 import rooms from "./DummyRooms";
 import { useState } from "react";
+import JoinRoomCard from "./JoinRoomCard";
+
 
 type RoomJoinSectionProps = {
   roomName: string;
@@ -11,11 +13,15 @@ type RoomJoinSectionProps = {
   capacity: number;
 }
 
-const CreateRoomCard = () => {
+const CreateRoomCard = (props:any) => {
 
   const [topic, setTopic] = useState("")
   const [roomName, setRoomName] = useState("");
-  const [capacity, setCapacity] = useState(1);
+  const [capacity, setCapacity] = useState(0);
+
+  const addRoom = () => {
+    // logic
+  }
 
   return (
     <div className="w-[537px] h-[713px]">
@@ -37,22 +43,22 @@ const CreateRoomCard = () => {
             Select Number of People
           </p>
           <div className="flex justify-center gap-[11px] translate-y-[-35px]">
-            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" onClick={() => setCapacity(1)} className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               1
             </button>
-            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" onClick={() => setCapacity(2)} className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               2
             </button>
-            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" onClick={() => setCapacity(3)} className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               3
             </button>
-            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" onClick={() => setCapacity(4)} className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               4
             </button>
-            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" onClick={() => setCapacity(5)} className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               5
             </button>
-            <button type="button" className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
+            <button type="button" onClick={() => setCapacity(6)} className="bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black w-[50px] h-[50px] rounded font-bold">
               6
             </button>
           </div>
@@ -76,7 +82,7 @@ const CreateRoomCard = () => {
           <button type="button" className="w-[150px] h-[60px] bg-[#19F8A7] hover:bg-[#051135] focus:bg-[#051135] active:bg-[#051135] focus:text-white active:text-white hover:text-white text-black font-bold py-2 px-4 rounded">Private</button>
           </div>
           <div className="flex justify-center translate-y-[-40px]">
-            <button type="submit" className="bg-[#19F8A7] hover:bg-[#051135] hover:text-white text-black w-[200px] h-[60px] font-bold rounded">Create Room</button>
+            <button type="button" onClick={addRoom} className="bg-[#19F8A7] hover:bg-[#051135] hover:text-white text-black w-[200px] h-[60px] font-bold rounded">Create Room</button>
           </div>
         </form>
       </div>
