@@ -15,7 +15,8 @@ module.exports =withMT({
   ],
   theme: {
     colors: {
-      navbar: '#051135',
+      darkAccent: "#051135",
+      greenAccent: "#19F8A7",
     },
     extend: {
         keyframes: {

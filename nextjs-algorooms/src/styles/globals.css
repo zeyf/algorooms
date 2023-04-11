@@ -6,3 +6,9 @@
 @tailwind utilities;
 
 
+.gutter {
+    background-color: #eee;
+
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
