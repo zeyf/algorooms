@@ -5,6 +5,7 @@ import  Image from 'next/image';
 import Logo from '../images/AlgoRoomsLogo.png';
 import { IoPersonCircleOutline } from "react-icons/io5"
 import { useUser } from '@auth0/nextjs-auth0/client';
+import Link from "next/link";
 
 // Interface imports
 import { headerInterface } from "./Interfaces";
@@ -24,9 +25,11 @@ const Header = ({
 
             <div className="flex flex-row space-x-7 items-center absolute right-5">
 
+                <Link href={"/rooms"}className="text-white" >Rooms</Link>
                 {
                     user ?
                     <Navbar.Link href="/api/auth/logout" className="text-white -translate-y-3" >Sign Out</Navbar.Link>
+
                     :
                     <Navbar.Link href="/api/auth/login" className="text-white -translate-y-3" >Sign In</Navbar.Link>
                 }
