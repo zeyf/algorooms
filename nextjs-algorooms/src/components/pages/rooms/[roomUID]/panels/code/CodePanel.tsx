@@ -3,6 +3,7 @@ import React from "react";
 
 // Interface imports
 import { codePanelInterface } from "./Interfaces";
+import CodeEditor from "./CodeEditor";
 
 export default ({
 
@@ -12,7 +13,7 @@ export default ({
 
     return (
         <section>
-            {/* Body */}
+            <CodeEditor />
         </section>
     );
 
