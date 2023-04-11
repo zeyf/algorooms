@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MdPeople } from "react-icons/md";
 import { useRouter } from "next/router";
-import rooms from "./DummyRooms";
+import CreateRoomCard from "./CreateRoomCard";
 
 type RoomJoinSectionProps = {
   roomName: string;
@@ -9,6 +9,17 @@ type RoomJoinSectionProps = {
   occupied: number;
   capacity: number;
 }
+
+
+const rooms = [
+  {roomName: "CS Amigos", topic: "Stacks, Queues", occupied: 2, capacity: 4},
+  {roomName: "Code Amigos", topic: "Linked List", occupied: 3, capacity: 5},
+  {roomName: "Simple", topic: "Trees, Tries", occupied: 4, capacity: 6},
+  {roomName: "On Point", topic: "Recurssion", occupied: 2, capacity: 3},
+  {roomName: "Simple as well", topic: "Graphing, Hash", occupied: 1, capacity: 3},
+  {roomName: "Another Room", topic: "Another Topic", occupied: 2, capacity: 4},
+  {roomName: "Another Room", topic: "Another Topic", occupied: 2, capacity: 4},
+];
 
 const RoomJoinSection = ({roomName, topic, occupied, capacity}: RoomJoinSectionProps) => {
   const router = useRouter()
@@ -32,15 +43,16 @@ const RoomJoinSection = ({roomName, topic, occupied, capacity}: RoomJoinSectionP
   );
 };
 
-const JoinRoomCard = () => {
+const JoinRoomCard = ({list}:any) => {
+  
 
   return (
     <div className="w-[567px] h-[713px] overflow-y-auto shadow-xl" style={{ scrollSnapType: 'y mandatory' }}>
       <div className="h-full flex flex-col rounded-2xl bg-white bg-opacity-25 shadow-xl divide-y divide-gray-300 overflow-y-auto pb-[30px] scrollbar scrollbar-thumb-white">
         <div className="flex flex-col items-center justify-center flex-grow">
-          {rooms.map((room, index) => (
+          {rooms.map((rooms:any, index:any) => (
             <div key={index} style={{ scrollSnapAlign: 'start' }}>
-              <RoomJoinSection roomName={room.roomName} topic={room.topic} occupied={room.occupied} capacity={room.capacity} />
+              <RoomJoinSection roomName={rooms.roomName} topic={rooms.topic} occupied={rooms.occupied} capacity={rooms.capacity} />
             </div>
           ))}
         </div>
