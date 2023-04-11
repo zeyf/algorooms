@@ -2,14 +2,14 @@
 import React from "react";
 
 // Interface imports
-import { topicsInterface } from "./Interfaces";
+import { questionTopicsInterface } from "./Interfaces";
 
 // Component imports
-import Topic from "./Topic";
+import QuestionTopic from "./QuestionTopic";
 
 export default ({
-    topics
-}:topicsInterface) => {
+    questionTopics
+}:questionTopicsInterface) => {
 
     // Code
 
@@ -19,8 +19,8 @@ export default ({
             <br/>
             
             {
-                topics.map(
-                    (topic: string) => <Topic topic={ topic } />
+                questionTopics.map(
+                    (topic: string) => <QuestionTopic questionTopic={ topic } />
                 )
             }
 

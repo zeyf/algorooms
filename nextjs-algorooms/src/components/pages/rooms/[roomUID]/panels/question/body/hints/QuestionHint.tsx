@@ -2,18 +2,20 @@
 import React, { useState } from "react";
 
 // Interface imports
-import { hintInterface } from "./Interfaces";
+import { questionHintInterface } from "./Interfaces";
 
 export default ({
-    hint,
-    index
-}:hintInterface) => {
+    questionHint,
+    questionHintIndex
+}:questionHintInterface) => {
 
     // State handlers
-    const [ showHint, setShowHint ] = useState<boolean>(false);
+    const [
+        showHint,
+        setShowHint
+    ] = useState<boolean>(false);
 
-    // Code
-    const oneIndexing = index + 1;
+    const oneIndexing = questionHintIndex + 1;
 
     return (
         <section>
@@ -25,7 +27,7 @@ export default ({
 
             {
                 showHint &&
-                <span>{ hint }</span>
+                <span>{ questionHint }</span>
             }
 
         </section>
