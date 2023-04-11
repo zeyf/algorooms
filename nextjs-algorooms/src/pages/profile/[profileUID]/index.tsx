@@ -1,6 +1,7 @@
 import Image from "next/image";
 import ProgressBar from "@/components/pages/profile/ProgressBar";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useRouter } from "next/router";
 
 interface DynamicProfilePageProps {
     profileExists: boolean,
@@ -123,14 +124,28 @@ export async function getServerSideProps(data:any) {
         }
     } = data;
 
-    // const response = await fetch(`localhost:4000/api/profile/search/${profileUID}`).then((res:any) => {
-    //     return res;
-    // });
+    const response = await fetch(`http://localhost:4000/api/user/search/${profileUID}`,
+        {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                source: `/profile/${profileUID}`
+            })
+        }
+    ).then((res:any) => res);
+
+    const {
+        exists,
+        profileData
+    } = response;
 
     return {
         props: {
-            profileExists: true,
-            profileUID
+            profileExists: exists,
+            profileData
         }
     };
 
