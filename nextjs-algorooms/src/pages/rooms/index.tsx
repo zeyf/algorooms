@@ -22,7 +22,7 @@ export default ({
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             
-            <div className="bg-gradient-to-tr from-navbar to to-[#24366c] w-screen h-screen flex flex-col">
+            <div className="bg-gradient-to-tr from-darkAccent to to-[#24366c] w-screen h-screen flex flex-col">
                 <Header/>
                 <div className="flex flex-col h-screen justify-center">
                     <div className="flex justify-center space-x-[171px]">
