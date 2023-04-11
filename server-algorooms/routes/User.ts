@@ -1,17 +1,27 @@
  import express from "express";
 import User from "../models/UserModel";
+import { IUser } from "../models/UserModel";
 
 const router = express.Router();
 
 // This route is specifically used for verification of a profileUID (that is user selected)
-router.get("/search/:profileUID", async (req, res) => {
+router.post("/search/:profileUID", async (req, res) => {
     
     // Extract the parameters
     const {
         params: {
             profileUID
+        },
+        body: {
+            source
         }
     } = req;
+
+    const profilePagePathRegex = /\/profile\/[0-9a-zA-Z]{1,}/,
+          firstTimeUserPagePathRegex = /\/firsttimeuser/;
+    
+    const sourceIsDynamicProfile = profilePagePathRegex.test(source);
+    const sourceIsFirstTimeUser = firstTimeUserPagePathRegex.test(source);
 
 
     // If undefined or ""
@@ -31,12 +41,35 @@ router.get("/search/:profileUID", async (req, res) => {
         }).then((mongoResponse) => {
 
             // Stores if we have found a user with this username
-            const exists = mongoResponse.length > 0;
+
+            const exists = mongoResponse["_doc" as any] !== undefined;
+
+            if (sourceIsFirstTimeUser) {
+
+                if (exists) {
+                    console.log(`${profileUID} is a new user.`);
+                }
+                res.status(200).send({
+                    exists
+                });
+
+            } else if (sourceIsDynamicProfile) {
+
+                let mongoResponseCopy:any = {  };
+
+                if (exists) {
+                    mongoResponseCopy = { ...mongoResponse["_doc" as any] };
+                    delete mongoResponseCopy["authuid"];
+                }
+                    
+                res.status(200).send({
+                    exists,
+                    profileData: mongoResponseCopy
+                });
+
+            }
             
             // Sends response with existence of profileUID parameter
-            res.status(200).send({
-                exists
-            });
 
         });
     }

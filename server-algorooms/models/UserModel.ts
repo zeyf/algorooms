@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 // Create the interface for the User
 export interface IUser extends mongoose.Document {
     username: string,
-    authuid: string,
+    authuid?: string,
     picture: string,
     questionsSolved: {
         simpler: number,
@@ -18,7 +18,7 @@ export interface IUser extends mongoose.Document {
 export const userSchematic = new Schema({
     authuid: {
         type: String,
-        required: true
+        required: false
     },
     username: {
         type: String,
