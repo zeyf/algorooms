@@ -78,7 +78,7 @@ export default ({
               options={options}
             />
           </div>
-          <div className="flex flex-col justify-center gap-[48px] translate-y-[-30px]">
+          <div className="flex flex-col justify-center gap-[20px] translate-y-[-30px]">
             <p className="my-4 flex justify-center text-base text-white dark:text-gray-400 sm:text-lg translate-y-[0px]">
               Select Lobby Access
             </p>

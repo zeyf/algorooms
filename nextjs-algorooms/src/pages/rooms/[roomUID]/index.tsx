@@ -17,30 +17,28 @@ import QuestionDummyData from "./QuestionDummyData";
 export default () => {
 
     return (
-        <>
-            <Header />
-            <div className="bg-[#222C4A] w-screen h-screen flex flex-row-reverse justify-center items-center">
-                <div className="w-2/3 h-screen flex flex-col justify-center items-center">
-                    
-                    <Split className={`w-screen flex`}>
-
-                        <QuestionPanel
-                            { ...QuestionDummyData }
-                        />
+            <div className="bg-[#222C4A] w-screen h-screen">
+                <Header/>
+                <div className="w-screen h-screen flex flex-row-reverse justify-center items-center ">
+                    <div className="w-2/3 h-screen flex flex-col justify-center items-center">
                         
-                        <CodePanel />
-                        {/*
-                        <TextPanel
-                            // Props
+                        <Split className={`w-screen flex`}>
+
+                            <QuestionPanel
+                                { ...QuestionDummyData }
+                            />
                             
-                        /> 
-                        */}
-                    </Split>
-
-
+                            <CodePanel />
+                            {/*
+                            <TextPanel
+                                // Props
+                                
+                            /> 
+                            */}
+                        </Split>
+                    </div>
                 </div>
             </div>
-        </>
     )
     
 
