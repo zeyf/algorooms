@@ -16,7 +16,7 @@ export default ({
 }:codeEditorInterface) => {
 
     let minutes = 15;
-    let seconds = 60;
+    let seconds = 0;
     const [[mins, secs], setTime] = useState([minutes, seconds])
     
     const tick = () => {
@@ -31,7 +31,10 @@ export default ({
         }
     };
 
-    
+    useEffect(() => {
+        const timerID = setInterval(() => tick(), 1000);
+        return () => clearInterval(timerID);
+    })
 
     const reset = () => setTime([minutes, seconds]);
 
@@ -54,7 +57,7 @@ export default ({
                 <Button href="/" color="dark" className="drop-shadow-lg">Run</Button>
                 <div className="text-white bg-[#051135] w-[95px] h-[46px] flex justify-center items-center rounded-xl drop-shadow-lg">
                     <h3 className="font-bold text-lg">
-                        {`${mins.toString()} : ${secs.toString()}`}
+                        {`${mins.toString()} : ${secs.toString().padStart(2, '0')}`}
                     </h3>
                 </div>
             </div>
@@ -65,7 +68,6 @@ export default ({
                     width="822px"
                     extensions={[javascript({ jsx: true })]}
                     theme={darcula}
-                    
                 />
             </div>
 

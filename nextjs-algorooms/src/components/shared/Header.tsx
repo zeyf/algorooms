@@ -15,7 +15,7 @@ const Header = ({}: headerInterface) => {
 
   const { user, isLoading, error } = useUser();
   return (
-    <div className="w-screen h-16 bg-navbar drop-shadow-lg flex flex-row rounded-b-lg items-center">
+    <div className="w-screen h-16 bg-darkAccent drop-shadow-lg flex flex-row rounded-b-lg items-center">
       <div className="absolute left-3">
         <Image alt="Logo" src={Logo} width={125} height={125} />
       </div>

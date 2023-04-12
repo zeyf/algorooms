@@ -1,7 +1,7 @@
-export interface topicInterface {
-    topic: string;
+export interface questionTopicInterface {
+    questionTopic: string;
 };
 
-export interface topicsInterface {
-    topics: string[];
+export interface questionTopicsInterface {
+    questionTopics: string[];
 };

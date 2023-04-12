@@ -24,7 +24,7 @@ const rooms = [
 const RoomJoinSection = ({roomName, topic, occupied, capacity}: RoomJoinSectionProps) => {
   const router = useRouter()
   return (
-    <div className="w-[452px] h-[77px] flex items-center border rounded-xl border-black border-[4px] mx-11 mt-11 bg-white shadow-lg relative">
+    <div className="w-[452px] h-[77px] flex items-center rounded-xl border-black border-[4px] mx-11 mt-11 bg-white shadow-lg relative">
       <div className="flex flex-col">
         <h2 className="ml-5 text-3xl">{roomName}</h2>
         <p className="ml-5 mr-auto text-gray-500 text-lg">{topic}</p>
@@ -48,7 +48,7 @@ const JoinRoomCard = ({list}:any) => {
 
   return (
     <div className="w-[567px] h-[713px] overflow-y-auto shadow-xl" style={{ scrollSnapType: 'y mandatory' }}>
-      <div className="h-full flex flex-col rounded-2xl bg-white bg-opacity-25 shadow-xl divide-y divide-gray-300 overflow-y-auto pb-[30px] scrollbar scrollbar-thumb-white">
+      <div className="h-full flex flex-col rounded-2xl bg-white bg-opacity-25 drop-shadow-xl divide-y divide-gray-300 overflow-y-auto pb-[30px]  ">
         <div className="flex flex-col items-center justify-center flex-grow">
           {rooms.map((rooms:any, index:any) => (
             <div key={index} style={{ scrollSnapAlign: 'start' }}>

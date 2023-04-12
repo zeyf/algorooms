@@ -1,9 +1,9 @@
-export interface headerInterface {
+export interface questionHeaderInterface {
     questionTitle: string;
     questionIndex: number;
     questionDifficulty: string;
 };
 
-export interface difficultyRankingInterface {
+export interface questionDifficultyRankingInterface {
     questionDifficulty: string;
 };

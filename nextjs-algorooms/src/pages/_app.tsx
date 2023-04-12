@@ -4,7 +4,6 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { createContext } from 'react';
 
 import { AppUserContextComponent } from "../contexts/AppUserContextLayer";
-import AuthRenderLayer from './authRenderLayer';
 
 const App = ({ Component, pageProps }: AppProps) => {
 

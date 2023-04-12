@@ -2,17 +2,17 @@
 import React from "react";
 
 // Interface imports
-import { constraintInterface } from "./Interfaces";
+import { questionTopicInterface } from "./Interfaces";
 
 export default ({
-    constraint
-}: constraintInterface) => {
+    questionTopic
+}:questionTopicInterface) => {
 
     // Code
 
     return (
         <span>
-            { constraint }
+            { questionTopic }
         </span>
     );
 

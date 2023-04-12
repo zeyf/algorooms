@@ -1,11 +1,11 @@
-export interface hintInterface {
-    hint: string;
-    index: number;
+export interface questionHintInterface {
+    questionHint: string;
+    questionHintIndex: number;
 
     // If algoBux are introduced
-    cost?: number;
+    questionHintCost?: number;
 };
 
-export interface hintsInterface {
-    hints: string[]
+export interface questionHintsInterface {
+    questionHints: string[]
 };
