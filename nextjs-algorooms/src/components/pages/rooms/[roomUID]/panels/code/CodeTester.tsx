@@ -11,8 +11,8 @@ export default ({
     // Code
 
     return (
-        <section>
-            {/* Body */}
+        <section className="bg-white h-[100px] w-[822px]">
+            
         </section>
     );
 

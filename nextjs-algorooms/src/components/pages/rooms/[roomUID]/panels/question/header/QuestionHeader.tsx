@@ -10,7 +10,7 @@ export default ({
 }:questionHeaderInterface) => {
 
     return (
-        <section className="px-2 py-4 w-full bg-main flex justify-between border-2 border-[red]">
+        <section className="px-2 py-4 w-full bg-main flex justify-between border-b-2 ]">
 
             <section className="flex items-center">
                 <h1 className="font-bold text-xl">

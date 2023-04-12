@@ -21,7 +21,7 @@ export default ({
 }:questionPanelInterface) => {
 
     return (
-        <section className="bg-darkAccent text-white overflow-y-hidden scrollbar scrollbar-thumb-white">
+        <div className="bg-darkAccent text-white">
             <QuestionHeader
                 questionIndex={questionIndex}
                 questionTitle={questionTitle}
@@ -35,7 +35,7 @@ export default ({
                 <QuestionTopics questionTopics={questionTopics} />
                 <QuestionConstraints questionConstraints={questionConstraints} />
             </section>
-        </section>
+        </div>
     );
 
 };
