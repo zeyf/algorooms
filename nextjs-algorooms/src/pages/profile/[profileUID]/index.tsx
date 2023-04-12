@@ -12,14 +12,15 @@ interface DynamicProfilePageProps {
   profileData: {};
 }
 
-const DynamicProfilePage = ({
-  profileExists,
-  profileUID,
-  profileData,
-}: DynamicProfilePageProps) => {
-  if (!profileExists) {
-    return <h1>Profile Does Not Exist!</h1>;
-  }
+// const DynamicProfilePage = ({
+//   profileExists,
+//   profileUID,
+//   profileData,
+// }: DynamicProfilePageProps) => {
+const DynamicProfilePage = () => {
+  // if (!profileExists) {
+  //   return <h1>Profile Does Not Exist!</h1>;
+  // }
 
   const currExp = 1100,
     maxExp = 6100;
@@ -32,7 +33,7 @@ const DynamicProfilePage = ({
   else
     return (
       <>
-        <div className="bg-gradient-to-tr from-navbar to to-[#24366c] w-screen h-screen flex flex-col">
+        <div className="bg-gradient-to-tr from-darkAccent to to-[#24366c] w-screen h-screen flex flex-col">
           <Header />
           <div className="bg-white bg-opacity-25 rounded-[15px] p-6 m-20 h-full">
             {/* First row */}
@@ -92,7 +93,7 @@ const DynamicProfilePage = ({
               {/* Problems */}
               <div className="w-1/2 pl-2 h-full">
                 <Title text="Problems" alignment="left" color="white" />
-                <div className="flex-col justify-between w-full h-full">
+                <div className="flex-col justify-between items-center w-full h-full">
                   {/* Simpler */}
                   <section className="flex flex-col items-start">
                     <Subtitle text="Simpler" alignment="left" color="white" />
@@ -178,7 +179,7 @@ const DynamicProfilePage = ({
                   alignment="center"
                   color="white"
                 />
-                <ol>
+                <ol className="px-2">
                   <Title text="1. Arrays" alignment="left" color="white" />
                   <Title text="2. Graphs" alignment="left" color="white" />
                   <Title text="3. Hash Maps" alignment="left" color="white" />
@@ -215,33 +216,33 @@ const DynamicProfilePage = ({
     );
 };
 
-export async function getServerSideProps(data: any) {
-  const {
-    query: { profileUID },
-  } = data;
+// export async function getServerSideProps(data: any) {
+// const {
+//   query: { profileUID },
+// } = data;
 
-  const response = await fetch(
-    `http://localhost:4000/api/user/search/${profileUID}`,
-    {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        source: `/profile/${profileUID}`,
-      }),
-    }
-  ).then((res: any) => res);
+// const response = await fetch(
+//   `http://localhost:4000/api/user/search/${profileUID}`,
+//   {
+//     method: 'POST',
+//     mode: 'cors',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({
+//       source: `/profile/${profileUID}`,
+//     }),
+//   }
+// ).then((res: any) => res);
 
-  const { exists, profileData } = response;
+// const { exists, profileData } = response;
 
-  return {
-    props: {
-      profileExists: exists,
-      profileData,
-    },
-  };
-}
+// return {
+//   props: {
+//     profileExists: exists,
+//     profileData,
+//   },
+// };
+// }
 
 export default DynamicProfilePage;
