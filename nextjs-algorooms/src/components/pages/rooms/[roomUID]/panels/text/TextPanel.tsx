@@ -1,19 +1,17 @@
 // Module imports
-import React from "react";
+import React from 'react';
+import TextEntry from './TextEntry';
 
 // Interface imports
-import { textPanelInterface } from "./Interfaces";
+import { textPanelInterface } from './Interfaces';
 
-export default ({
+export default ({}: textPanelInterface) => {
+  // Code
 
-}: textPanelInterface) => {
-
-    // Code
-
-    return (
-        <section>
-            {/* Body */}
-        </section>
-    );
-
+  return (
+    <section>
+      {/* Body */}
+      <TextEntry />
+    </section>
+  );
 };
