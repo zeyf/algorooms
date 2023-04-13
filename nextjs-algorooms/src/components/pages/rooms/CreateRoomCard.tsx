@@ -44,7 +44,7 @@ export default ({
   const [roomName, setRoomName] = useState("");
 
   return (
-    <div className="w-[537px] h-[713px] overflow-y-scroll">
+    <div className="w-[537px] h-[713px]">
       <div className="h-full flex flex-col rounded-2xl bg-white bg-opacity-25 shadow-xl">
         <form className="h-full flex flex-col justify-around p-10">
           <div className="flex justify-center w-full">
