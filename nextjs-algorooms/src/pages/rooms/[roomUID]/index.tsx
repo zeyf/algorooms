@@ -14,7 +14,6 @@ import { textPanelInterface } from '@/components/pages/rooms/[roomUID]/panels/te
 import Split from 'react-split';
 import Header from '@/components/shared/Header';
 import QuestionDummyData from './QuestionDummyData';
-import TextEntry from '@/components/pages/rooms/[roomUID]/panels/text/TextEntry';
 
 export default () => {
   return (
