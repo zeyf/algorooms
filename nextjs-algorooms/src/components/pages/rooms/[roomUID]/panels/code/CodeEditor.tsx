@@ -3,6 +3,7 @@ import React from "react";
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { darcula } from '@uiw/codemirror-theme-darcula'
+import { sublime } from '@uiw/codemirror-theme-sublime'
 import { Select, Option } from "@material-tailwind/react";
 import { Button } from "flowbite-react";
 import { useState, useRef, useEffect } from 'react'
@@ -67,7 +68,7 @@ export default ({
                     height="579px"
                     width="822px"
                     extensions={[javascript({ jsx: true })]}
-                    theme={darcula}
+                    theme={sublime}
                 />
             </div>
 

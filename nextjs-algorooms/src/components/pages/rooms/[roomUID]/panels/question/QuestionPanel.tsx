@@ -29,8 +29,8 @@ export default ({
             />
 
             <section className="px-2 py-4">
-                <span> { questionBody } </span>
-                <QuestionExamples questionExamples={questionExamples} />
+                <div className="whitespace-pre-line break-normal"> { questionBody } </div>
+                <QuestionExamples questionExamples={questionExamples}/>
                 <QuestionHints questionHints={questionHints} />
                 <QuestionTopics questionTopics={questionTopics} />
                 <QuestionConstraints questionConstraints={questionConstraints} />
