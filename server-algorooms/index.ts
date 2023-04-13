@@ -7,6 +7,7 @@ import { Server } from "socket.io";
 import bodyParser from 'body-parser';
 
 import UserRoutes from "./routes/User";
+import RoomRoutes from "./routes/Room";
 
 // Initialization
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 
 app.use("/api/user", UserRoutes);
+app.use("/api/rooms", RoomRoutes);
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
