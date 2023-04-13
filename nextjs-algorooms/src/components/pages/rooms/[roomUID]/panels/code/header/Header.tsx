@@ -1,8 +1,9 @@
 // Module imports
-import React from "react";
+import React, { useState } from "react";
 import { Select, Option } from "@material-tailwind/react";
 import { Button } from "flowbite-react";
-
+import SettingsPop from "../../../shared/settingsPop";
+import { FaCog } from "react-icons/fa";
 
 // Interface imports
 import { headerInterface } from "./Interfaces";
@@ -13,7 +14,7 @@ export default ({
 }:headerInterface) => {
 
     // Code
-
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     return (
         <section>
@@ -27,6 +28,15 @@ export default ({
 
                 <Button href="/" color="dark" className="drop-shadow-lg">Run</Button>
                 <CountdownTimer />
+                
+                <button onClick={() => setIsSettingsOpen(!isSettingsOpen)} className="w-[71px] h-[46px] bg-darkAccent font-bold py-2 rounded-[15px] border-white border-[3px]">
+                    <FaCog className="text-white text-2xl ml-[21px]" />
+                </button>
+                {isSettingsOpen && (
+                    <div className="absolute z-50 translate-x-[300px] translate-y-[180px]">
+                        <SettingsPop />
+                    </div>
+                )}
             </div>
         </section>
     );
