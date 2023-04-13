@@ -62,7 +62,7 @@ export default ({
           <p className="flex justify-center text-base text-white dark:text-gray-400 sm:text-lg translate-y-[0px]">
             Select Number of People
           </p>
-          <div className="flex justify-center gap-[11px] translate-y-[-35px]">
+          <div className="flex justify-center gap-[11px] translate-y-[-20px]">
             {
               [1,2,3,4,5,6].map(
                 (possibleCapacity:number) => (
@@ -92,20 +92,20 @@ export default ({
             />
           </div>
           <div className="flex flex-col justify-center gap-[20px] translate-y-[-30px]">
-            <p className="my-4 flex justify-center text-base text-white dark:text-gray-400 sm:text-lg translate-y-[0px]">
+            <p className="my-4 flex justify-center text-base text-white dark:text-gray-400 sm:text-lg translate-y-[-20px]">
               Select Lobby Access
             </p>
             <div>
               <button
                 type="button"
-                className={`${setButtonColorOnCondition(data.selectedLobbyAccess === "Public")} w-[150px] h-[60px] mx-2 bg font-bold py-2 px-4 rounded`}
+                className={`${setButtonColorOnCondition(data.selectedLobbyAccess === "Public")} w-[150px] h-[60px] mx-2 bg font-bold py-2 px-4 rounded translate-y-[-20px]`}
                 onClick={() => setData({ ...data, selectedLobbyAccess: "Public" })}
                 >
                   Public
                 </button>
               <button
                 type="button"
-                className={`${setButtonColorOnCondition(data.selectedLobbyAccess === "Private")} w-[150px] h-[60px] mx-2 bg font-bold py-2 px-4 rounded`}
+                className={`${setButtonColorOnCondition(data.selectedLobbyAccess === "Private")} w-[150px] h-[60px] mx-2 bg font-bold py-2 px-4 rounded translate-y-[-20px]`}
                 onClick={() => setData({ ...data, selectedLobbyAccess: "Private" })}
               >
                 Private
