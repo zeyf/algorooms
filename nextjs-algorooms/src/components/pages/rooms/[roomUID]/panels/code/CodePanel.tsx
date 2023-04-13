@@ -1,9 +1,11 @@
 // Module imports
 import React from "react";
 
+
 // Interface imports
 import { codePanelInterface } from "./Interfaces";
 import CodeEditor from "./CodeEditor";
+import Header from "./header/Header";
 
 export default ({
 
@@ -13,6 +15,7 @@ export default ({
 
     return (
         <section>
+            <Header />
             <CodeEditor />
         </section>
     );
