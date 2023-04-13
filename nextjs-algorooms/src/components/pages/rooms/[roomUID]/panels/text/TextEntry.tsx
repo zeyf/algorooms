@@ -17,7 +17,7 @@ export default ({}: textEntryInterface) => {
   };
 
   return (
-    <section className="py-5 border-t-[1px] border-black">
+    <section className="py-5 border-t-[1px] border-black mx-4">
       {/* Body */}
       <div className="flex relative select-text">
         <div className="bg-darkAccent relative w-full rounded overflow-hidden">

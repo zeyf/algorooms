@@ -12,7 +12,7 @@ export default ({ member, backgroundColor }: roomMemberInterface) => {
       >
         <div>{member[0].toUpperCase()}</div>
       </div>
-      <div className="text-white">{member}</div>
+      <div className="text-white text-center">{member}</div>
     </div>
   );
 };
