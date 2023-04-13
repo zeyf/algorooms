@@ -25,6 +25,7 @@ export default ({
 }) => {
 
   const [ data, setData ] = useState<any>({
+    roomName: "",
     selectedTopics: [],
     selectedLobbyAccess: "Public",
     capacity: 1
@@ -41,7 +42,6 @@ export default ({
   };
 
   const setButtonColorOnCondition = (condition:boolean):string => condition ? "bg-darkAccent text-white" : "bg-greenAccent text-darkAccent";
-  const [roomName, setRoomName] = useState("");
 
   return (
     <div className="w-[537px] h-[713px]">
@@ -53,7 +53,7 @@ export default ({
                 type="text"
                 placeholder="Room Name"
                 onChange={(event) => {
-                  setRoomName(event.target.value);
+                  setData({ ...data, roomName: event.target.value});
                 }}
                 className="w-[348px] bg-white bg-opacity-0 border-b border-white border-t-0 border-l-0 border-r-0 placeholder-white text-white"
               />
