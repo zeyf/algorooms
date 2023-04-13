@@ -17,6 +17,7 @@ export default ({
         return "";
     };
 
+    // Sets the color of the text based on the question difficulty
     const setTextColor = ():string => {
         if (questionDifficulty === "Simpler")
             return "text-[#006400]";
