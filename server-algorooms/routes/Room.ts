@@ -4,9 +4,7 @@ import createUID from "../utilities/createUID";
 
 const router = express.Router();
 
-
-
-
+// Create the a room
 router.post("/create", async (req, res) => {
 
     const {
@@ -22,6 +20,7 @@ router.post("/create", async (req, res) => {
     // Create a room UID
     const uid = createUID();
 
+    // Create the room's record in mongoDB
     await Room.create({
         capacity,
         lobbyAccess,
@@ -30,9 +29,7 @@ router.post("/create", async (req, res) => {
         name,
         uid
     }).then((response) => {
-        console.log(`Created Room:\n\nUID: ${uid}\nName: ${name}\nTopics: ${topics}\n`);
-
-        // createWebSocket()
+        // Send response
         res.status(200).send({
             created: true
         });
@@ -40,16 +37,16 @@ router.post("/create", async (req, res) => {
 
 });
 
-router.get("/publicRooms", async (req, res) => {
+// Get a list of all public rooms
+router.get("/public", async (req, res) => {
 
+    // Find all rooms that have a public lobby access
     await Room.find({
         lobbyAccess: "Public"
     }).then((response) => {
-        
-        const exists = response.length > 0;
 
+        // Send response
         res.status(200).send({
-            exists,
             rooms: response
         });
 
@@ -57,7 +54,28 @@ router.get("/publicRooms", async (req, res) => {
 
 });
 
+// Checks if a room exists or not
+router.post("/verify", async (req, res) => {
 
+    const {
+        body: {
+            roomUID
+        }
+    } = req;
+
+    // Search for the single record of a room by it's UID
+    await Room.findOne({
+        uid: roomUID
+    }).then((response) => {
+
+        // Return whether or not it exists
+        res.status(200).send({
+            exists: response !== null
+        });
+
+    });
+
+});
 
 
 export default router;

@@ -1,3 +1,5 @@
+// 62^25 unique UIDs possible if length = 25
+
 export default (length:number = 25) => {
 
     // 62 possible character placements at each given index
@@ -7,12 +9,17 @@ export default (length:number = 25) => {
         ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     ];
 
+    // Stores the UID string to be created
     let uid = "";
 
     for (let x = 0; x < length; ++x) {
+        // Select a pseudorandom character class index (will be in the range [0, 2] as is now considering Math.random returns a float in range (0.0, 1.0))
         const randomClassIndex = Math.floor(Math.random() * classes.length);
+
+        // Select a pseudorandom character from the random class and append to the string
         uid += classes[randomClassIndex][Math.floor(Math.random() * classes[randomClassIndex].length)];
     };
 
+    // Return the pseudorandom room UID
     return uid;
 };
