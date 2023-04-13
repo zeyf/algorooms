@@ -41,11 +41,24 @@ export default ({
   };
 
   const setButtonColorOnCondition = (condition:boolean):string => condition ? "bg-darkAccent text-white" : "bg-greenAccent text-darkAccent";
+  const [roomName, setRoomName] = useState("");
 
   return (
     <div className="w-[537px] h-[713px] overflow-y-scroll">
       <div className="h-full flex flex-col rounded-2xl bg-white bg-opacity-25 shadow-xl">
         <form className="h-full flex flex-col justify-around p-10">
+          <div className="flex justify-center w-full">
+            <div>
+              <input
+                type="text"
+                placeholder="Room Name"
+                onChange={(event) => {
+                  setRoomName(event.target.value);
+                }}
+                className="w-[348px] bg-white bg-opacity-0 border-b border-white border-t-0 border-l-0 border-r-0 placeholder-white text-white"
+              />
+            </div>
+          </div>
           <p className="flex justify-center text-base text-white dark:text-gray-400 sm:text-lg translate-y-[0px]">
             Select Number of People
           </p>
