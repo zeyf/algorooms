@@ -10,7 +10,7 @@ router.get("/verify/:profileUID", async (req, res) => {
     // For logging and testing
     const date = new Date();
     const hour = date.getHours(), minutes = date.getMinutes();
-    console.log(`GET::/api/users/verify/:profileUID @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);
+    console.log(`GET::/api/users/verify/:profileUID @ ${hour}:${minutes} ${hour < 12 ? "AM" : "PM"}`);
 
     // Extract the profileUID from the parameters
     const {
@@ -52,7 +52,7 @@ router.post("/create", async (req, res) => {
     // For logging and testing
     const date = new Date();
     const hour = date.getHours(), minutes = date.getMinutes();
-    console.log(`POST::/api/users/create @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);
+    console.log(`POST::/api/users/create @ ${hour}:${minutes} ${hour < 12 ? "AM" : "PM"}`);
 
     // Extract the Auth0 authuid and desired username from the body
     const {
