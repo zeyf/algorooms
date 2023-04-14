@@ -48,7 +48,7 @@ router.get("/public", async (req, res) => {
     // For logging and testing
     const date = new Date();
     const hour = date.getHours(), minutes = date.getMinutes();
-    console.log(`POST::/api/rooms/create @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);
+    console.log(`GET::/api/rooms/public @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);
 
     // Find all rooms that have a public lobby access
     await Room.find({
