@@ -10,15 +10,15 @@ router.post("/create", async (req, res) => {
     // For logging and testing
     const date = new Date();
     const hour = date.getHours(), minutes = date.getMinutes();
-    console.log(`POST::/api/rooms/create @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);
+    console.log(`POST::/api/rooms/create @ ${hour}:${minutes} ${hour < 12 ? "AM" : "PM"}`);
 
     const {
         body: {
-            capacity,
-            lobbyAccess,
-            topics,
             name,
-            difficulty
+            capacity,
+            topics,
+            difficulty,
+            lobbyAccess
         }
     } = req;
 
@@ -27,13 +27,15 @@ router.post("/create", async (req, res) => {
 
     // Create the room's record in mongoDB
     await Room.create({
+        name,
         capacity,
-        lobbyAccess,
         topics,
         difficulty,
-        name,
-        uid
-    }).then((response) => {
+        lobbyAccess,
+        uid,
+        occupied: 0
+    }).then(async (response) => {
+        
         // Send response
         res.status(200).send({
             created: true
@@ -48,7 +50,7 @@ router.get("/public", async (req, res) => {
     // For logging and testing
     const date = new Date();
     const hour = date.getHours(), minutes = date.getMinutes();
-    console.log(`GET::/api/rooms/public @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);
+    console.log(`GET::/api/rooms/public @ ${hour}:${minutes} ${hour < 12 ? "AM" : "PM"}`);
 
     // Find all rooms that have a public lobby access
     await Room.find({
@@ -65,30 +67,45 @@ router.get("/public", async (req, res) => {
 });
 
 // Checks if a room exists or not
-router.post("/verify", async (req, res) => {
+router.get("/verify/:roomUID", async (req, res) => {
 
         // For logging and testing
         const date = new Date();
         const hour = date.getHours(), minutes = date.getMinutes();
-        console.log(`POST::/api/rooms/verify @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);    
+        console.log(`POST::/api/rooms/verify/:roomUID @ ${hour}:${minutes} ${hour < 12 ? "AM" : "PM"}`);    
 
+    // Extract the roomUID from the parameters
     const {
-        body: {
+        params: {
             roomUID
         }
     } = req;
 
-    // Search for the single record of a room by it's UID
-    await Room.findOne({
-        uid: roomUID
-    }).then((response) => {
+    // Check if a roomUID was not passed as parameter
+    if (!roomUID) {
 
-        // Return whether or not it exists
+        // Send response with no existence
         res.status(200).send({
-            exists: response !== null
+            exists: false
         });
 
-    });
+    } else {
+
+        // Search for the single record of a room by it's UID
+        await Room.findOne({
+            uid: roomUID
+        }).then((response) => {
+
+            // Return whether or not it exists
+            res.status(200).send({
+                exists: response !== null,
+                roomData: response
+            });
+
+        });
+
+    }
+
 
 });
 
