@@ -13,7 +13,12 @@ import { headerInterface } from './Interfaces';
 const Header = ({}: headerInterface) => {
   // Code
 
-  const { user, isLoading, error } = useUser();
+  const {
+    isLoading,
+    user,
+    error
+  } = useUser();
+
   return (
     <div className="w-screen h-16 bg-darkAccent drop-shadow-lg flex flex-row rounded-b-lg items-center">
       <div className="absolute left-3">
@@ -21,24 +26,30 @@ const Header = ({}: headerInterface) => {
       </div>
 
       <div className="flex flex-row space-x-7 items-center absolute right-5">
-        <Link href={'/rooms'} className="text-white">
-          Rooms
-        </Link>
-        {user ? (
-          <Navbar.Link
-            href="/api/auth/logout"
-            className="text-white -translate-y-3"
-          >
-            Sign Out
-          </Navbar.Link>
-        ) : (
-          <Navbar.Link
-            href="/api/auth/login"
-            className="text-white -translate-y-3"
-          >
-            Sign In
-          </Navbar.Link>
-        )}
+
+        <div className="flex items-center justify-around">
+
+          <Link href={'/rooms'} className="text-white mx-2">
+            Rooms
+          </Link>
+
+          {user ? (
+            <Link
+              href="/api/auth/logout"
+              className="text-white mx-2"
+            >
+              Sign Out
+            </Link>
+          ) : (
+            <Link
+              href="/api/auth/login"
+              className="text-white mx-2"
+            >
+              Sign In
+            </Link>
+          )}
+
+        </div>
 
         {isLoading || !user ? (
           <IoPersonCircleOutline
@@ -47,7 +58,7 @@ const Header = ({}: headerInterface) => {
           ></IoPersonCircleOutline>
         ) : (
           <a href={`/profile/${user.nickname}`}>
-            <Image
+            <img
               className="text-white w-6 h-6 rounded-full"
               alt="user"
               src={isLoading || !user ? '' : user.picture || ''}

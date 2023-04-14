@@ -5,13 +5,15 @@ import React from "react";
 import CreateRoomCard from "@/components/pages/rooms/CreateRoomCard";
 import JoinRoomCard from "@/components/pages/rooms/JoinRoomCard";
 import Header from "@/components/shared/Header";
+import axios from "axios";
 
 import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import buildRoute from "@/utilities/buildRoute";
 
 // eslint-disable-next-line react/display-name
 export default ({
-    
-}) => {
+    rooms
+}:any) => {
 
     return (
         <>
@@ -28,7 +30,7 @@ export default ({
                     <div className="flex justify-center space-x-[171px]">
                         <div className="text-center">
                             <h2 className="text-5xl font-bold text-white mb-[40px]">Join a room</h2>
-                            <JoinRoomCard />
+                            <JoinRoomCard rooms={rooms} />
                         </div>
                         <div className="text-center">
                             <h2 className="text-5xl font-bold text-white mb-[40px]">Create a room</h2>
@@ -44,10 +46,23 @@ export default ({
 
 // Auth-guarding the /rooms page
 export const getServerSideProps = withPageAuthRequired({
-    async getServerSideProps(ctx) {
+    async getServerSideProps(context) {
+
+        const response = await axios.get(buildRoute("/api/rooms/public")).then(res => res.data);
+
+        const {
+            rooms
+        } = response;
+
         return {
             props: {
-
+                rooms: rooms.map(
+                    (room:any) => {
+                        return {
+                            ...room,
+                            topics: room.topics.toString().replace(/,/gi, ", ")
+                        }
+                })
             }
         };
     }
