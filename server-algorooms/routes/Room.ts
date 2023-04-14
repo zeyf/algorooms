@@ -38,7 +38,8 @@ router.post("/create", async (req, res) => {
         
         // Send response
         res.status(200).send({
-            created: true
+            created: true,
+            uid
         });
     });
 
