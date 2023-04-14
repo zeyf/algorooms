@@ -1,16 +1,16 @@
  import express from "express";
 import User from "../models/UserModel";
 import { IUser } from "../models/UserModel";
+import LOG from "../utilities/log";
 
 const router = express.Router();
+const ROUTE_BASE = "/api/users";
 
 // This route is to check if user exists
 router.get("/verify/:profileUID", async (req, res) => {
 
     // For logging and testing
-    const date = new Date();
-    const hour = date.getHours(), minutes = date.getMinutes();
-    console.log(`GET::/api/users/verify/:profileUID @ ${hour}:${minutes} ${hour < 12 ? "AM" : "PM"}`);
+    LOG(ROUTE_BASE, req);
 
     // Extract the profileUID from the parameters
     const {
@@ -50,9 +50,7 @@ router.get("/verify/:profileUID", async (req, res) => {
 router.post("/create", async (req, res) => {
 
     // For logging and testing
-    const date = new Date();
-    const hour = date.getHours(), minutes = date.getMinutes();
-    console.log(`POST::/api/users/create @ ${hour}:${minutes} ${hour < 12 ? "AM" : "PM"}`);
+    LOG(ROUTE_BASE, req);
 
     // Extract the Auth0 authuid and desired username from the body
     const {

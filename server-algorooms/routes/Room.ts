@@ -1,16 +1,16 @@
 import express from "express";
 import Room from "../models/RoomModel";
 import createUID from "../utilities/createUID";
+import LOG from "../utilities/log";
 
 const router = express.Router();
+const ROUTE_BASE = "/api/rooms";
 
 // Create the a room
 router.post("/create", async (req, res) => {
 
     // For logging and testing
-    const date = new Date();
-    const hour = date.getHours(), minutes = date.getMinutes();
-    console.log(`POST::/api/rooms/create @ ${hour}:${minutes} ${hour < 12 ? "AM" : "PM"}`);
+    LOG(ROUTE_BASE, req);
 
     const {
         body: {
@@ -47,10 +47,8 @@ router.post("/create", async (req, res) => {
 // Get a list of all public rooms
 router.get("/public", async (req, res) => {
 
-    // For logging and testing
-    const date = new Date();
-    const hour = date.getHours(), minutes = date.getMinutes();
-    console.log(`GET::/api/rooms/public @ ${hour}:${minutes} ${hour < 12 ? "AM" : "PM"}`);
+    // For logging and testing 
+    LOG(ROUTE_BASE, req);
 
     // Find all rooms that have a public lobby access
     await Room.find({
@@ -69,10 +67,8 @@ router.get("/public", async (req, res) => {
 // Checks if a room exists or not
 router.get("/verify/:roomUID", async (req, res) => {
 
-        // For logging and testing
-        const date = new Date();
-        const hour = date.getHours(), minutes = date.getMinutes();
-        console.log(`POST::/api/rooms/verify/:roomUID @ ${hour}:${minutes} ${hour < 12 ? "AM" : "PM"}`);    
+    // For logging and testing
+    LOG(ROUTE_BASE, req);    
 
     // Extract the roomUID from the parameters
     const {
