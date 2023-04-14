@@ -4,73 +4,42 @@ import { IUser } from "../models/UserModel";
 
 const router = express.Router();
 
-// This route is specifically used for verification of a profileUID (that is user selected)
-router.post("/search/:profileUID", async (req, res) => {
-    
-    // Extract the parameters
+// This route is to check if user exists
+router.get("/verify/:profileUID", async (req, res) => {
+
+    // For logging and testing
+    const date = new Date();
+    const hour = date.getHours(), minutes = date.getMinutes();
+    console.log(`GET::/api/users/verify/:profileUID @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);
+
+    // Extract the profileUID from the parameters
     const {
         params: {
             profileUID
-        },
-        body: {
-            source
         }
     } = req;
 
-    const profilePagePathRegex = /\/profile\/[0-9a-zA-Z]{1,}/,
-          firstTimeUserPagePathRegex = /\/firsttimeuser/;
-    
-    const sourceIsDynamicProfile = profilePagePathRegex.test(source);
-    const sourceIsFirstTimeUser = firstTimeUserPagePathRegex.test(source);
-
-
-    // If undefined or ""
+    // Check if there is a profileUID or not
     if (!profileUID) {
-
-        // Existence is not possible, send back this response
+        
+        // Sends response with no existence
         res.status(200).send({
             exists: false
         });
-    
-    // Otherwise we have SOMETHING being parameterized as profileUID
+
     } else {
-
-        // Try finding a record with the username in the user namespace
-        await User.find({
+        
+        // Try to find a user with a given profileUID
+        await User.findOne({
             username: profileUID
-        }).then((mongoResponse) => {
-
-            // Stores if we have found a user with this username
-
-            const exists = mongoResponse["_doc" as any] !== undefined;
-
-            if (sourceIsFirstTimeUser) {
-
-                if (exists) {
-                    console.log(`${profileUID} is a new user.`);
-                }
-                res.status(200).send({
-                    exists
-                });
-
-            } else if (sourceIsDynamicProfile) {
-
-                let mongoResponseCopy:any = {  };
-
-                if (exists) {
-                    mongoResponseCopy = { ...mongoResponse["_doc" as any] };
-                    delete mongoResponseCopy["authuid"];
-                }
-                    
-                res.status(200).send({
-                    exists,
-                    profileData: mongoResponseCopy
-                });
-
-            }
+        }).then((response) => {
             
-            // Sends response with existence of profileUID parameter
-
+            // Sends response with existence and data
+            res.status(200).send({
+                exists: response !== null,
+                profileData: response
+            });
+            
         });
     }
 
@@ -79,6 +48,11 @@ router.post("/search/:profileUID", async (req, res) => {
 
 // The assumption is that search will be attempted before create is utilized.
 router.post("/create", async (req, res) => {
+
+    // For logging and testing
+    const date = new Date();
+    const hour = date.getHours(), minutes = date.getMinutes();
+    console.log(`POST::/api/users/create @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);
 
     // Extract the Auth0 authuid and desired username from the body
     const {

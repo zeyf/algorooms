@@ -7,6 +7,11 @@ const router = express.Router();
 // Create the a room
 router.post("/create", async (req, res) => {
 
+    // For logging and testing
+    const date = new Date();
+    const hour = date.getHours(), minutes = date.getMinutes();
+    console.log(`POST::/api/rooms/create @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);
+
     const {
         body: {
             capacity,
@@ -40,6 +45,11 @@ router.post("/create", async (req, res) => {
 // Get a list of all public rooms
 router.get("/public", async (req, res) => {
 
+    // For logging and testing
+    const date = new Date();
+    const hour = date.getHours(), minutes = date.getMinutes();
+    console.log(`POST::/api/rooms/create @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);
+
     // Find all rooms that have a public lobby access
     await Room.find({
         lobbyAccess: "Public"
@@ -56,6 +66,11 @@ router.get("/public", async (req, res) => {
 
 // Checks if a room exists or not
 router.post("/verify", async (req, res) => {
+
+        // For logging and testing
+        const date = new Date();
+        const hour = date.getHours(), minutes = date.getMinutes();
+        console.log(`POST::/api/rooms/verify @ ${hour}:${minutes} ${hour <= 12 ? "AM" : "PM"}`);    
 
     const {
         body: {

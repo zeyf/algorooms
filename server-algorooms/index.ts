@@ -16,13 +16,13 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 
-app.use("/api/user", UserRoutes);
+app.use("/api/users", UserRoutes);
 app.use("/api/rooms", RoomRoutes);
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
 
-})
+});
 
 // middleware
 app.use(cors());
@@ -30,10 +30,10 @@ app.use(cors());
 
 // Connecting MongoDB
 mongoose.connect("mongodb+srv://user:12345@algorooms.lau3kx4.mongodb.net/test?retryWrites=true&w=majority").then(() => {
-    console.log("connected to database")
+    console.log("connected to database");
 }).catch((err) => {
-    console.log(err)
-})
+    console.log(err);
+});
 
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`)
