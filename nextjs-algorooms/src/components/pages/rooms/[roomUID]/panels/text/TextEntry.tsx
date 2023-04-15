@@ -10,7 +10,13 @@ export default ({}: textEntryInterface) => {
   const [message, setMessage] = useState('');
 
   // Send message
-  const sendMessage = () => {};
+  const sendMessage = () => {
+    //Check if the message is empty first
+    if (message != '') {
+      //Reset message to black after sending.
+      setMessage('');
+    }
+  };
 
   const handleSending = (e: any) => {
     if (e.key === 'Enter') sendMessage();
