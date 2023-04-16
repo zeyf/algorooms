@@ -27,7 +27,7 @@ export default ({
   useEffect(() => {
 
     if (!exists)
-      router.push("/404");
+      router.push("/404?injectable=room");
 
   }, [  ]);
 

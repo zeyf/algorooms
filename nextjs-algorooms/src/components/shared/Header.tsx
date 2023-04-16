@@ -22,7 +22,9 @@ const Header = ({}: headerInterface) => {
   return (
     <div className="w-screen h-16 bg-darkAccent drop-shadow-lg flex flex-row rounded-b-lg items-center">
       <div className="absolute left-3">
-        <Image alt="Logo" src={Logo} width={125} height={125} />
+        <Link href="/">
+          <Image alt="Logo" src={Logo} width={125} height={125} />
+        </Link>
       </div>
 
       <div className="flex flex-row space-x-7 items-center absolute right-5">

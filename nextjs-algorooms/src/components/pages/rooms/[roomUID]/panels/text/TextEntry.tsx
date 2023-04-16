@@ -1,5 +1,5 @@
 // Module imports
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { BsFillSendFill } from 'react-icons/bs';
 
 // Interface imports
@@ -10,7 +10,13 @@ export default ({}: textEntryInterface) => {
   const [message, setMessage] = useState('');
 
   // Send message
-  const sendMessage = () => {};
+  const sendMessage = () => {
+    //Check if the message is empty first
+    if (message != '') {
+      //Reset message to black after sending.
+      setMessage('');
+    }
+  };
 
   const handleSending = (e: any) => {
     if (e.key === 'Enter') sendMessage();
@@ -22,6 +28,7 @@ export default ({}: textEntryInterface) => {
       <div className="flex relative select-text">
         <div className="bg-darkAccent relative w-full rounded overflow-hidden">
           <input
+            value={message}
             placeholder="Type something simple"
             className="caret-greenAccent bg-transparent text-white p-3 outline-0"
             onChange={(e) => setMessage(e.target.value)}
