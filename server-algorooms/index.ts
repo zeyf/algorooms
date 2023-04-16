@@ -8,6 +8,8 @@ import bodyParser from 'body-parser';
 
 import UserRoutes from "./routes/User";
 import RoomRoutes from "./routes/Room";
+import QuestionRoutes from "./routes/Question";
+
 
 // Initialization
 const app = express();
@@ -18,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended : true }));
 
 app.use("/api/users", UserRoutes);
 app.use("/api/rooms", RoomRoutes);
+app.use("/api/questions", QuestionRoutes);
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
