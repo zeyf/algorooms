@@ -5,6 +5,7 @@ import QuestionPanel from '@/components/pages/rooms/[roomUID]/panels/question/Qu
 import CodePanel from '@/components/pages/rooms/[roomUID]/panels/code/CodePanel';
 import TextPanel from '@/components/pages/rooms/[roomUID]/panels/text/TextPanel';
 import CodeTester from '@/components/pages/rooms/[roomUID]/panels/code/CodeTester';
+import { io } from 'socket.io-client';
 
 import { codePanelInterface } from '@/components/pages/rooms/[roomUID]/panels/code/Interfaces';
 import { textPanelInterface } from '@/components/pages/rooms/[roomUID]/panels/text/Interfaces';
@@ -17,6 +18,8 @@ import QuestionDummyData from './QuestionDummyData';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
+const socket = io("http://localhost:4000")
+
 export default ({
   exists,
   data
@@ -28,8 +31,9 @@ export default ({
 
     if (!exists)
       router.push("/404?injectable=room");
-
   }, [  ]);
+
+  socket.emit("joinRoom", data.uid)
 
     return (
       <div className="bg-[#222C4A] w-screen h-screen overflow-hidden">
