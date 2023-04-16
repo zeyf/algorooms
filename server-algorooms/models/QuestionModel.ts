@@ -7,8 +7,8 @@ export interface IQuestion extends mongoose.Document {
     title: string,
     index: number,
     difficulty: string,
-    topics: string[],
     description: string,
+    topics: Array<string>,
     constraints: Array<string>,
     hints: Array<string>
 };
