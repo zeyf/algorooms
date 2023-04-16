@@ -24,7 +24,10 @@ app.use("/api/questions", QuestionRoutes);
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-
+    cors: {
+        origin: "https://localhost:4000",
+        methods: ["GET", "POST"]
+    }
 });
 
 // middleware
@@ -41,6 +44,10 @@ mongoose.connect("mongodb+srv://user:12345@algorooms.lau3kx4.mongodb.net/test?re
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`)
     
+    socket.on("joinRoom", (arg) => {
+        console.log("RoomUID: ", arg)
+    })
+
     socket.on("disconnect", () => {
         console.log("User Disconnected", socket.id)
     })
