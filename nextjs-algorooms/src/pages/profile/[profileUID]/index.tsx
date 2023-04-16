@@ -5,6 +5,9 @@ import Subtitle from '@/components/pages/profile/Subtitle';
 import Title from '@/components/pages/profile/Title';
 import Header from '@/components/shared/Header';
 import { useRouter } from 'next/router';
+import axios from "axios";
+import buildRoute from '@/utilities/buildRoute';
+import { useEffect } from 'react';
 
 interface DynamicProfilePageProps {
   profileExists: boolean;
@@ -12,25 +15,24 @@ interface DynamicProfilePageProps {
   profileData: {};
 }
 
-// const DynamicProfilePage = ({
-//   profileExists,
-//   profileUID,
-//   profileData,
-// }: DynamicProfilePageProps) => {
-const DynamicProfilePage = () => {
-  // if (!profileExists) {
-  //   return <h1>Profile Does Not Exist!</h1>;
-  // }
+const DynamicProfilePage = ({
+  exists,
+  data
+}:any) => {
 
-  const currExp = 1100,
-    maxExp = 6100;
+  useEffect(() => {
 
-  const { user, isLoading, error } = useUser();
+    if (!exists)
+      router.push("/404?injectable=profile");
 
-  if (isLoading) {
-    <p>Loading...</p>;
-  } else if (!user) return <p>WTF!</p>;
-  else
+  }, [  ]);
+
+  const router = useRouter();
+
+  if (!exists) {
+    router.push("/404?injectable=profile");
+    return <></>;
+  } else
     return (
       <>
         <div className="bg-gradient-to-tr from-darkAccent to to-[#24366c] w-screen h-screen flex flex-col">
@@ -44,9 +46,9 @@ const DynamicProfilePage = () => {
                 <div>
                   <div className="flex justify-between">
                     {/* Avatar */}
-                    <Image
+                    <img
                       className="rounded-full mr-4 mb-4"
-                      src={user.picture || ''}
+                      src={data.picture}
                       height={188}
                       width={188}
                       alt=""
@@ -54,17 +56,17 @@ const DynamicProfilePage = () => {
                     {/* User Info */}
                     <div className="flex-col w-full">
                       <Title
-                        text={user.nickname || ''}
+                        text={data.username}
                         alignment="left"
                         color="white"
                       />
                       <Subtitle
-                        text="Joined 23 March 2023"
+                        text={`Joined...`}
                         alignment="left"
                         color="white"
                       />
                       <Subtitle
-                        text="Student at the University of Central Florida"
+                        text={"Flair"}
                         alignment="left"
                         color="white"
                       />
@@ -82,8 +84,8 @@ const DynamicProfilePage = () => {
                   <ProgressBar
                     backgroundColor={'bg-green-300'}
                     accentColor={'bg-green-800'}
-                    numerator={currExp}
-                    denominator={maxExp}
+                    numerator={3}
+                    denominator={3}
                     width={'full'}
                     height={'3'}
                   />
@@ -216,33 +218,30 @@ const DynamicProfilePage = () => {
     );
 };
 
-// export async function getServerSideProps(data: any) {
-// const {
-//   query: { profileUID },
-// } = data;
+export async function getServerSideProps(context: any) {
+  
+  const {
+    query: {
+      profileUID
+    },
+  } = context;
 
-// const response = await fetch(
-//   `http://localhost:4000/api/user/search/${profileUID}`,
-//   {
-//     method: 'POST',
-//     mode: 'cors',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify({
-//       source: `/profile/${profileUID}`,
-//     }),
-//   }
-// ).then((res: any) => res);
+  const response = await axios.get(buildRoute(`/api/users/verify/${profileUID}`)).then((res: any) => res.data);
 
-// const { exists, profileData } = response;
+  console.log(response);
 
-// return {
-//   props: {
-//     profileExists: exists,
-//     profileData,
-//   },
-// };
-// }
+  const {
+    exists,
+    profileData
+  } = response;
+
+  return {
+    props: {
+      exists,
+      data: profileData
+    },
+  };
+
+};
 
 export default DynamicProfilePage;
