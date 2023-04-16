@@ -6,44 +6,20 @@ import LOG from "../utilities/log";
 const router = express.Router();
 const ROUTE_BASE = "/api/rooms";
 
-// Create the a room
-router.post("/create", async (req, res) => {
-
-    // For logging and testing
-    LOG(ROUTE_BASE, req);
-
-    const {
-        body: {
-            name,
-            capacity,
-            topics,
-            difficulty,
-            lobbyAccess
-        }
-    } = req;
-
-    // Create a room UID
-    const uid = createUID();
-
-    // Create the room's record in mongoDB
-    await Room.create({
-        name,
-        capacity,
-        topics,
-        difficulty,
-        lobbyAccess,
-        uid,
-        occupied: 0
-    }).then(async (response) => {
-        
-        // Send response
-        res.status(200).send({
-            created: true,
-            uid
-        });
-    });
-
-});
+/*
+*
+* GET routes
+*
+* - /api/rooms/public
+* - /api/rooms/verify/:roomUID
+*
+*****
+*
+* POST routes
+*
+* - /api/rooms/create
+*
+*/
 
 // Get a list of all public rooms
 router.get("/public", async (req, res) => {
@@ -106,5 +82,44 @@ router.get("/verify/:roomUID", async (req, res) => {
 
 });
 
+// Create the a room
+router.post("/create", async (req, res) => {
+
+    // For logging and testing
+    LOG(ROUTE_BASE, req);
+
+    // Destructure the body
+    const {
+        body: {
+            name,
+            capacity,
+            topics,
+            difficulty,
+            lobbyAccess
+        }
+    } = req;
+
+    // Create a room UID
+    const uid = createUID();
+
+    // Create the room's record in mongoDB
+    await Room.create({
+        name,
+        capacity,
+        topics,
+        difficulty,
+        lobbyAccess,
+        uid,
+        occupied: 0
+    }).then(async (response) => {
+        
+        // Send response
+        res.status(200).send({
+            created: true,
+            uid
+        });
+    });
+
+});
 
 export default router;

@@ -1,10 +1,23 @@
- import express from "express";
+import express from "express";
 import User from "../models/UserModel";
-import { IUser } from "../models/UserModel";
 import LOG from "../utilities/log";
 
 const router = express.Router();
 const ROUTE_BASE = "/api/users";
+
+/*
+*
+* GET routes
+*
+* - /api/users/verify/:profileUID
+*
+*****
+*
+* POST routes
+*
+* - /api/users/create
+*
+*/
 
 // This route is to check if user exists
 router.get("/verify/:profileUID", async (req, res) => {
@@ -44,7 +57,6 @@ router.get("/verify/:profileUID", async (req, res) => {
     }
 
 });
-
 
 // The assumption is that search will be attempted before create is utilized.
 router.post("/create", async (req, res) => {
