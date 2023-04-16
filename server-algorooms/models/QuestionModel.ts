@@ -7,7 +7,7 @@ export interface IQuestion extends mongoose.Document {
     title: string,
     index: number,
     difficulty: string,
-    topic: string,
+    topics: string[],
     description: string,
     constraints: Array<string>,
     hints: Array<string>
@@ -26,8 +26,8 @@ export const questionSchematic = new Schema({
         type: String,
         required: true
     },
-    topic: {
-        type: String,
+    topics: {
+        type: Array<String>,
         required: true
     },
     description: {
