@@ -7,19 +7,14 @@ const ROUTE_BASE = "/api/questions";
 
 /*
 *
-* GET routes
-*
-* - /api/questions/filter
-*
-*****
-*
 * POST routes
 *
 * - /api/questions/create
+* - /api/questions/filter
 *
 */
 
-router.get("/filter", async (req, res) => {
+router.post("/filter", async (req, res) => {
 
     // For logging and testing
     LOG(ROUTE_BASE, req);
