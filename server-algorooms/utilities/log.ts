@@ -1,3 +1,5 @@
+// Used to log requests to route endpoints
+
 export default function LOG(
     routeBase: string,
     {

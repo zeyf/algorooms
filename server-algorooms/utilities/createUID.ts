@@ -1,6 +1,8 @@
 // 62^25 unique UIDs possible if length = 25
 
-export default (length:number = 25) => {
+export default (
+    length:number = 25
+) => {
 
     // 62 possible character placements at each given index
     const classes = [
