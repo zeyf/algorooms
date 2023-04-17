@@ -15,17 +15,30 @@ export default ({}: textFeedInterface) => {
   return (
     <section>
       {/* Body */}
-      <div className="overflow-y-auto max-h-[400px] bg-darkAccent flex">
+      <div className="overflow-y-auto max-h-[400px] bg-[#222C4A] flex">
         <div className="my-2 mx-2">
           <span className="text-white flex flex-row">
             <Image
               src={isLoading || !user ? '' : user.picture || ''}
               alt="user"
-              width={25}
-              height={25}
-              className="rounded-full"
+              width={30}
+              height={30}
+              className="rounded-full w-fit h-fit"
             />
-            : Hello there!
+            <span>
+              : Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis
+              dolorem optio fugiat cum, animi dolore eveniet, repudiandae
+              consequuntur placeat culpa voluptatibus. Expedita at amet enim
+              iusto exercitationem id laudantium dolore quibusdam, magni quod
+              obcaecati rerum asperiores sequi totam, adipisci commodi
+              voluptatem voluptates reprehenderit eos officia repudiandae iste.
+              Quas atque minus eos, sint iusto necessitatibus earum nemo iure
+              ullam omnis eum quam vel accusantium debitis repellendus autem
+              voluptatem veritatis, hic esse ipsa laborum suscipit possimus
+              quasi libero. Illo eius at vero, sequi numquam possimus facilis
+              delectus voluptates? Tenetur quam accusamus, et, illum cumque
+              maiores vel aliquam, consequatur ipsum dolorum libero maxime?
+            </span>
           </span>
         </div>
       </div>

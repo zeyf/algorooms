@@ -5,7 +5,7 @@ import Subtitle from '@/components/pages/profile/Subtitle';
 import Title from '@/components/pages/profile/Title';
 import Header from '@/components/shared/Header';
 import { useRouter } from 'next/router';
-import axios from "axios";
+import axios from 'axios';
 import buildRoute from '@/utilities/buildRoute';
 import { useEffect } from 'react';
 
@@ -15,27 +15,20 @@ interface DynamicProfilePageProps {
   profileData: {};
 }
 
-const DynamicProfilePage = ({
-  exists,
-  data
-}:any) => {
-
+const DynamicProfilePage = ({ exists, data }: any) => {
   useEffect(() => {
-
-    if (!exists)
-      router.push("/404?injectable=profile");
-
-  }, [  ]);
+    if (!exists) router.push('/404?injectable=profile');
+  }, []);
 
   const router = useRouter();
 
   if (!exists) {
-    router.push("/404?injectable=profile");
+    router.push('/404?injectable=profile');
     return <></>;
   } else
     return (
       <>
-        <div className="bg-gradient-to-tr from-darkAccent to to-[#24366c] w-screen h-screen flex flex-col">
+        <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col">
           <Header />
           <div className="bg-white bg-opacity-25 rounded-[15px] p-6 m-20 h-full">
             {/* First row */}
@@ -65,11 +58,7 @@ const DynamicProfilePage = ({
                         alignment="left"
                         color="white"
                       />
-                      <Subtitle
-                        text={"Flair"}
-                        alignment="left"
-                        color="white"
-                      />
+                      <Subtitle text={'Flair'} alignment="left" color="white" />
                     </div>
                   </div>
                 </div>
@@ -219,29 +208,24 @@ const DynamicProfilePage = ({
 };
 
 export async function getServerSideProps(context: any) {
-  
   const {
-    query: {
-      profileUID
-    },
+    query: { profileUID },
   } = context;
 
-  const response = await axios.get(buildRoute(`/api/users/verify/${profileUID}`)).then((res: any) => res.data);
+  const response = await axios
+    .get(buildRoute(`/api/users/verify/${profileUID}`))
+    .then((res: any) => res.data);
 
   console.log(response);
 
-  const {
-    exists,
-    profileData
-  } = response;
+  const { exists, profileData } = response;
 
   return {
     props: {
       exists,
-      data: profileData
+      data: profileData,
     },
   };
-
-};
+}
 
 export default DynamicProfilePage;

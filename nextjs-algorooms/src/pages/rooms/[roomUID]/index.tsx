@@ -18,69 +18,58 @@ import QuestionDummyData from './QuestionDummyData';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-const socket = io("http://localhost:4000")
+const socket = io('http://localhost:4000');
 
-export default ({
-  exists,
-  data
-}: any) => {
-
+export default ({ exists, data }: any) => {
   const router = useRouter();
 
   useEffect(() => {
+    if (!exists) router.push('/404?injectable=room');
+  }, []);
 
-    if (!exists)
-      router.push("/404?injectable=room");
-  }, [  ]);
+  socket.emit('joinRoom', data.uid);
 
-  socket.emit("joinRoom", data.uid)
+  return (
+    <div className="bg-lightAccent w-screen h-screen overflow-hidden">
+      <Header />
+      <div className="w-screen h-screen flex flex-row-reverse justify-center items-center">
+        <div className="w-2/3 h-screen flex flex-col justify-center items-center">
+          <Split sizes={[25, 60, 15]} className={`w-screen flex`}>
+            <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
+              <QuestionPanel {...QuestionDummyData} />
+            </div>
 
-    return (
-      <div className="bg-[#222C4A] w-screen h-screen overflow-hidden">
-        <Header />
-        <div className="w-screen h-screen flex flex-row-reverse justify-center items-center">
-          <div className="w-2/3 h-screen flex flex-col justify-center items-center">
-            <Split sizes={[25, 60, 15]} className={`w-screen flex`}>
-              <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
-                <QuestionPanel {...QuestionDummyData} />
-              </div>
+            <div className="flex justify-center mt-10">
+              <CodePanel />
+            </div>
 
-              <div className="flex justify-center mt-10">
-                <CodePanel />
-              </div>
-
-              <TextPanel
-              // Props
-              />
-            </Split>
-          </div>
+            <TextPanel
+            // Props
+            />
+          </Split>
         </div>
       </div>
-    );
-
+    </div>
+  );
 };
 
 // Auth-guarding the /rooms/[roomUID] page
 export const getServerSideProps = withPageAuthRequired({
-  async getServerSideProps(context:any) {
-
+  async getServerSideProps(context: any) {
     const {
-      params: {
-        roomUID
-      }
+      params: { roomUID },
     } = context;
 
-    const response = await axios.get(`http://localhost:4000/api/rooms/verify/${roomUID}`).then(res => res.data);
+    const response = await axios
+      .get(`http://localhost:4000/api/rooms/verify/${roomUID}`)
+      .then((res) => res.data);
 
-    const {
-      exists,
-      roomData
-    } = response;
+    const { exists, roomData } = response;
 
     return {
       props: {
         exists,
-        data: roomData
+        data: roomData,
       },
     };
   },
