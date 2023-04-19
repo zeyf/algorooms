@@ -15,8 +15,9 @@ export default ({}: textFeedInterface) => {
   return (
     <section>
       {/* Body */}
-      <div className="overflow-y-auto max-h-[400px] bg-[#222C4A] flex">
+      <div className="overflow-y-auto max-h-[400px] bg-lightAccent flex">
         <div className="my-2 mx-2">
+          {/* Replace below with message component later on */}
           <span className="text-white flex flex-row">
             <Image
               src={isLoading || !user ? '' : user.picture || ''}
