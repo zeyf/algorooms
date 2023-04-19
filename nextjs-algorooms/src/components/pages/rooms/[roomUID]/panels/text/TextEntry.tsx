@@ -7,9 +7,7 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 // Interface imports
 import { textEntryInterface } from './Interfaces';
 
-const socket = io('http://localhost:4000')
-
-export default ({}: textEntryInterface) => {
+export default ({ socket }: textEntryInterface) => {
   // Code
   const [message, setMessage] = useState('');
   const { isLoading, user, error } = useUser();
@@ -19,9 +17,9 @@ export default ({}: textEntryInterface) => {
   const sendMessage = () => {
     //Check if the message is empty first
     if (message != '') {
-      const image = isLoading || !user ? '': user.picture || '';
+      const name = isLoading || !user ? '': user.name || '';
       //emit the message to the server
-      socket.emit('chat message', { message, image });
+      socket.emit('chat message', { message, name });
       //Reset message to black after sending.
       setMessage('');
     }
