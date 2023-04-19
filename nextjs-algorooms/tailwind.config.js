@@ -33,6 +33,10 @@ module.exports =withMT({
       },
       animation: {
           'fade-in-down': 'fade-in-down 1s ease-out'
+      },
+
+      '.custom-split .split-drag': {
+        cursor: 'col-resize',
       }
     },
     fontFamily: {
