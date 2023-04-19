@@ -1,7 +1,6 @@
 // Module imports
 import React, { useState, useRef } from 'react';
 import { BsFillSendFill } from 'react-icons/bs';
-import { io } from 'socket.io-client';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 // Interface imports

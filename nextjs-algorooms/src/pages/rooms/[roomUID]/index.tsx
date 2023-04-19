@@ -45,6 +45,7 @@ export default ({ exists, data }: any) => {
 
             <TextPanel
             // Props
+              socket={socket}
             />
           </Split>
         </div>

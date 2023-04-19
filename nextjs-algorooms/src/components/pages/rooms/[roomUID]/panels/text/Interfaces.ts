@@ -3,10 +3,11 @@ export interface textEntryInterface {
 };
 
 export interface textFeedInterface {
+  socket: any;
 };
 
 export interface textPanelInterface {
-
+  socket: any;
 };
 
 export interface feedMessageInterface {

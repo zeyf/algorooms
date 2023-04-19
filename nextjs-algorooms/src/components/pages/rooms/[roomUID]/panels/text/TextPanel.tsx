@@ -7,7 +7,7 @@ import TextFeed from './TextFeed';
 import { textPanelInterface } from './Interfaces';
 import RoomMembers from './header/RoomMembers';
 
-export default ({}: textPanelInterface) => {
+export default ({ socket }: textPanelInterface) => {
   // Code
 
   // DUMMY DATA
@@ -23,8 +23,8 @@ export default ({}: textPanelInterface) => {
     <section className="flex flex-col">
       {/* Body */}
       <RoomMembers members={members} />
-      <TextFeed />
-      <TextEntry />
+      <TextFeed socket={socket}/>
+      <TextEntry socket={socket} />
     </section>
   );
 };

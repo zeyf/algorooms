@@ -1,34 +1,32 @@
 // Module imports
 import React from 'react';
 import { useState, useEffect } from 'react';
-import io from 'socket.io-client';
 // Add this when text chat is working
 // import RoomMember from './header/RoomMember';
 
 // Interface imports
 import { textFeedInterface } from './Interfaces';
 
-export default ({}: textFeedInterface) => {
+export default ({ socket }: textFeedInterface) => {
   // Code
 
   //The current feed / messages, test it by putting some string in it, now have name along with it
-  const [messages, setMessages] = useState<string[][]>([[
+  const [messages, setMessages] = useState<String[][]>([[
     'Khoa',
     'Lorem Ipsen or something like that',
   ]
   ]);
 
+  // Append incoming messages to the array 
   useEffect(() => {
-    const socket = io();
-    socket.on('message', (message: string, name: string) => {
-      setMessages((messages) => [...messages, [name, message]]);
+    socket.on('message', ({ message, name }: any) => {
+      setMessages([...messages, [name, message]]);
     });
   });
 
   return (
     <section>
-      {/* Body */}
-      <div className="overflow-y-auto max-h-[400px] bg-darkAccent flex">
+      <div className="overflow-y-auto max-h-[400px] bg-darkAccent flex flex-col">
         {/* NOT TESTED */}
         {messages.map((message, index) => (
           <div key={index} className="my-2 mx-2">
