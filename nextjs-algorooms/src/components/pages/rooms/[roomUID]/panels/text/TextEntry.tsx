@@ -1,18 +1,27 @@
 // Module imports
 import React, { useState, useRef } from 'react';
 import { BsFillSendFill } from 'react-icons/bs';
+import { io } from 'socket.io-client';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 // Interface imports
 import { textEntryInterface } from './Interfaces';
 
+const socket = io('http://localhost:4000')
+
 export default ({}: textEntryInterface) => {
   // Code
   const [message, setMessage] = useState('');
+  const { isLoading, user, error } = useUser();
+
 
   // Send message
   const sendMessage = () => {
     //Check if the message is empty first
     if (message != '') {
+      const image = isLoading || !user ? '': user.picture || '';
+      //emit the message to the server
+      socket.emit('chat message', { message, image });
       //Reset message to black after sending.
       setMessage('');
     }
@@ -35,7 +44,7 @@ export default ({}: textEntryInterface) => {
             onKeyDown={handleSending}
           />
           <button onClick={sendMessage}>
-            <BsFillSendFill className="absolute right-4 top-4" color="gray" />
+            <BsFillSendFill className="absolute right-4 top-4 rotate-45" color="gray"/>
           </button>
         </div>
       </div>

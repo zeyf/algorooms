@@ -10,5 +10,9 @@
     background-color: #eee;
 
     background-repeat: no-repeat;
-    background-position: 50%;
+    background-position: 50;
+}
+
+.gutter-horizontal:hover {
+    cursor:col-resize;
 }
