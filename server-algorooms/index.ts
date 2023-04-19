@@ -43,6 +43,12 @@ io.on("connection", (socket) => {
     //     socket.broadcast.to(room).emit("updateEditor", code)
     // })
 
+    // This send to the client the message and name of the user
+    // Probably a terrible way to do it but it work for now
+    socket.on("chat message", ({ message, name }) => {
+        socket.emit("message", {message, name })
+    })
+
     socket.on("disconnect", () => {
        console.log("User Disconnected: ", socket.id)
     });
