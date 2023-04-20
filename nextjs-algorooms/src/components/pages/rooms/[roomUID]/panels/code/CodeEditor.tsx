@@ -11,21 +11,30 @@ import { useState, useRef, useEffect } from 'react'
 // Interface imports
 import { codeEditorInterface } from "./Interfaces";
 import { countReset } from "console";
+import rooms from "@/pages/rooms";
 
 export default ({
-
+socket,
+uid
 }:codeEditorInterface) => {
 
     // Code
     const onChange = React.useCallback((value:any, viewUpdate:any) => {
-        console.log('value:', value);
+        socket.emit("codeChange", value, uid)
+        socket.on("updateEditor", (arg:any) => {
+            setCode(arg)
+        })
     }, [] )
+
+    const [code, setCode] = useState("hello")
+
 
     return (
         <div className="w-[822px] h-[649px]">
             <div className="rounded-lg overflow-hidden w-[822px] h-[579px] mt-5">
                 <CodeMirror
-                    value = "console.log('hello world');"
+                    value = {code}
+                    onChange={onChange}
                     height="579px"
                     width="822px"
                     extensions={[javascript({ jsx: true })]}
