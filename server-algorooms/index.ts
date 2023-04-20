@@ -33,15 +33,14 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`)
 
-    socket.on("joinRoom", (room) => {
-        console.log("UID: ",room);
-        socket.emit("test", room)
+    socket.on("joinRoom", (room, val) => {
+        socket.join(room)
+        console.log("Joined room: ", room, val)
     })
 
-    // socket.on("codeChange", (room, code) => {
-    //     console.log(code)
-    //     socket.broadcast.to(room).emit("updateEditor", code)
-    // })
+    socket.on("codeChange", (code, room) => {
+        socket.broadcast.to(room).emit("updateEditor", code);
+    })
 
     // This send to the client the message and name of the user
     // Probably a terrible way to do it but it work for now
