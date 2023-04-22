@@ -3,16 +3,32 @@ import React from 'react';
 
 // Interface imports
 import { roomMemberInterface } from './Interfaces';
+import Link from 'next/link';
 
-export default ({ member, backgroundColor }: roomMemberInterface) => {
+const colors = [
+  "#650cec",
+  "#3960f7",
+  "#424d71",
+  "#d91072",
+  "#af90fd",
+  "#60aa59"
+];
+
+export default ({
+  username,
+  colorIndex
+}: roomMemberInterface) => {
+  
   return (
-    <div className="flex flex-col">
+    <Link
+      href={`/profile/${username}`}
+      className="flex flex-col">
       <div
-        className={`${backgroundColor} h-10 w-10 rounded-full flex justify-center items-center`}
+        className={`${colors[colorIndex]} h-10 w-10 rounded-full flex justify-center items-center`}
       >
-        <div>{member[0].toUpperCase()}</div>
+        <div>{username[0].toUpperCase()}</div>
       </div>
-      <div className="text-white text-center">{member}</div>
-    </div>
+      <div className="text-white text-center">{ username }</div>
+    </Link>
   );
 };
