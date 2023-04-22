@@ -20,14 +20,16 @@ uid
 
     // Code
     const onChange = React.useCallback((value:any, viewUpdate:any) => {
-        socket.emit("codeChange", value, uid)
+        socket.emit("codeChange", value, uid);
         socket.on("updateEditor", (arg:any) => {
-            setCode(arg)
-        })
-    }, [] )
+            setCode(arg);
+        });
+    }, [  ]);
 
-    const [code, setCode] = useState("hello")
-
+    const [
+        code,
+        setCode
+    ] = useState("hello");
 
     return (
         <div className="w-[822px] h-[649px]">
