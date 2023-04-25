@@ -10,6 +10,7 @@ const ROUTE_BASE = "/api/users";
 * GET routes
 *
 * - /api/users/verify/:profileUID
+* - /api/users/verifyAuth/:authUID
 *
 *****
 *
@@ -46,6 +47,45 @@ router.get("/verify/:profileUID", async (req, res) => {
         await User.findOne({
             username: profileUID
         }).then((response) => {
+            
+            // Sends response with existence and data
+            res.status(200).send({
+                exists: response !== null,
+                profileData: response
+            });
+            
+        });
+    }
+
+});
+
+// This route is to check if user exists
+router.get("/verifyAuth/:authUID", async (req, res) => {
+
+    // For logging and testing
+    LOG(ROUTE_BASE, req);
+
+    // Extract the profileUID from the parameters
+    const {
+        params: {
+            authUID
+        }
+    } = req;
+
+    // Check if there is a profileUID or not
+    if (!authUID) {
+        
+        // Sends response with no existence
+        res.status(200).send({
+            exists: false
+        });
+
+    } else {
+        
+        // Try to find a user with a given profileUID
+        await User.findOne({
+            authuid: authUID
+        }).then(response => {
             
             // Sends response with existence and data
             res.status(200).send({
