@@ -9,6 +9,8 @@ import { FaCog } from "react-icons/fa";
 import { headerInterface } from "./Interfaces";
 import CountdownTimer from "./CountdownTimer";
 import { RoomContext } from "@/contexts/RoomContextLayer";
+import { toast } from "react-toastify";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default ({
 
@@ -23,18 +25,48 @@ export default ({
     const [
         selectedLanguage,
         setSelectedLanguage
-    ] = useState("Default");
+    ] = useState("Python");
+
+    const [
+        runningCode,
+        setRunningCode
+    ] = useState(false);
+
+    const [
+        submittingCode,
+        setSubmittingCode
+    ] = useState(false);
 
     const {
         socket,
         uid
     } = useContext(RoomContext);
 
+    const {
+        user
+    } = useUser();
+
     useEffect(() => {
         socket.on("frontendLanguageChange", (language, socketUser) => {
             setSelectedLanguage(language);
         });
-    }, [  ])
+
+        socket.on("frontendCodeExecution", (message, socketUser) => {
+            toast(message);
+            setRunningCode(true);
+            setSubmittingCode(true);
+
+            setInterval(() => {
+                setRunningCode(false);
+                setSubmittingCode(false);
+            }, 3000);
+        });
+
+    }, [  ]);
+
+    const runCode = async () => {
+
+    };
 
     return (
         <section>
@@ -43,10 +75,11 @@ export default ({
                     <div className="w-[200px]">
                         <select
                             // If you are the host, true. Otherwise, false.
-                            disabled={!true}
+                            disabled={runningCode || submittingCode}
                             placeholder="Select Language"
                             className="drop-shadow-lg"
                             color="blue"
+                            defaultValue={selectedLanguage}
                             value={selectedLanguage}
                             onChange={e => {
                                 socket.emit("backendLanguageChange", e.target.value, uid, socket.id);
@@ -58,8 +91,50 @@ export default ({
                         </select>
                     </div>
 
-                    <Button href="/" color="dark" className="drop-shadow-lg">Run</Button>
-                    <Button href="/" color="dark" className="drop-shadow-lg">Submit</Button>
+                    <Button
+                        disabled={runningCode || submittingCode}
+                        color="dark"
+                        className="drop-shadow-lg"
+                        onClick={e => {
+                            e.preventDefault();
+                            setRunningCode(true);
+                            
+                            const runMessage = `${user.name} is running code!`;
+                            toast(runMessage);
+
+                            socket.emit("backendCodeExecution", runMessage, uid, socket.uid);
+
+                            // Will be replaced with an async await (on response from execution)
+                            setInterval(() => {
+                                setRunningCode(false);
+                                setSubmittingCode(false);
+                            }, 3000);
+                        }}
+                    >
+                        Run
+                    </Button>
+                    <Button
+                        disabled={runningCode || submittingCode}
+                        color="dark"
+                        className="drop-shadow-lg"
+                        onClick={e => {
+                            e.preventDefault();
+                            setSubmittingCode(true);
+
+                            const submitMessage = `${user.name} is submitting code!`;
+                            toast(submitMessage);
+
+                            socket.emit("backendCodeExecution", submitMessage, uid, socket.uid);
+
+                            // Will be replaced with an async await (on response from execution)
+                            setInterval(() => {
+                                setRunningCode(false);
+                                setSubmittingCode(false);
+                            }, 3000);
+                        }}
+                    >
+                        Submit
+                    </Button>
                 </div>
                 <div className="flex items-center gap-[21px]">
                     <CountdownTimer />
