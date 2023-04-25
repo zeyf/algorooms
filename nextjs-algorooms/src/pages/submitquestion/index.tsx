@@ -210,7 +210,13 @@ export default () => {
               />
             </>
           </div>
-          <button onClick={handleSubmit}> Submit </button>
+          <button
+            type="button"
+            className="bg-greenAccent hover:bg-darkAccent hover:text-white text-black w-[200px] h-[60px] font-bold rounded"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
         </div>
       </div>
     </>
