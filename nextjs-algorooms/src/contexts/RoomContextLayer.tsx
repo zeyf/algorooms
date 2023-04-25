@@ -39,7 +39,7 @@ export default ({
     const [
         code,
         setCode
-    ] = useState<string>("");
+    ] = useState<string>("def solution():\n\tprint('Hello World!')");
 
     return (
         <RoomContext.Provider
