@@ -24,30 +24,43 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
         origin: "http://localhost:3000",
-        methods: ["GET", "POST"]
+        methods: [
+            "GET",
+            "POST"
+        ]
     }
 });
 
 
 
 io.on("connection", (socket) => {
-    console.log(`User Connected: ${socket.id}`)
 
     socket.on("joinRoom", (room, socketUser) => {
         socket.join(room);
-        console.log(`User ${socketUser} Joined room: ${room}`);
-    })
+        console.log(`User Connected: ${socket.id}`);
+
+        socket.broadcast.to(room).emit("members", { message: (() => `${socketUser} joined!`)(), username: socketUser } );
+    });
+
+    // socket.on("leftRoom", (messageCallback, room, socketUser) => {
+    //     console.log(messageCallback(socketUser), room);
+    //     socket.broadcast.to(room).emit("members", { message: messageCallback(socketUser), username: socketUser });
+    // });
 
     socket.on("codeChange", (code, room) => {
         socket.broadcast.to(room).emit("updateEditor", code);
-    })
+    });
+
+    socket.on("backendLanguageChange", (language, room, socketUser) => {
+        socket.broadcast.to(room).emit("frontendLanguageChange", language, socketUser);
+    });
 
     socket.on("newChatMessage", (messageData, room) => {
         socket.broadcast.to(room).emit("updateTextChat", messageData);
-    })
+    });
 
     socket.on("disconnect", () => {
-       console.log("User Disconnected: ", socket.id)
+       console.log(`User Disconnected: ${socket.id}`);
     });
 })
 
