@@ -9,18 +9,25 @@ const socket = io('http://localhost:4000', {
 
 export const RoomContext = createContext<roomContextLayerInterface>({
     uid: "",
+    socket,
+
     members: [  ],
     messages: [  ],
     language: "python",
     code: "def solution():\n\tprint('Hello World!')",
     runningCode: false,
     submittingCode: false,
-    socket
+    topics: [  ],
+    difficulty: "",
+    lobbyAccess: ""
 });
 
 export default ({
     children,
-    uid
+    uid,
+    topics,
+    difficulty,
+    lobbyAccess
 }:any) => {
     
     const [
@@ -53,10 +60,27 @@ export default ({
         setSubmittingCode
     ] = useState(false);
 
+    const [
+        roomTopics,
+        setTopics
+    ] = useState<any[]>(topics);
+
+    const [
+        roomLobbyAccess,
+        setLobbyAccess
+    ] = useState<string>(lobbyAccess);
+
+    const [
+        roomDifficulty,
+        setDifficulty
+    ] = useState<string>(difficulty);
+
     return (
         <RoomContext.Provider
             value={{
                 uid,
+                socket,
+
                 members,
                 setMembers,
                 messages,
@@ -69,7 +93,12 @@ export default ({
                 setRunningCode,
                 submittingCode,
                 setSubmittingCode,
-                socket
+                topics: roomTopics,
+                setTopics,
+                lobbyAccess: roomLobbyAccess,
+                setLobbyAccess,
+                difficulty: roomDifficulty,
+                setDifficulty
             }}
         >
             { children }

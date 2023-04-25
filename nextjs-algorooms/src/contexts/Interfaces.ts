@@ -1,5 +1,7 @@
 export interface roomContextLayerInterface {
     uid: string,
+    socket: any,
+
     members: any[],
     setMembers?: Function,
     messages: any[],
@@ -12,5 +14,10 @@ export interface roomContextLayerInterface {
     setRunningCode?: Function,
     submittingCode: boolean,
     setSubmittingCode?: Function,
-    socket: any
+    topics: string[],
+    setTopics?: Function,
+    lobbyAccess: string,
+    setLobbyAccess?: Function,
+    difficulty: string,
+    setDifficulty?: Function
 };
