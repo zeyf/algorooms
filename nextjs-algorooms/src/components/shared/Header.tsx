@@ -1,5 +1,5 @@
 // Module imports
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navbar } from 'flowbite-react';
 import Image from 'next/image';
 import Logo from '../images/AlgoRoomsLogo.png';
@@ -9,6 +9,7 @@ import Link from 'next/link';
 
 // Interface imports
 import { headerInterface } from './Interfaces';
+import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
 const Header = ({}: headerInterface) => {
   // Code
@@ -18,6 +19,10 @@ const Header = ({}: headerInterface) => {
     user,
     error
   } = useUser();
+
+  const {
+    username
+  } = useContext(AppUserContext);
 
   return (
     <div className="w-screen h-16 bg-darkAccent drop-shadow-lg flex flex-row rounded-b-lg items-center">
@@ -59,7 +64,7 @@ const Header = ({}: headerInterface) => {
             href="/api/auth/login"
           ></IoPersonCircleOutline>
         ) : (
-          <a href={`/profile/${user.nickname}`}>
+          <a href={`/profile/${username}`}>
             <img
               className="text-white w-6 h-6 rounded-full"
               alt="user"

@@ -21,3 +21,7 @@ export interface roomContextLayerInterface {
     difficulty: string,
     setDifficulty?: Function
 };
+
+export interface appUserContextInterface {
+    username: string
+};

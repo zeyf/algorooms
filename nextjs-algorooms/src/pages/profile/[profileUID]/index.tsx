@@ -16,14 +16,17 @@ interface DynamicProfilePageProps {
 }
 
 const DynamicProfilePage = ({ exists, data }: any) => {
+  const router = useRouter();
+
+  console.log(router.pathname)
+
   useEffect(() => {
     if (!exists) router.push('/404?injectable=profile');
   }, []);
 
-  const router = useRouter();
 
   if (!exists) {
-    router.push('/404?injectable=profile');
+    // router.push('/404?injectable=profile');
     return <></>;
   } else
     return (
@@ -215,8 +218,6 @@ export async function getServerSideProps(context: any) {
   const response = await axios
     .get(buildRoute(`/api/users/verify/${profileUID}`))
     .then((res: any) => res.data);
-
-  console.log(response);
 
   const { exists, profileData } = response;
 

@@ -1,7 +1,9 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { roomContextLayerInterface } from "./Interfaces";
 import { io } from "socket.io-client";
+import axios from "axios";
+import buildRoute from "@/utilities/buildRoute";
 
 const socket = io('http://localhost:4000', {
     autoConnect: false
@@ -19,7 +21,7 @@ export const RoomContext = createContext<roomContextLayerInterface>({
     submittingCode: false,
     topics: [  ],
     difficulty: "",
-    lobbyAccess: ""
+    lobbyAccess: "",
 });
 
 export default ({
@@ -80,7 +82,6 @@ export default ({
             value={{
                 uid,
                 socket,
-
                 members,
                 setMembers,
                 messages,
