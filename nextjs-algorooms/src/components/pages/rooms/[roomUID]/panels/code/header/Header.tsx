@@ -22,19 +22,13 @@ export default ({
         setIsSettingsOpen
     ] = useState(false);
 
-    const [
-        runningCode,
-        setRunningCode
-    ] = useState(false);
-
-    const [
-        submittingCode,
-        setSubmittingCode
-    ] = useState(false);
-
     const {
         language,
         setLanguage,
+        runningCode,
+        setRunningCode,
+        submittingCode,
+        setSubmittingCode,
         socket,
         uid
     } = useContext(RoomContext);

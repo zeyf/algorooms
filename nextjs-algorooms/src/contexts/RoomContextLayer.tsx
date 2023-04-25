@@ -13,6 +13,8 @@ export const RoomContext = createContext<roomContextLayerInterface>({
     messages: [  ],
     language: "python",
     code: "def solution():\n\tprint('Hello World!')",
+    runningCode: false,
+    submittingCode: false,
     socket
 });
 
@@ -41,6 +43,16 @@ export default ({
         setCode
     ] = useState<string>("def solution():\n\tprint('Hello World!')");
 
+    const [
+        runningCode,
+        setRunningCode
+    ] = useState(false);
+
+    const [
+        submittingCode,
+        setSubmittingCode
+    ] = useState(false);
+
     return (
         <RoomContext.Provider
             value={{
@@ -53,6 +65,10 @@ export default ({
                 setLanguage,
                 code,
                 setCode,
+                runningCode,
+                setRunningCode,
+                submittingCode,
+                setSubmittingCode,
                 socket
             }}
         >

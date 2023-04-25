@@ -8,5 +8,9 @@ export interface roomContextLayerInterface {
     setLanguage?: Function,
     code: string,
     setCode?: Function,
+    runningCode: boolean,
+    setRunningCode?: Function,
+    submittingCode: boolean,
+    setSubmittingCode?: Function,
     socket: any
 };
