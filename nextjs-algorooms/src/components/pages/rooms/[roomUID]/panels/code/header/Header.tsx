@@ -75,6 +75,8 @@ export default ({
 
         socket.on("frontendSettingsChange", (settingsPayload, username, socketUser) => {
 
+            setIsSettingsOpen(false);
+
             setTopics(settingsPayload.topics);
             setDifficulty(settingsPayload.difficulty);
             setLobbyAccess(settingsPayload.lobbyAccess);

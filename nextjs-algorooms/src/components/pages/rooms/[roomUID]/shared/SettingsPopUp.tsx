@@ -123,6 +123,13 @@ const SettingsPopUp = ({
 
             setIsSettingsOpen(false);
 
+            if (topicChange !== null)
+                setTopics(topicChange);
+            if (difficultyChange !== null)
+                setDifficulty(difficulty);
+            if (lobbyAccessChange !== null)
+                setLobbyAccess(lobbyAccessChange);
+
             toast(buildSettingsChangeToastMessage(
                 topicChange,
                 difficultyChange,
@@ -170,14 +177,14 @@ const SettingsPopUp = ({
                 <div>
                     <button
                         type="button"
-                        className={`${setButtonColorOnCondition(data.selectedLobbyAccess === "Public")} w-[92px] h-[41px] bg font-bold py-2 rounded-tl-[15px] rounded-bl-[15px]`}
+                        className={`${setButtonColorOnCondition(data.tempLobbyAccess === "Public")} w-[92px] h-[41px] bg font-bold py-2 rounded-tl-[15px] rounded-bl-[15px]`}
                         onClick={() => setData({ ...data, tempLobbyAccess: "Public" })}
                     >
                         Public
                     </button>
                     <button
                         type="button"
-                        className={`${setButtonColorOnCondition(data.selectedLobbyAccess === "Private")} w-[92px] h-[41px] bg font-bold py-2 rounded-tr-[15px] rounded-br-[15px]`}
+                        className={`${setButtonColorOnCondition(data.tempLobbyAccess === "Private")} w-[92px] h-[41px] bg font-bold py-2 rounded-tr-[15px] rounded-br-[15px]`}
                         onClick={() => setData({ ...data, tempLobbyAccess: "Private" })}
                     >
                         Private
