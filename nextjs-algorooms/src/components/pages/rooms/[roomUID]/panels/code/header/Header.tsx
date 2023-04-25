@@ -23,19 +23,38 @@ export default ({
     ] = useState(false);
 
     const {
+        socket,
+        uid,
+
         language,
         setLanguage,
         runningCode,
         setRunningCode,
         submittingCode,
         setSubmittingCode,
-        socket,
-        uid
+        setTopics,
+        setDifficulty,
+        setLobbyAccess,
     } = useContext(RoomContext);
 
     const {
         user
     } = useUser();
+
+    const buildSettingsChangeToastMessage = (newTopics, newDifficulty, newLobbyAccess) => {
+        let toastMessage = [  ];
+
+        if (newDifficulty !== null)
+            toastMessage.push(`Difficulty changed to: ${newDifficulty}`);
+        
+        if (newTopics !== null)
+            toastMessage.push(`Topics changed to: ${newTopics.toString().replace(",", ", ")}`);
+
+        if (newLobbyAccess !== null)
+            toastMessage.push(`Lobby Access changed to: ${newLobbyAccess}`);
+
+        return toast(toastMessage.join(", "));
+    };
 
     useEffect(() => {
         socket.on("frontendLanguageChange", (language, socketUser) => {
@@ -54,11 +73,21 @@ export default ({
             }, 3000);
         });
 
+        socket.on("frontendSettingsChange", (settingsPayload, username, socketUser) => {
+
+            setTopics(settingsPayload.topics);
+            setDifficulty(settingsPayload.difficulty);
+            setLobbyAccess(settingsPayload.lobbyAccess);
+
+            toast(buildSettingsChangeToastMessage(
+                settingsPayload.topics,
+                settingsPayload.difficulty,
+                settingsPayload.lobbyAccess
+            ));
+
+        });
+
     }, [  ]);
-
-    const runCode = async () => {
-
-    };
 
     return (
         <section>
@@ -139,7 +168,13 @@ export default ({
                     </button>
                     {isSettingsOpen && (
                         <div className="absolute z-50 translate-x-[-75px] translate-y-[195px]">
-                            <SettingsPop />
+                            <SettingsPop
+                                {...{
+                                    isSettingsOpen,
+                                    setIsSettingsOpen,
+                                    buildSettingsChangeToastMessage
+                                }   }
+                            />
                         </div>
                     )}
                 </div>
