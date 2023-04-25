@@ -37,6 +37,30 @@ const topicOptions = [
 export default () => {
   const [data, setData] = useState<dataInterface | any>({});
 
+  const handleSubmit = () => {
+    // Handle empty fields
+    if (
+      Object.keys(data).length === 0 ||
+      data.questionName === '' ||
+      data.difficulty === '' ||
+      data.topics === '' ||
+      data.questionDescription === '' ||
+      data.input === '' ||
+      data.output === '' ||
+      data.explanation === '' ||
+      data.constraints === '' ||
+      data.hints === ''
+    )
+      return;
+
+    submitQuestion();
+  };
+
+  const submitQuestion = async () => {
+    // const response = await axios.post(...);
+    console.log('submitted');
+  };
+
   return (
     <>
       <Head>
@@ -59,7 +83,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, questionName: e.target.value });
                 }}
-                className="w-full text-white"
+                className="w-full text-black"
               />
             </div>
             {/* Difficulty */}
@@ -70,12 +94,10 @@ export default () => {
                 className="w-full text-black"
                 classNamePrefix="select"
                 options={difficultyOptions}
-                onChange={(selections: any) =>
+                onChange={(e: any) =>
                   setData({
                     ...data,
-                    difficulty: selections.map(
-                      (selection: any) => selection.value
-                    ),
+                    difficulty: e.value,
                   })
                 }
               />
@@ -159,7 +181,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, questionName: e.target.value });
                 }}
-                className="w-full text-white"
+                className="w-full text-black"
               />
             </>
             {/* Hint */}
@@ -173,11 +195,11 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, questionName: e.target.value });
                 }}
-                className="w-full text-white"
+                className="w-full text-black"
               />
             </>
           </div>
-          <button> Submit </button>
+          <button onClick={handleSubmit}> Submit </button>
         </div>
       </div>
     </>
