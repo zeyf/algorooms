@@ -44,13 +44,12 @@ io.on("connection", (socket) => {
         socket.broadcast.to(room).emit("members", { message: (() => `${socketUser} joined!`)(), username: socketUser } );
     });
 
-    // socket.on("leftRoom", (messageCallback, room, socketUser) => {
-    //     console.log(messageCallback(socketUser), room);
-    //     socket.broadcast.to(room).emit("members", { message: messageCallback(socketUser), username: socketUser });
-    // });
-
     socket.on("codeChange", (code, room) => {
         socket.broadcast.to(room).emit("updateEditor", code);
+    });
+
+    socket.on("backendSettingsChange", (settings, room, username, socketUser) => {
+        socket.broadcast.to(room).emit("frontendSettingsChange", settings, username, socketUser);
     });
 
     socket.on("backendLanguageChange", (language, room, socketUser) => {
@@ -68,9 +67,8 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
        console.log(`User Disconnected: ${socket.id}`);
     });
-})
 
-
+});
 
 app.use("/api/users", UserRoutes);
 app.use("/api/rooms", RoomRoutes);
