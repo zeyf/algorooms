@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Select, Option } from "@material-tailwind/react";
 import { Button } from "flowbite-react";
-import SettingsPop from "../../../shared/SettingsPopUp";
+import SettingsPop from "../../../shared/settingsPop";
 import { FaCog } from "react-icons/fa";
 
 // Interface imports
