@@ -25,18 +25,24 @@ const RoomJoinSection = ({
 
   return (
     <div className="w-[452px] h-[77px] flex items-center rounded-xl border-black border-[4px] mx-11 mt-11 bg-white shadow-lg relative">
-      <div className="flex flex-col">
-        <h2 className="ml-5 text-3xl">{name}</h2>
-        <p className="ml-5 mr-auto text-gray-500 text-lg">{topics}</p>
+      <div className="flex flex-col h-full w-[222px] items-start">
+        <div className="flex justify-start w-[222px]">
+          <h2 className=" ml-3 text-3xl h-[31px] truncate">{name}</h2>
+        </div>
+        <div className="w-[222px] flex justify-start text-left">
+          <p className="ml-3 h-[31px] mr-auto text-gray-500 text-lg truncate">{topics}</p>
+        </div>
       </div>
-      <div className="absolute right-[165px]">
-        <MdPeople className="text-black text-5xl mr-2" />
-      </div>
+      <div className="flex flex-col relative">
+        <div className="pl-2 pt-2">
+          <MdPeople className="text-black text-5xl mr-2" />
+        </div>
 
-      <span>{difficulty}</span>
+        <span className="ml-2 mb-2">{difficulty}</span>
+      </div>
 
       <div className="absolute right-[120px]">
-        <h2 className="text-3xl ml-10">
+        <h2 className="text-3xl ml-10 mb-3">
           {occupied}/{capacity}
         </h2>
       </div>
