@@ -11,7 +11,7 @@ interface dataInterface {
   output: string;
   explanation: string;
   constraints: string;
-  hints: string;
+  hint: string;
 }
 
 const difficultyOptions = [
@@ -35,7 +35,17 @@ const topicOptions = [
 ];
 
 export default () => {
-  const [data, setData] = useState<dataInterface | any>({});
+  const [data, setData] = useState<dataInterface>({
+    questionName: '',
+    difficulty: '',
+    topics: [],
+    questionDescription: '',
+    input: '',
+    output: '',
+    explanation: '',
+    constraints: '',
+    hint: '',
+  });
 
   const handleSubmit = () => {
     // Handle empty fields
@@ -43,13 +53,13 @@ export default () => {
       Object.keys(data).length === 0 ||
       data.questionName === '' ||
       data.difficulty === '' ||
-      data.topics === '' ||
+      data.topics.length === 0 ||
       data.questionDescription === '' ||
       data.input === '' ||
       data.output === '' ||
       data.explanation === '' ||
       data.constraints === '' ||
-      data.hints === ''
+      data.hint === ''
     )
       return;
 
@@ -122,13 +132,14 @@ export default () => {
           </div>
           {/* Second row */}
           <div className="flex w-full">
+            {/* Description */}
             <textarea
               className="w-full"
               name="description"
               placeholder="Description..."
               rows={4}
               onChange={(e: any) =>
-                setData({ ...data, description: e.target.value })
+                setData({ ...data, questionDescription: e.target.value })
               }
             />
           </div>
@@ -179,7 +190,7 @@ export default () => {
                 name="constraints"
                 type="text"
                 onChange={(e) => {
-                  setData({ ...data, questionName: e.target.value });
+                  setData({ ...data, constraints: e.target.value });
                 }}
                 className="w-full text-black"
               />
@@ -193,7 +204,7 @@ export default () => {
                 name="hint"
                 type="text"
                 onChange={(e) => {
-                  setData({ ...data, questionName: e.target.value });
+                  setData({ ...data, hint: e.target.value });
                 }}
                 className="w-full text-black"
               />
