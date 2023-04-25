@@ -23,11 +23,6 @@ export default ({
     ] = useState(false);
 
     const [
-        selectedLanguage,
-        setSelectedLanguage
-    ] = useState("Python");
-
-    const [
         runningCode,
         setRunningCode
     ] = useState(false);
@@ -38,6 +33,8 @@ export default ({
     ] = useState(false);
 
     const {
+        language,
+        setLanguage,
         socket,
         uid
     } = useContext(RoomContext);
@@ -48,7 +45,7 @@ export default ({
 
     useEffect(() => {
         socket.on("frontendLanguageChange", (language, socketUser) => {
-            setSelectedLanguage(language);
+            setLanguage(language);
         });
 
         socket.on("frontendCodeExecution", (message, socketUser) => {
@@ -79,15 +76,17 @@ export default ({
                             placeholder="Select Language"
                             className="drop-shadow-lg"
                             color="blue"
-                            defaultValue={selectedLanguage}
-                            value={selectedLanguage}
+                            defaultValue={language}
+                            value={language}
                             onChange={e => {
                                 socket.emit("backendLanguageChange", e.target.value, uid, socket.id);
-                                setSelectedLanguage(e.target.value);
+                                setLanguage(e.target.value);
                             }}
                         >
-                            <option>Python</option>
-                            <option>Javascript</option>
+                            <option value={"python"}>Python</option>
+                            <option value={"javascript"}>Javascript</option>
+                            <option value={"cpp"}>C++</option>
+                            <option value={"java"}>Java</option>
                         </select>
                     </div>
 

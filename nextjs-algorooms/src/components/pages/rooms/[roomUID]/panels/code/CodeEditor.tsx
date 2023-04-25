@@ -1,7 +1,11 @@
 // Module imports
 import React, { useContext } from "react";
 import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
+import { javascript as JAVASCRIPT_SYNTAX_HIGHLIGHTING_EXTENSION } from '@codemirror/lang-javascript';
+import { python as PYTHON_SYNTAX_HIGHLIGHTING_EXTENSION } from "@codemirror/lang-python";
+import { cpp as CPP_SYNTAX_HIGHLIGHTING_EXTENSION } from "@codemirror/lang-cpp";
+import { java as JAVA_SYNTAX_HIGHLIGHTING_EXTENSION } from '@codemirror/lang-java';
+
 import { darcula } from '@uiw/codemirror-theme-darcula'
 import { sublime } from '@uiw/codemirror-theme-sublime'
 import { Select, Option } from "@material-tailwind/react";
@@ -19,8 +23,18 @@ uid
 }:codeEditorInterface) => {
 
     const {
-        socket
+        code,
+        setCode,
+        socket,
+        language
     } = useContext(RoomContext);
+
+    const languageMapping = [
+        [ "python", PYTHON_SYNTAX_HIGHLIGHTING_EXTENSION ],
+        [ "javascript", JAVASCRIPT_SYNTAX_HIGHLIGHTING_EXTENSION ],
+        [ "cpp", CPP_SYNTAX_HIGHLIGHTING_EXTENSION ],
+        [ "java", JAVA_SYNTAX_HIGHLIGHTING_EXTENSION ]
+    ];
 
     // Code
     const onChange = React.useCallback((value:any, viewUpdate:any) => {
@@ -30,10 +44,6 @@ uid
         });
     }, [  ]);
 
-    const [
-        code,
-        setCode
-    ] = useState("hello");
 
     return (
         <div className="w-[822px] h-[649px]">
@@ -43,7 +53,11 @@ uid
                     onChange={onChange}
                     height="579px"
                     width="822px"
-                    extensions={[javascript({ jsx: true })]}
+                    extensions={
+                        languageMapping
+                        .filter(([ lang, ext ]:any[]) => language === lang)
+                        .map(([ lang, ext ]:any[]) => ext())
+                    }
                     theme={sublime}
                 />
             </div>

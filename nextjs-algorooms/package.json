@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^2.4.0",
+    "@codemirror/lang-cpp": "^6.0.2",
+    "@codemirror/lang-java": "^6.0.1",
     "@codemirror/lang-javascript": "^6.1.5",
+    "@codemirror/lang-python": "^6.1.2",
     "@material-tailwind/react": "^1.4.2",
     "@types/node": "18.15.5",
     "@types/react": "18.0.28",
