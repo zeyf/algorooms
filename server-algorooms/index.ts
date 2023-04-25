@@ -16,6 +16,8 @@ import QuestionRoutes from "./routes/Question";
 const app = express();
 
 
+// middleware
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 
@@ -69,15 +71,10 @@ io.on("connection", (socket) => {
 })
 
 
+
 app.use("/api/users", UserRoutes);
 app.use("/api/rooms", RoomRoutes);
 app.use("/api/questions", QuestionRoutes);
-
-
-
-// middleware
-app.use(cors());
-
 
 // Connecting MongoDB
 mongoose.connect("mongodb+srv://user:12345@algorooms.lau3kx4.mongodb.net/test?retryWrites=true&w=majority").then(() => {
@@ -85,10 +82,6 @@ mongoose.connect("mongodb+srv://user:12345@algorooms.lau3kx4.mongodb.net/test?re
 }).catch((err) => {
     console.log(err);
 });
-
-
-
-
 
 // Start server
 httpServer.listen(4000, () => {
