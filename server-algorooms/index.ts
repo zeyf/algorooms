@@ -55,6 +55,10 @@ io.on("connection", (socket) => {
         socket.broadcast.to(room).emit("frontendLanguageChange", language, socketUser);
     });
 
+    socket.on("backendCodeExecution", (message, room, socketUser) => {
+        socket.broadcast.to(room).emit("frontendCodeExecution", message, socketUser);
+    });
+
     socket.on("newChatMessage", (messageData, room) => {
         socket.broadcast.to(room).emit("updateTextChat", messageData);
     });
