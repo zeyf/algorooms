@@ -18,6 +18,7 @@ const ROUTE_BASE = "/api/rooms";
 * POST routes
 *
 * - /api/rooms/create
+* - api/rooms/update/:roomUID
 *
 */
 
@@ -118,6 +119,36 @@ router.post("/create", async (req, res) => {
             created: true,
             uid
         });
+    });
+
+});
+
+router.post("/update/:roomUID", async (req, res) => {
+
+    // for logging and testing
+    LOG(ROUTE_BASE, req);
+
+    const {
+        params: {
+            roomUID
+        },
+        body: {
+            topics,
+            lobbyAccess,
+            difficulty
+        }
+    } = req;
+
+    await Room.findOneAndUpdate({
+        uid: roomUID
+    }, {
+        topics,
+        lobbyAccess,
+        difficulty
+    });
+
+    res.status(200).send({
+        updated: true
     });
 
 });
