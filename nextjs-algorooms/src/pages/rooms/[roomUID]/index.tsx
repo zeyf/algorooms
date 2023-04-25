@@ -58,7 +58,9 @@ export default ({
       {/*  */}
       <ToastContainer />
       <Header />
-      <RoomContextLayer uid={data.uid}>
+      <RoomContextLayer
+        { ...data }
+      >
         <div className="w-screen h-screen flex flex-row-reverse justify-center items-center">
           <div className="w-2/3 h-screen flex flex-col justify-center items-center">
             <Split sizes={[25, 60, 15]} className={`w-screen flex`}>
