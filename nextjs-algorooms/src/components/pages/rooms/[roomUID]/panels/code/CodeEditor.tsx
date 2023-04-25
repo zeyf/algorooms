@@ -1,5 +1,5 @@
 // Module imports
-import React from "react";
+import React, { useContext } from "react";
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { darcula } from '@uiw/codemirror-theme-darcula'
@@ -12,11 +12,15 @@ import { useState, useRef, useEffect } from 'react'
 import { codeEditorInterface } from "./Interfaces";
 import { countReset } from "console";
 import rooms from "@/pages/rooms";
+import { RoomContext } from "@/contexts/RoomContextLayer";
 
 export default ({
-socket,
 uid
 }:codeEditorInterface) => {
+
+    const {
+        socket
+    } = useContext(RoomContext);
 
     // Code
     const onChange = React.useCallback((value:any, viewUpdate:any) => {

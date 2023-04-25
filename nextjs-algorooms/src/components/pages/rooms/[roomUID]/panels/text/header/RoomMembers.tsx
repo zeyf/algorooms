@@ -9,9 +9,13 @@ import RoomMember from './RoomMember';
 import { RoomContext } from '@/contexts/RoomContextLayer';
 
 export default ({
-  socket
+
 }) => {
   // Code
+
+  const {
+    socket
+  } = useContext(RoomContext);
 
   const {
     members

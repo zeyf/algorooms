@@ -8,7 +8,7 @@ import { textPanelInterface } from './Interfaces';
 import RoomMembers from './header/RoomMembers';
 
 export default ({
-  socket
+
 }: textPanelInterface) => {
   // Code
 
@@ -16,9 +16,9 @@ export default ({
   return (
     <section className="flex flex-col">
       {/* Body */}
-      <RoomMembers socket={socket} />
-      <TextFeed socket={socket} />
-      <TextEntry socket={socket} />
+      <RoomMembers />
+      <TextFeed />
+      <TextEntry />
     </section>
   );
 };

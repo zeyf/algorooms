@@ -9,12 +9,13 @@ import { textFeedInterface } from './Interfaces';
 import { RoomContext } from '@/contexts/RoomContextLayer';
 
 export default ({
-  socket
+
 }: textFeedInterface) => {
   // Code
 
   const {
-    messages
+    messages,
+    socket
   } = useContext(RoomContext);
 
   return (

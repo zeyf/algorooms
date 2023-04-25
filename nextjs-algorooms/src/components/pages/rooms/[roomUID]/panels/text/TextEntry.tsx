@@ -8,7 +8,7 @@ import { textEntryInterface } from './Interfaces';
 import { RoomContext } from '@/contexts/RoomContextLayer';
 
 export default ({
-  socket
+
 }: textEntryInterface) => {
 
   // For message state
@@ -16,6 +16,10 @@ export default ({
     message,
     setMessage
   ] = useState("");
+
+  const {
+    socket
+  } = useContext(RoomContext);
 
   // Get user information
   // Note, the /rooms/[roomUID] is auth protected

@@ -3,5 +3,6 @@ export interface roomContextLayerInterface {
     members: any[],
     setMembers?: Function,
     messages: any[],
-    setMessages?: Function
+    setMessages?: Function,
+    socket: any
 };

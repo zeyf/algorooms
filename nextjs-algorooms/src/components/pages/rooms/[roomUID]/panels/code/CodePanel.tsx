@@ -8,7 +8,6 @@ import CodeEditor from "./CodeEditor";
 import Header from "./header/Header";
 
 export default ({
-    socket,
     uid
 }:codePanelInterface) => {
 
@@ -17,7 +16,7 @@ export default ({
     return (
         <section>
             <Header />
-            <CodeEditor socket={socket} uid={uid}/>
+            <CodeEditor uid={uid} />
         </section>
     );
 

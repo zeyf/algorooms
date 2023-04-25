@@ -21,10 +21,17 @@ export default ({
             <div className="w-[822px] flex flex-row space-x-5 items-center p-1 justify-between">
                 <div className="flex items-center gap-[21px]">
                     <div className="w-[200px]">
-                        <Select label="Select Language" className="drop-shadow-lg" color="blue">
-                            <Option>Python</Option>
-                            <Option>Javascript</Option>
-                        </Select>
+                        <select
+                            placeholder="Select Language"
+                            className="drop-shadow-lg"
+                            color="blue"
+                            onChange={(e) => {
+                                
+                            }}
+                        >
+                            <option>Python</option>
+                            <option>Javascript</option>
+                        </select>
                     </div>
 
                     <Button href="/" color="dark" className="drop-shadow-lg">Run</Button>
