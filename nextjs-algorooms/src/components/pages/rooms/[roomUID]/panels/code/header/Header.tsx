@@ -45,6 +45,7 @@ export default ({
 
     useEffect(() => {
         socket.on("frontendLanguageChange", (language, socketUser) => {
+            toast(`Language changed to: ${language}`);
             setLanguage(language);
         });
 
@@ -81,6 +82,7 @@ export default ({
                             onChange={e => {
                                 socket.emit("backendLanguageChange", e.target.value, uid, socket.id);
                                 setLanguage(e.target.value);
+                                toast(`Language changed to: ${e.target.value}`);
                             }}
                         >
                             <option value={"python"}>Python</option>
