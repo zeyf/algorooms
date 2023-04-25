@@ -1,5 +1,5 @@
 // Module imports
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Select, Option } from "@material-tailwind/react";
 import { Button } from "flowbite-react";
 import SettingsPop from "../../../shared/settingsPop";
@@ -8,13 +8,33 @@ import { FaCog } from "react-icons/fa";
 // Interface imports
 import { headerInterface } from "./Interfaces";
 import CountdownTimer from "./CountdownTimer";
+import { RoomContext } from "@/contexts/RoomContextLayer";
 
 export default ({
 
 }:headerInterface) => {
 
     // Code
-    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [
+        isSettingsOpen,
+        setIsSettingsOpen
+    ] = useState(false);
+
+    const [
+        selectedLanguage,
+        setSelectedLanguage
+    ] = useState("Default");
+
+    const {
+        socket,
+        uid
+    } = useContext(RoomContext);
+
+    useEffect(() => {
+        socket.on("frontendLanguageChange", (language, socketUser) => {
+            setSelectedLanguage(language);
+        });
+    }, [  ])
 
     return (
         <section>
@@ -22,11 +42,15 @@ export default ({
                 <div className="flex items-center gap-[21px]">
                     <div className="w-[200px]">
                         <select
+                            // If you are the host, true. Otherwise, false.
+                            disabled={!true}
                             placeholder="Select Language"
                             className="drop-shadow-lg"
                             color="blue"
-                            onChange={(e) => {
-                                
+                            value={selectedLanguage}
+                            onChange={e => {
+                                socket.emit("backendLanguageChange", e.target.value, uid, socket.id);
+                                setSelectedLanguage(e.target.value);
                             }}
                         >
                             <option>Python</option>
