@@ -25,9 +25,9 @@ const RoomJoinSection = ({
 
   return (
     <div className="w-[452px] h-[77px] flex items-center rounded-xl border-black border-[4px] mx-11 mt-11 bg-white shadow-lg relative">
-      <div className="flex flex-col h-full w-[222px] items-start">
-        <div className="flex justify-start w-[222px]">
-          <h2 className=" ml-3 text-3xl h-[31px] truncate">{name}</h2>
+      <div className="flex flex-col h-full w-[222px] items-start ">
+        <div className="flex justify-start w-[222px] ">
+          <h2 className=" ml-3 text-3xl truncate h-full">{name}</h2>
         </div>
         <div className="w-[222px] flex justify-start text-left">
           <p className="ml-3 h-[31px] mr-auto text-gray-500 text-lg truncate">{topics}</p>
@@ -49,7 +49,7 @@ const RoomJoinSection = ({
       {/* Remember to adjust element to include roomUID */}
       <Link
         href={`/rooms/${uid}`}
-        className="bg-greenAccent hover:bg-[#051135] w-[100px] h-[56px] hover:text-white text-black font-bold rounded-xl ml-auto mr-2 text-2xl"
+        className="bg-greenAccent hover:bg-[#051135] w-[100px] h-[56px] hover:text-white text-black font-bold rounded-xl ml-auto mr-2 text-2xl flex justify-center items-center"
       >
         Join
       </Link>
