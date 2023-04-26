@@ -22,8 +22,16 @@ export default ({
                         Create Announcement
                     </h2>
                 </div>
-                <div className="w-[975px] h-[150px] mx-auto">
-                    <textarea className="bg-transparent w-full h-full rounded-xl border-2 border-white text-white"/>
+                <div className="flex flex-col w-[975px] h-[200px] mx-auto">
+                    <textarea className="bg-transparent w-full h-full rounded-xl border-2 border-white text-white" />
+                    <div className="flex justify-end mt-2">
+                        <button
+                        type="button"
+                        className="bg-greenAccent hover:bg-darkAccent hover:text-white text-black w-[200px] h-[60px] font-bold rounded text-lg"
+                        >
+                        Send
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
