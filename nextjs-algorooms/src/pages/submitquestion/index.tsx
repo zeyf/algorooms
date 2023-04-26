@@ -1,17 +1,19 @@
 import Head from 'next/head';
 import { useState } from 'react';
 import Select from 'react-select';
+import axios from 'axios';
+import buildRoute from '@/utilities/buildRoute';
 
 interface dataInterface {
-  questionName: string;
+  title: string;
   difficulty: string;
   topics: Array<string>;
-  questionDescription: string;
+  description: string;
   input: string;
   output: string;
   explanation: string;
   constraints: string;
-  hint: string;
+  hints: string;
 }
 
 const difficultyOptions = [
@@ -36,30 +38,30 @@ const topicOptions = [
 
 export default () => {
   const [data, setData] = useState<dataInterface>({
-    questionName: '',
+    title: '',
     difficulty: '',
     topics: [],
-    questionDescription: '',
+    description: '',
     input: '',
     output: '',
     explanation: '',
     constraints: '',
-    hint: '',
+    hints: '',
   });
 
   const handleSubmit = () => {
     // Handle empty fields
     if (
       Object.keys(data).length === 0 ||
-      data.questionName === '' ||
+      data.title === '' ||
       data.difficulty === '' ||
       data.topics.length === 0 ||
-      data.questionDescription === '' ||
+      data.description === '' ||
       data.input === '' ||
       data.output === '' ||
       data.explanation === '' ||
       data.constraints === '' ||
-      data.hint === ''
+      data.hints === ''
     )
       return;
 
@@ -67,8 +69,17 @@ export default () => {
   };
 
   const submitQuestion = async () => {
-    // const response = await axios.post(...);
-    console.log('submitted');
+    const response = await axios
+      .post(buildRoute("/api/questions/create"), data)
+      .then((res) => res.data)
+    
+    const { created } = response;
+    
+    if (created) {
+      console.log('submitted');
+    } else {
+      console.log('uh oh');
+    }
   };
 
   return (
@@ -91,7 +102,7 @@ export default () => {
                 type="text"
                 placeholder="Question Name"
                 onChange={(e) => {
-                  setData({ ...data, questionName: e.target.value });
+                  setData({ ...data, title: e.target.value });
                 }}
                 className="w-full text-black"
               />
@@ -139,7 +150,7 @@ export default () => {
               placeholder="Description..."
               rows={4}
               onChange={(e: any) =>
-                setData({ ...data, questionDescription: e.target.value })
+                setData({ ...data, description: e.target.value })
               }
             />
           </div>
@@ -195,16 +206,16 @@ export default () => {
                 className="w-full text-black"
               />
             </>
-            {/* Hint */}
+            {/* Hints */}
             <>
               <label className="text-white" htmlFor="constraints">
-                Hint
+                Hints
               </label>
               <input
-                name="hint"
+                name="hints"
                 type="text"
                 onChange={(e) => {
-                  setData({ ...data, hint: e.target.value });
+                  setData({ ...data, hints: e.target.value });
                 }}
                 className="w-full text-black"
               />
