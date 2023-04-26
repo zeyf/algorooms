@@ -18,8 +18,6 @@ interface DynamicProfilePageProps {
 const DynamicProfilePage = ({ exists, data }: any) => {
   const router = useRouter();
 
-  console.log(router.pathname)
-
   useEffect(() => {
     if (!exists) router.push('/404?injectable=profile');
   }, []);
@@ -212,7 +210,9 @@ const DynamicProfilePage = ({ exists, data }: any) => {
 
 export async function getServerSideProps(context: any) {
   const {
-    query: { profileUID },
+    query: {
+      profileUID
+    },
   } = context;
 
   const response = await axios
