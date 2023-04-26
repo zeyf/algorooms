@@ -39,10 +39,12 @@ uid
     // Code
     const onChange = React.useCallback((value:any, viewUpdate:any) => {
         socket.emit("codeChange", value, uid);
-        socket.on("updateEditor", (arg:any) => {
-            setCode(arg);
-        });
+
     }, [  ]);
+
+    socket.on("updateEditor", (arg:any) => {
+        setCode(arg);
+    });
 
 
     return (
