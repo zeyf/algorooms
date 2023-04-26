@@ -4,6 +4,9 @@ import BigText from '@/components/pages/home/BigText';
 import Editor from '../components/images/Room.png';
 import Image from 'next/image';
 import Buttons from '@/components/pages/home/button';
+import { useRouter } from 'next/router';
+import { useContext, useEffect } from 'react';
+import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
 // import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 // import { useUser } from '@auth0/nextjs-auth0/client';
@@ -11,6 +14,16 @@ import Buttons from '@/components/pages/home/button';
 // const socket = io('http://localhost:3000')
 
 export default () => {
+
+  const router = useRouter();
+
+  const {
+    username
+  } = useContext(AppUserContext);
+
+  if (username)
+    router.push("/rooms");
+
   return (
     <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col">
       <Header />
