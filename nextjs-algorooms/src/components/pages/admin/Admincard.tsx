@@ -23,7 +23,7 @@ export default ({
                     </h2>
                 </div>
                 <div className="w-[975px] h-[150px] mx-auto">
-                    <input type="text" className="bg-transparent w-full h-full rounded-xl border border-2 border-white" style={{ verticalAlign: 'top', wordWrap: 'break-word', textAlign: 'left', display: 'block' }} />
+                    <textarea className="bg-transparent w-full h-full rounded-xl border-2 border-white text-white"/>
                 </div>
             </div>
         </div>
