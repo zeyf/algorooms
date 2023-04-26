@@ -64,7 +64,7 @@ const Header = ({}: headerInterface) => {
             href="/api/auth/login"
           ></IoPersonCircleOutline>
         ) : (
-          <a href={`/profile/${username}`}>
+          <Link href={`/profile/${username}`}>
             <img
               className="text-white w-6 h-6 rounded-full"
               alt="user"
@@ -72,7 +72,7 @@ const Header = ({}: headerInterface) => {
               width={120}
               height={120}
             />
-          </a>
+          </Link>
         )}
       </div>
     </div>
