@@ -4,30 +4,36 @@ import { FaCheck, FaTimes } from 'react-icons/fa';
 type AdminSubmissionProps = {
     name: string;
     difficulty: string;
-    topic: string;
+    topics: string;
     description: string;
 };
 
 const AdminSubmission = ({
     name,
     difficulty,
-    topic,
+    topics,
     description,
 }: AdminSubmissionProps) => {
     
     return (
         <div className="flex h-[40px] w-[975px] translate-x-[-2px] hover:bg-white hover:bg-opacity-25">
-            <div className="w-1/6 flex items-center justify-center text-lg border-r-2 border-t text-white">
-                { name }
+            <div className="w-1/6 flex items-center justify-center text-lg border-r-2 border-t text-white overflow-hidden">
+                <div className="truncate ml-2">
+                    { name }
+                </div>
             </div>
             <div className="w-1/6 flex items-center justify-center text-lg border-r-2 border-t text-white">
                 { difficulty }
             </div>
-            <div className="w-1/6 flex items-center justify-center text-lg border-r-2 border-t text-white">
-                { topic }
+            <div className="w-1/6 flex items-center justify-center text-lg border-r-2 border-t text-white overflow-hidden">
+                <div className="truncate ml-2">
+                    { topics }
+                </div>
             </div>
-            <div className="w-2/6 flex items-center justify-center text-lg border-r-2 border-t text-white">
-                { description }
+            <div className="w-2/6 flex items-center justify-center text-lg border-r-2 border-t text-white overflow-hidden">
+                <div className="truncate ml-2">
+                    { description }
+                </div>
             </div>
             <div className="w-1/6 flex items-center justify-center text-lg text-white border-t gap-1">
                 <button className="w-[75px] h-[30px] bg-greenAccent text-black rounded hover:scale-110 hover:bg-[#14C786] hover:border hover:border-black">< FaCheck className="ml-2" /></button>
@@ -42,12 +48,12 @@ export default ({
 }) => {
 
     const questions = [
-        {name: "tempName1", difficulty: "Easy", topic: "Arrays", description: "Temp description for temp 1"},
-        {name: "tempName2", difficulty: "Medium", topic: "Trees", description: "Temp description for temp 2"},
-        {name: "tempName3", difficulty: "Hard", topic: "Graphing", description: "Temp description for temp 3"},
-        {name: "tempName4", difficulty: "Easy", topic: "Hash", description: "Temp description for temp 4"},
-        {name: "tempName3", difficulty: "Hard", topic: "Graphing", description: "Temp description for temp 3"},
-        {name: "tempName4", difficulty: "Easy", topic: "Hash", description: "Temp description for temp 4"},
+        {name: "tempName1", difficulty: "Easy", topics: "Arrays", description: "Temp description for temp 1 and it is much longer than the other descriptions"},
+        {name: "tempName2", difficulty: "Medium", topics: "Trees", description: "Temp description for temp 2"},
+        {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3 and it is also much longer than the other descriptions"},
+        {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4"},
+        {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3"},
+        {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4"},
     ];
 
     return (
@@ -69,7 +75,7 @@ export default ({
                                 Difficulty
                                 </div>
                                 <div className="w-1/6 flex items-center justify-center text-lg border-r-2 text-white bg-white bg-opacity-25">
-                                Topic
+                                Topics
                                 </div>
                                 <div className="w-2/6 flex items-center justify-center text-lg border-r-2 text-white bg-white bg-opacity-25">
                                 Description
@@ -85,7 +91,7 @@ export default ({
                                     <AdminSubmission 
                                         name={question.name} 
                                         difficulty={question.difficulty} 
-                                        topic={question.topic} 
+                                        topics={question.topics} 
                                         description={question.description} 
                                     />
                                 </div>
