@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 import buildRoute from '@/utilities/buildRoute';
+import Header from '@/components/pages/rooms/[roomUID]/panels/code/header/Header';
 
 interface dataInterface {
   title: string;
@@ -70,11 +71,12 @@ export default () => {
 
   const submitQuestion = async () => {
     const response = await axios
-      .post(buildRoute("/api/questions/create"), data)
-      .then((res) => res.data)
-    
+      .post(buildRoute('/api/questions/create'), data)
+      .then((res) => res.data);
+
     const { created } = response;
-    
+
+    console.log(created);
     if (created) {
       console.log('submitted');
     } else {
@@ -92,7 +94,7 @@ export default () => {
       </Head>
 
       <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col">
-        <div className="bg-white bg-opacity-25 rounded-[15px] p-6 m-20 h-full">
+        <div className="bg-white bg-opacity-25 rounded-[15px] p-12 m-20 h-full">
           <h2 className="text-white text-center">Question Submission</h2>
           {/* First row */}
           <div className="flex justify-around gap-10">
@@ -104,7 +106,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, title: e.target.value });
                 }}
-                className="w-full text-black"
+                className="w-full text-black rounded"
               />
             </div>
             {/* Difficulty */}
@@ -128,7 +130,7 @@ export default () => {
               <Select
                 name="topics"
                 placeholder="Select Topics"
-                className="w-full text-black"
+                className="w-full text-black rounded"
                 classNamePrefix="select"
                 isMulti={true}
                 options={topicOptions}
@@ -142,10 +144,10 @@ export default () => {
             </div>
           </div>
           {/* Second row */}
-          <div className="flex w-full">
+          <div className="flex w-full gap-10">
             {/* Description */}
             <textarea
-              className="w-full"
+              className="w-full rounded"
               name="description"
               placeholder="Description..."
               rows={4}
@@ -164,7 +166,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, input: e.target.value });
                 }}
-                className="w-full text-black"
+                className="w-full text-black rounded"
               />
             </div>
             {/* Output */}
@@ -172,7 +174,7 @@ export default () => {
               <textarea
                 name="output"
                 placeholder="Output..."
-                className="w-full text-black"
+                className="w-full text-black rounded"
                 onChange={(e: any) =>
                   setData({ ...data, output: e.target.value })
                 }
@@ -183,7 +185,7 @@ export default () => {
               <textarea
                 name="topics"
                 placeholder="Explanation..."
-                className="w-full text-black"
+                className="w-full text-black rounded"
                 onChange={(e: any) =>
                   setData({ ...data, explanation: e.target.value })
                 }
@@ -191,7 +193,7 @@ export default () => {
             </div>
           </div>
           {/* Fourth row */}
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-10">
             {/* Constraints */}
             <>
               <label className="text-white" htmlFor="constraints">
@@ -203,7 +205,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, constraints: e.target.value });
                 }}
-                className="w-full text-black"
+                className="w-full text-black rounded"
               />
             </>
             {/* Hints */}
@@ -217,7 +219,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, hints: e.target.value });
                 }}
-                className="w-full text-black"
+                className="w-full text-black rounded"
               />
             </>
           </div>
