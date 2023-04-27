@@ -11,6 +11,7 @@ import CountdownTimer from "./CountdownTimer";
 import { RoomContext } from "@/contexts/RoomContextLayer";
 import { toast } from "react-toastify";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { AppUserContext } from "@/contexts/AppUserContextLayer";
 
 export default ({
 
@@ -38,10 +39,14 @@ export default ({
     } = useContext(RoomContext);
 
     const {
+        username
+    } = useContext(AppUserContext);
+
+    const {
         user
     } = useUser();
 
-    const buildSettingsChangeToastMessage = (newTopics, newDifficulty, newLobbyAccess) => {
+    const buildSettingsChangeToastMessage = (usernameOfChanger, newTopics, newDifficulty, newLobbyAccess) => {
         let toastMessage = [  ];
 
         if (newDifficulty !== null)
@@ -53,12 +58,12 @@ export default ({
         if (newLobbyAccess !== null)
             toastMessage.push(`Lobby Access changed to: ${newLobbyAccess}`);
 
-        return toast(toastMessage.join(", "));
+        return toastMessage.length > 0 ? `${usernameOfChanger} had -- ` + toastMessage.join(", ") : null;
     };
 
     useEffect(() => {
-        socket.on("frontendLanguageChange", (language, socketUser) => {
-            toast(`Language changed to: ${language}`);
+        socket.on("frontendLanguageChange", (usernameOfChanger, language, socketUser) => {
+            toast(`${usernameOfChanger} changed language to: ${language}`);
             setLanguage(language);
         });
 
@@ -73,7 +78,7 @@ export default ({
             }, 3000);
         });
 
-        socket.on("frontendSettingsChange", (settingsPayload, username, socketUser) => {
+        socket.on("frontendSettingsChange", (settingsPayload, senderUsername, socketUser) => {
 
             setIsSettingsOpen(false);
 
@@ -81,11 +86,15 @@ export default ({
             setDifficulty(settingsPayload.difficulty);
             setLobbyAccess(settingsPayload.lobbyAccess);
 
-            toast(buildSettingsChangeToastMessage(
+            const toastMessage = buildSettingsChangeToastMessage(
+                senderUsername,
                 settingsPayload.topics,
                 settingsPayload.difficulty,
                 settingsPayload.lobbyAccess
-            ));
+            );
+
+            if (toastMessage !== null)
+                toast(toastMessage);
 
         });
 
@@ -105,9 +114,9 @@ export default ({
                             defaultValue={language}
                             value={language}
                             onChange={e => {
-                                socket.emit("backendLanguageChange", e.target.value, uid, socket.id);
+                                socket.emit("backendLanguageChange", e.target.value, username, uid, socket.id);
                                 setLanguage(e.target.value);
-                                toast(`Language changed to: ${e.target.value}`);
+                                toast(`${username} changed language to: ${e.target.value}`);
                             }}
                         >
                             <option value={"python"}>Python</option>
@@ -125,7 +134,7 @@ export default ({
                             e.preventDefault();
                             setRunningCode(true);
                             
-                            const runMessage = `${user.name} is running code!`;
+                            const runMessage = `${username} is running code!`;
                             toast(runMessage);
 
                             socket.emit("backendCodeExecution", runMessage, uid, socket.uid);
@@ -147,7 +156,7 @@ export default ({
                             e.preventDefault();
                             setSubmittingCode(true);
 
-                            const submitMessage = `${user.name} is submitting code!`;
+                            const submitMessage = `${username} is submitting code!`;
                             toast(submitMessage);
 
                             socket.emit("backendCodeExecution", submitMessage, uid, socket.uid);

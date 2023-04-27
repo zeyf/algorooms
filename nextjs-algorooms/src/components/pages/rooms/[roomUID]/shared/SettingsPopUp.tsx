@@ -7,6 +7,7 @@ import buildRoute from "@/utilities/buildRoute";
 import { RoomContext } from "@/contexts/RoomContextLayer";
 import { toast } from "react-toastify";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { AppUserContext } from "@/contexts/AppUserContextLayer";
 
 const options = [
     { value: "Strings", label: "Strings" },
@@ -35,8 +36,8 @@ const SettingsPopUp = ({
 }) => {
 
     const {
-        user
-    } = useUser();
+        username
+    } = useContext(AppUserContext);
 
     const {
         socket,
@@ -118,7 +119,7 @@ const SettingsPopUp = ({
                 topics: topicChange,
                 difficulty: difficultyChange,
                 lobbyAccess: lobbyAccessChange
-            }, uid, user.name, socket.id);
+            }, uid, username, socket.id);
 
 
             setIsSettingsOpen(false);
@@ -130,11 +131,15 @@ const SettingsPopUp = ({
             if (lobbyAccessChange !== null)
                 setLobbyAccess(lobbyAccessChange);
 
-            toast(buildSettingsChangeToastMessage(
+            const toastMessage = buildSettingsChangeToastMessage(
+                username,
                 topicChange,
                 difficultyChange,
                 lobbyAccessChange
-            ));
+            );
+
+            if (toastMessage !== null)
+                toast(toastMessage);
 
         };
 
