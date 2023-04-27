@@ -53,7 +53,7 @@ export default ({
             toastMessage.push(`Difficulty changed to: ${newDifficulty}`);
         
         if (newTopics !== null)
-            toastMessage.push(`Topics changed to: ${newTopics.toString().replace(",", ", ")}`);
+            toastMessage.push(`Topics changed to: ${newTopics.toString().replace(/,/gi, ", ")}`);
 
         if (newLobbyAccess !== null)
             toastMessage.push(`Lobby Access changed to: ${newLobbyAccess}`);
