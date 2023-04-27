@@ -52,8 +52,8 @@ io.on("connection", (socket) => {
         socket.broadcast.to(room).emit("frontendSettingsChange", settings, username, socketUser);
     });
 
-    socket.on("backendLanguageChange", (language, room, socketUser) => {
-        socket.broadcast.to(room).emit("frontendLanguageChange", language, socketUser);
+    socket.on("backendLanguageChange", (language, usernameOfChanger, room, socketUser) => {
+        socket.broadcast.to(room).emit("frontendLanguageChange", usernameOfChanger, language, socketUser);
     });
 
     socket.on("backendCodeExecution", (message, room, socketUser) => {
