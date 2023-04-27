@@ -14,7 +14,28 @@ export default ({
                 </div>
                 <div className="w-[975px] h-[210px] mx-auto">
                     <div className="h-full rounded-xl border border-2">
-
+                        <div className="h-[50px] w-[975] border-b-2 border-t-0 border-r-0 border-l-0">
+                            <div className="flex h-full">
+                                <div className="w-1/6 flex items-center justify-center text-lg border-r-2 text-white">
+                                Name
+                                </div>
+                                <div className="w-1/6 flex items-center justify-center text-lg border-r-2 text-white">
+                                Difficulty
+                                </div>
+                                <div className="w-1/6 flex items-center justify-center text-lg border-r-2 text-white">
+                                Topic
+                                </div>
+                                <div className="w-2/6 flex items-center justify-center text-lg border-r-2 text-white">
+                                Description
+                                </div>
+                                <div className="w-1/6 flex items-center justify-center text-lg text-white">
+                                Decision
+                                </div>
+                            </div>
+                        </div>
+                        <div className="h-[160px]">
+                            
+                        </div>
                     </div>
                 </div>
                 <div className="p-4">
@@ -27,7 +48,7 @@ export default ({
                     <div className="flex justify-end mt-2">
                         <button
                         type="button"
-                        className="bg-greenAccent hover:bg-darkAccent hover:text-white text-black w-[200px] h-[60px] font-bold rounded text-lg"
+                        className="bg-greenAccent hover:bg-darkAccent hover:text-white text-black w-[150px] h-[60px] font-bold rounded-lg text-lg"
                         >
                         Send
                         </button>
