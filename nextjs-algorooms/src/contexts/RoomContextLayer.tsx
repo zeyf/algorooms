@@ -22,6 +22,7 @@ export const RoomContext = createContext<roomContextLayerInterface>({
     topics: [  ],
     difficulty: "",
     lobbyAccess: "",
+    name: ""
 });
 
 export default ({
@@ -29,7 +30,8 @@ export default ({
     uid,
     topics,
     difficulty,
-    lobbyAccess
+    lobbyAccess,
+    name
 }:any) => {
     
     const [
@@ -81,6 +83,7 @@ export default ({
         <RoomContext.Provider
             value={{
                 uid,
+                name,
                 socket,
                 members,
                 setMembers,
