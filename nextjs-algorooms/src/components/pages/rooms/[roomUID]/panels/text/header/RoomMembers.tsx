@@ -14,7 +14,9 @@ export default ({
   // Code
 
   const {
-    socket
+    socket,
+    uid,
+    name
   } = useContext(RoomContext);
 
   const {
@@ -23,7 +25,7 @@ export default ({
 
   return (
     <section className="flex flex-col bg-darkAccent p-5">
-      <span className="text-white uppercase text-xl">CS Amigos</span>
+      <span className="text-white uppercase text-xl">{ name }</span>
       <div className="flex flex-wrap gap-2">
         {members.map(({
           username
