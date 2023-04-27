@@ -1,5 +1,6 @@
 export interface roomContextLayerInterface {
     uid: string,
+    name: string,
     socket: any,
 
     members: any[],
