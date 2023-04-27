@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 const withMT = require('@material-tailwind/react/utils/withMT');
+const plugin = require('tailwindcss/plugin');
 
 module.exports = withMT({
   content: [
@@ -42,5 +43,19 @@ module.exports = withMT({
       inter: ['Inter', 'sans-serif'],
     },
   },
-  plugins: [require('tailwind-scrollbar'), require('flowbite/plugin')],
+  plugins: [
+    require('tailwind-scrollbar'),
+    require('flowbite/plugin'),
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.hide-scrollbar::-webkit-scrollbar': {
+          display: 'none',
+        },
+        '.hide-scrollbar': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+        },
+      });
+    }),
+  ],
 });

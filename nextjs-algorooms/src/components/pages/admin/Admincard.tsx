@@ -85,7 +85,7 @@ export default ({
                                 </div>
                             </div>
                         </div>
-                        <div className="h-[160px] translate-y-[-2px] overflow-y-scroll overflow-hidden">
+                        <div className="hide-scrollbar h-[160px] translate-y-[-2px] overflow-y-scroll overflow-hidden">
                             {questions.map((question, index) => (
                                 <div key={index} style={{ scrollSnapAlign: 'start' }}>
                                     <AdminSubmission 
