@@ -1,4 +1,5 @@
 import React from "react";
+import { FaCheck, FaTimes } from 'react-icons/fa';
 
 type AdminSubmissionProps = {
     name: string;
@@ -15,7 +16,7 @@ const AdminSubmission = ({
 }: AdminSubmissionProps) => {
     
     return (
-        <div className="flex h-[40px] w-[975px] translate-x-[-2px]">
+        <div className="flex h-[40px] w-[975px] translate-x-[-2px] hover:bg-white hover:bg-opacity-25">
             <div className="w-1/6 flex items-center justify-center text-lg border-r-2 border-t text-white">
                 { name }
             </div>
@@ -29,8 +30,8 @@ const AdminSubmission = ({
                 { description }
             </div>
             <div className="w-1/6 flex items-center justify-center text-lg text-white border-t gap-1">
-                <button className="w-[75px] h-[30px] bg-greenAccent text-black rounded">Y</button>
-                <button className="w-[75px] h-[30px] bg-[#EB1313] text-black rounded">N</button>
+                <button className="w-[75px] h-[30px] bg-greenAccent text-black rounded hover:scale-110 hover:bg-[#14C786] hover:border hover:border-black">< FaCheck className="ml-2" /></button>
+                <button className="w-[75px] h-[30px] bg-[#EB1313] text-black rounded hover:scale-110 hover:bg-[#B10F0F] hover:border hover:border-black">< FaTimes className="ml-2" /></button>
             </div>
         </div>
     );
