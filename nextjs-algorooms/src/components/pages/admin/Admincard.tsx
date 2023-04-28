@@ -6,6 +6,11 @@ type AdminSubmissionProps = {
     difficulty: string;
     topics: string;
     description: string;
+    input:string;
+    output: string;
+    explanation: string;
+    constraints: string;
+    hints: string;
 };
 
 const AdminSubmission = ({
@@ -13,6 +18,11 @@ const AdminSubmission = ({
     difficulty,
     topics,
     description,
+    input,
+    output,
+    explanation,
+    constraints,
+    hints,
 }: AdminSubmissionProps) => {
     
     return (
@@ -48,12 +58,12 @@ export default ({
 }) => {
 
     const questions = [
-        {name: "tempName1", difficulty: "Easy", topics: "Arrays", description: "Temp description for temp 1 and it is much longer than the other descriptions"},
-        {name: "tempName2", difficulty: "Medium", topics: "Trees", description: "Temp description for temp 2"},
-        {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3 and it is also much longer than the other descriptions"},
-        {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4"},
-        {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3"},
-        {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4"},
+        {name: "tempName1", difficulty: "Easy", topics: "Arrays", description: "Temp description for temp 1 and it is much longer than the other descriptions.", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+        {name: "tempName2", difficulty: "Medium", topics: "Trees", description: "Temp description for temp 2", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+        {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3 and it is also much longer than the other descriptions", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+        {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+        {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+        {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
     ];
 
     return (
@@ -92,7 +102,12 @@ export default ({
                                         name={question.name} 
                                         difficulty={question.difficulty} 
                                         topics={question.topics} 
-                                        description={question.description} 
+                                        description={question.description}
+                                        input={question.input}
+                                        output={question.output}
+                                        explanation={question.explanation}
+                                        constraints={question.constraints}
+                                        hints={question.hints}
                                     />
                                 </div>
                             ))}
