@@ -19,13 +19,14 @@ import rooms from "@/pages/rooms";
 import { RoomContext } from "@/contexts/RoomContextLayer";
 
 export default ({
-uid
-}:codeEditorInterface) => {
+
+}) => {
 
     const {
+        socket,
+        uid,
         code,
         setCode,
-        socket,
         language
     } = useContext(RoomContext);
 
