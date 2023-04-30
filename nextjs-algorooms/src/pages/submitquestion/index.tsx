@@ -4,6 +4,7 @@ import Select from 'react-select';
 import axios from 'axios';
 import buildRoute from '@/utilities/buildRoute';
 import Header from '@/components/pages/rooms/[roomUID]/panels/code/header/Header';
+import { AiOutlineCheck } from 'react-icons/ai';
 
 interface dataInterface {
   title: string;
@@ -84,6 +85,14 @@ export default () => {
     }
   };
 
+  const verifyConstraints = () => {
+    console.log('verify');
+  };
+
+  const verifyHints = () => {
+    console.log('verify');
+  };
+
   return (
     <>
       <Head>
@@ -93,9 +102,9 @@ export default () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col">
-        <div className="bg-white bg-opacity-25 rounded-[15px] p-12 m-20 h-full">
-          <h2 className="text-white text-center">Question Submission</h2>
+      <div className="to flex h-screen w-screen flex-col bg-gradient-to-tr from-darkAccent to-gradientEnd">
+        <div className="m-20 h-full rounded-[15px] bg-white bg-opacity-25 p-12">
+          <h2 className="text-center text-white">Question Submission</h2>
           {/* First row */}
           <div className="flex justify-around gap-10">
             {/* Question Name */}
@@ -106,7 +115,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, title: e.target.value });
                 }}
-                className="w-full text-black rounded"
+                className="w-full rounded text-black"
               />
             </div>
             {/* Difficulty */}
@@ -130,7 +139,7 @@ export default () => {
               <Select
                 name="topics"
                 placeholder="Select Topics"
-                className="w-full text-black rounded"
+                className="w-full rounded text-black"
                 classNamePrefix="select"
                 isMulti={true}
                 options={topicOptions}
@@ -163,10 +172,11 @@ export default () => {
               <textarea
                 name="input"
                 placeholder="Input..."
+                rows={4}
                 onChange={(e) => {
                   setData({ ...data, input: e.target.value });
                 }}
-                className="w-full text-black rounded"
+                className="w-full rounded text-black"
               />
             </div>
             {/* Output */}
@@ -174,7 +184,8 @@ export default () => {
               <textarea
                 name="output"
                 placeholder="Output..."
-                className="w-full text-black rounded"
+                rows={4}
+                className="w-full rounded text-black"
                 onChange={(e: any) =>
                   setData({ ...data, output: e.target.value })
                 }
@@ -185,7 +196,8 @@ export default () => {
               <textarea
                 name="topics"
                 placeholder="Explanation..."
-                className="w-full text-black rounded"
+                rows={4}
+                className="w-full rounded text-black"
                 onChange={(e: any) =>
                   setData({ ...data, explanation: e.target.value })
                 }
@@ -195,37 +207,53 @@ export default () => {
           {/* Fourth row */}
           <div className="flex justify-between gap-10">
             {/* Constraints */}
-            <>
+            <div className="w-1/2">
               <label className="text-white" htmlFor="constraints">
                 Constraints
               </label>
-              <input
-                name="constraints"
-                type="text"
-                onChange={(e) => {
-                  setData({ ...data, constraints: e.target.value });
-                }}
-                className="w-full text-black rounded"
-              />
-            </>
+              <div className="flex w-full">
+                <input
+                  name="constraints"
+                  type="text"
+                  onChange={(e) => {
+                    setData({ ...data, constraints: e.target.value });
+                  }}
+                  className="w-full rounded-l text-black"
+                />
+                <div
+                  className="cursor-pointer rounded-r bg-greenAccent p-3 hover:bg-darkAccent hover:text-white"
+                  onClick={verifyHints}
+                >
+                  <AiOutlineCheck />
+                </div>
+              </div>
+            </div>
             {/* Hints */}
-            <>
+            <div className="w-1/2">
               <label className="text-white" htmlFor="constraints">
                 Hints
               </label>
-              <input
-                name="hints"
-                type="text"
-                onChange={(e) => {
-                  setData({ ...data, hints: e.target.value });
-                }}
-                className="w-full text-black rounded"
-              />
-            </>
+              <div className="flex w-full">
+                <input
+                  name="hints"
+                  type="text"
+                  onChange={(e) => {
+                    setData({ ...data, hints: e.target.value });
+                  }}
+                  className="w-full rounded-l text-black"
+                />
+                <div
+                  className="cursor-pointer rounded-r bg-greenAccent p-3 hover:bg-darkAccent hover:text-white"
+                  onClick={verifyConstraints}
+                >
+                  <AiOutlineCheck />
+                </div>
+              </div>
+            </div>
           </div>
           <button
             type="button"
-            className="bg-greenAccent hover:bg-darkAccent hover:text-white text-black w-[200px] h-[60px] font-bold rounded"
+            className="h-[60px] w-[200px] rounded bg-greenAccent font-bold text-black hover:bg-darkAccent hover:text-white"
             onClick={handleSubmit}
           >
             Submit
