@@ -8,7 +8,8 @@ const arguments = process.argv;
 
 // If there is somethign missing or the port is not a number
 if (arguments.length < 3 || Number.isNaN(Number(arguments[2]))) {
-    throw new Error(`There has been an error with your command line arguments!\nArguments:\n[\n\t${arguments.toString().replace(/,./gi, ",\n\t")}\n]`);
+    const message = `There has been an error with your command line arguments!\nArguments:\n[\n\t${arguments.toString().replace(/,./gi, ",\n\t")}\n]`;
+    throw new Error(message);
 };
 
 // Get the port
