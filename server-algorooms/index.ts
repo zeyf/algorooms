@@ -10,7 +10,7 @@ import { instrument } from '@socket.io/admin-ui';
 import UserRoutes from "./routes/User";
 import RoomRoutes from "./routes/Room";
 import QuestionRoutes from "./routes/Question";
-
+import AnnouncementRoutes from "./routes/Announcement";
 
 // Initialization
 const app = express();
@@ -73,6 +73,7 @@ io.on("connection", (socket) => {
 app.use("/api/users", UserRoutes);
 app.use("/api/rooms", RoomRoutes);
 app.use("/api/questions", QuestionRoutes);
+app.use("/api/announcements", AnnouncementRoutes);
 
 // Connecting MongoDB
 mongoose.connect("mongodb+srv://user:12345@algorooms.lau3kx4.mongodb.net/test?retryWrites=true&w=majority").then(() => {
