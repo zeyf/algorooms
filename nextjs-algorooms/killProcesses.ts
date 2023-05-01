@@ -19,14 +19,15 @@ exec(`lsof -i :${PORT}`, (error, stdout, stderr) => {
 
     // There are no processes running at the port
     if (stdout === "")
-        console.log(`There are no processes running on PORT ${PORT}!\nMOVING ON...`);
+        console.log(`There are no processes running on PORT ${PORT}!\nMOVING ON...\n`);
     // There is an error
-    else if (error)
+    else if (error) {
+        console.log(`There was an error processing command lsof -i :${PORT}`);
         throw new Error(error);
     // There is no error
-    else {
+    } else {
 
-        // Store the mapping if needed
+        // Store the relevant index mapping for portProcessesList if needed
         const mapping = {
             0: "PROCESS_NAME",
             1: "PROCESS_ID",
@@ -48,13 +49,15 @@ exec(`lsof -i :${PORT}`, (error, stdout, stderr) => {
             // Kill the process
             exec(`kill -9 ${RUNNING_PROCESS_ID_AT_PORT}`, (error, stdout, stderr) => {
                 // If there is an error
-                if (error)
-                    throw new Error(`There was an error processing command kill -9 ${RUNNING_PROCESS_ID_AT_PORT}\n${error}`);
+                if (error) {
+                    console.log(`There was an error processing command kill -9 ${RUNNING_PROCESS_ID_AT_PORT}`);
+                    throw new Error(error);
                 // The processes has been killed
-                else
+                } else
                     console.log(`KILLED PROCESS ${RUNNING_PROCESS_ID_AT_PORT} @ PORT ${PORT}`);
             });
         };
 
     };
+
 });
