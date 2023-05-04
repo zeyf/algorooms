@@ -3,8 +3,8 @@ import { useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 import buildRoute from '@/utilities/buildRoute';
-import Header from '@/components/pages/rooms/[roomUID]/panels/code/header/Header';
 import { AiOutlineCheck } from 'react-icons/ai';
+import Header from '@/components/shared/Header';
 
 interface dataInterface {
   title: string;
@@ -103,6 +103,7 @@ export default () => {
       </Head>
 
       <div className="to flex h-screen w-screen flex-col bg-gradient-to-tr from-darkAccent to-gradientEnd">
+        <Header />
         <div className="m-20 h-full rounded-[15px] bg-white bg-opacity-25 p-12">
           <h2 className="text-center text-white">Question Submission</h2>
           {/* First row */}
