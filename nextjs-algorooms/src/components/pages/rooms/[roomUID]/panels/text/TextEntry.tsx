@@ -87,7 +87,7 @@ export default ({
           <input type="message"
             value={message}
             placeholder="Type something simple"
-            className="caret-greenAccent bg-transparent text-white p-3 outline-0"
+            className="caret-greenAccent bg-transparent text-white p-3 outline-0 w-11/12"
             onChange={e => setMessage(e.target.value)}
           />
           <button type="submit" onClick={e => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '@/components/shared/Header';
-import Admincard from '@/components/pages/admin/Admincard';
+import AdminCard from '@/components/pages/admin/AdminCard';
 import Head from 'next/head';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
@@ -21,7 +21,7 @@ export default () => {
                             <h2 className="text-5xl font-bold text-greenAccent mb-[40px]">
                                 ADMIN PANEL
                             </h2>
-                            <Admincard />
+                            <AdminCard />
                         </div>
                     </div>
                 </div>

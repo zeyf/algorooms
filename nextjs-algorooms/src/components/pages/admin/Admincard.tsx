@@ -1,4 +1,8 @@
-import React from "react";
+import { AppUserContext } from "@/contexts/AppUserContextLayer";
+import buildRoute from "@/utilities/buildRoute";
+import axios from "axios";
+import { useRouter } from "next/router";
+import React, { useContext, useRef, useState } from "react";
 import { FaCheck, FaTimes } from 'react-icons/fa';
 
 type AdminSubmissionProps = {
@@ -57,6 +61,8 @@ export default ({
 
 }) => {
 
+    const router = useRouter();
+
     const questions = [
         {name: "tempName1", difficulty: "Easy", topics: "Arrays", description: "Temp description for temp 1 and it is much longer than the other descriptions.", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
         {name: "tempName2", difficulty: "Medium", topics: "Trees", description: "Temp description for temp 2", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
@@ -65,6 +71,40 @@ export default ({
         {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
         {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
     ];
+
+    const [
+        madeAnnouncement,
+        setMadeAnnouncement
+    ] = useState(false);
+
+    const {
+        username
+    } = useContext(AppUserContext);
+
+    const announcementMessageRef = useRef(null),
+          announcementTitleRef = useRef(null);
+    
+    const createAnnouncement = async () => {
+
+        const response = await axios.post(buildRoute("/api/announcements/create"), {
+            title: announcementTitleRef.current.value,
+            message: announcementMessageRef.current.value,
+            by: username
+        }).then(res => res.data);
+
+        const {
+            created,
+            uid
+        } = response;
+
+        setMadeAnnouncement(true);
+
+        setTimeout(() => {
+            setMadeAnnouncement(false);
+            router.push(`/announcements/${uid}`);
+        }, 2000);
+
+    };
 
     return (
         <div className="w-[1150px] h-[700px]">
@@ -75,7 +115,7 @@ export default ({
                     </h2>
                 </div>
                 <div className="w-[975px] h-[212px] mx-auto">
-                    <div className="h-full rounded-xl border border-2">
+                    <div className="h-full rounded-xl border-2">
                         <div className="h-[50px] w-[975px] border-b-2 border-t-0 border-r-0 border-l-0 translate-x-[-2px]">
                             <div className="flex h-full">
                                 <div className="w-1/6 flex items-center justify-center text-lg border-r-2 text-white bg-white bg-opacity-25 rounded-tl-xl">
@@ -120,15 +160,29 @@ export default ({
                     </h2>
                 </div>
                 <div className="flex flex-col w-[975px] h-[200px] mx-auto">
-                    <textarea className="bg-transparent w-full h-full rounded-xl border-2 border-white text-white" />
+                    <input
+                        placeholder="Enter title"
+                        ref={announcementTitleRef}
+                    />
+                    <textarea
+                        placeholder="Enter message"
+                        className="bg-transparent w-full h-full rounded-xl border-2 border-white text-white"
+                        ref={announcementMessageRef}
+                    />
                     <div className="flex justify-end mt-2">
                         <button
-                        type="button"
-                        className="bg-greenAccent hover:bg-darkAccent hover:text-white text-black w-[150px] h-[60px] font-bold rounded-lg text-lg"
+                            type="button"
+                            className="bg-greenAccent hover:bg-darkAccent hover:text-white text-black w-[150px] h-[60px] font-bold rounded-lg text-lg"
+                            onClick={createAnnouncement}
                         >
-                        Send
+                        Create
                         </button>
                     </div>
+
+                    {
+                        madeAnnouncement && <span className="text-green-500">Created! redirecting to announcement...</span>
+                    }
+
                 </div>
             </div>
         </div>

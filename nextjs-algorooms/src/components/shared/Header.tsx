@@ -36,7 +36,11 @@ const Header = ({}: headerInterface) => {
 
         <div className="flex items-center justify-around">
 
-          <Link href={'/rooms'} className="text-white mx-2">
+          <Link href={"/announcements"} className="text-white mx-2">
+            Announcements
+          </Link>
+        
+          <Link href={"/rooms"} className="text-white mx-2">
             Rooms
           </Link>
 
