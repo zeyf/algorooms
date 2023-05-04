@@ -96,7 +96,7 @@ export default () => {
   return (
     <>
       <Head>
-        <title>{`Question Submission`}</title>
+        <title>AlgoRooms 🚀 | Question Submission</title>
         <meta name="description" content="Submit questions" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -104,8 +104,10 @@ export default () => {
 
       <div className="to flex h-screen w-screen flex-col bg-gradient-to-tr from-darkAccent to-gradientEnd">
         <Header />
-        <div className="m-20 h-full rounded-[15px] bg-white bg-opacity-25 p-12">
-          <h2 className="text-center text-white">Question Submission</h2>
+        <div className="m-10 h-full rounded-[15px] bg-white bg-opacity-25 p-10 flex flex-col justify-between">
+          <h2 className="text-center text-white text-5xl">
+            Question Submission
+          </h2>
           {/* First row */}
           <div className="flex justify-around gap-10">
             {/* Question Name */}
@@ -116,7 +118,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, title: e.target.value });
                 }}
-                className="w-full rounded text-black"
+                className="w-full rounded h-[38px] text-black"
               />
             </div>
             {/* Difficulty */}
@@ -124,7 +126,7 @@ export default () => {
               <Select
                 name="difficulty"
                 placeholder="Select Difficulty"
-                className="w-full text-black"
+                className="w-full text-black h-auto"
                 classNamePrefix="select"
                 options={difficultyOptions}
                 onChange={(e: any) =>
@@ -209,13 +211,14 @@ export default () => {
           <div className="flex justify-between gap-10">
             {/* Constraints */}
             <div className="w-1/2">
-              <label className="text-white" htmlFor="constraints">
+              {/* <label className="text-white" htmlFor="constraints">
                 Constraints
-              </label>
+              </label> */}
               <div className="flex w-full">
                 <input
                   name="constraints"
                   type="text"
+                  placeholder="Constraints"
                   onChange={(e) => {
                     setData({ ...data, constraints: e.target.value });
                   }}
@@ -231,13 +234,14 @@ export default () => {
             </div>
             {/* Hints */}
             <div className="w-1/2">
-              <label className="text-white" htmlFor="constraints">
+              {/* <label className="text-white" htmlFor="constraints">
                 Hints
-              </label>
+              </label> */}
               <div className="flex w-full">
                 <input
                   name="hints"
                   type="text"
+                  placeholder="Hints"
                   onChange={(e) => {
                     setData({ ...data, hints: e.target.value });
                   }}
@@ -252,13 +256,15 @@ export default () => {
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            className="h-[60px] w-[200px] rounded bg-greenAccent font-bold text-black hover:bg-darkAccent hover:text-white"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              className="h-[60px] w-[200px] rounded bg-greenAccent font-bold text-black hover:bg-darkAccent hover:text-white"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
     </>
