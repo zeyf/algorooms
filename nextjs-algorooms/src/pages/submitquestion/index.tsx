@@ -71,13 +71,14 @@ export default () => {
   };
 
   const submitQuestion = async () => {
-    const response = await axios
-      .post(buildRoute('/api/questions/create'), data)
-      .then((res) => res.data);
+    // const response = await axios
+    //   .post(buildRoute('/api/questions/create'), data)
+    //   .then((res) => res.data);
 
-    const { created } = response;
+    // const { created } = response;
 
-    console.log(created);
+    // console.log(created);
+    let created: boolean = false;
     if (created) {
       console.log('submitted');
     } else {
