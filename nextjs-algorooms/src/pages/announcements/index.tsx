@@ -19,7 +19,7 @@ export default ({
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col">
+            <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen min-h-screen flex flex-col">
                 <Header />
                 <section className="flex flex-col items-center">
                     <div>
