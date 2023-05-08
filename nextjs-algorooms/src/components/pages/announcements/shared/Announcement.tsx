@@ -18,7 +18,7 @@ export default ({
     const minutes = date.getMinutes();
     
     return (
-        <section>
+        <section className="bg-white w-[50%] mt-[20px] rounded-2xl box-border pl-[20px]">
             <Link
                 className="font-bold text-lg"
                 href={`/announcements/${uid}`}
