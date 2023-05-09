@@ -16,8 +16,16 @@ import { countReset } from "console";
 import rooms from "@/pages/rooms";
 import { RoomContext } from "@/contexts/RoomContextLayer";
 import { AppUserContext } from '@/contexts/AppUserContextLayer';
+import { useMutation, useOthers, useSelf, useStorage, useUpdateMyPresence } from '../../../../../../../liveblocks.config';
+import { EditorState } from '@codemirror/state';
+import {Tooltip, showTooltip, EditorView} from "@codemirror/view"
+import {StateField} from "@codemirror/state"
 
-export default ({
+import randomColor from "randomcolor";
+
+
+
+const CodeEditor = ({
 
 }) => {
 
@@ -33,6 +41,8 @@ export default ({
         username
     } = useContext(AppUserContext);
 
+    const editorText = useStorage(({ editorText }) => editorText) || "";
+
     const languageMapping = [
         [ "python", PYTHON_SYNTAX_HIGHLIGHTING_EXTENSION ],
         [ "javascript", JAVASCRIPT_SYNTAX_HIGHLIGHTING_EXTENSION ],
@@ -40,38 +50,97 @@ export default ({
         [ "java", JAVA_SYNTAX_HIGHLIGHTING_EXTENSION ]
     ];
 
-    // Code
+    const handleEditorTextEdit = useMutation(({ storage }, newEditorText) => {
+        storage.set("editorText", newEditorText);
+    }, [  ]);
 
-    // const onChange = React.useCallback((value:any, viewUpdate:any) => {
-    //     socket.emit("codeChange", value, uid);
+    const myPresence = useSelf(me => me.presence);
+    
+    const others = useOthers();
 
-    // }, [  ]);
+    if (!myPresence)
+        return <p>Loading...</p>
+    
+    const handleEditorPositionUpdate = useUpdateMyPresence();
 
-    // socket.on("updateEditor", (arg:any) => {
-    //     setCode(arg);
-    // });
+    function getCursorTooltips(state: EditorState): readonly Tooltip[] {
 
-    const [collabRef, setCollabRef] = useState(null)
-
-    useEffect(() => {
-        const ydoc = new Y.Doc();
-        const provider = new WebrtcProvider(uid, ydoc);
-        const yText = ydoc.getText("codemirror");
-        const awareness = provider.awareness;
-        awareness.setLocalStateField("user", {
-            name: username
-        })
-        const undoManager = new Y.UndoManager(yText);
-        setCollabRef(yCollab(yText, awareness, {undoManager}))
-
-        return () => {
-            if (provider) {
-                provider.disconnect();
-                ydoc.destroy();
+        const otherTooltips = others.map(other => {
+            return {
+                cursorLocationData: other.presence.cursorLocationData,
+                username: other.presence.username,
+                color: other.presence.color
             }
+        });
+
+        const myTooltip = {
+            cursorLocationData: myPresence.cursorLocationData,
+            username: myPresence.username,
+            color: myPresence.color
+        };
+
+        return [ ...otherTooltips, myTooltip ]
+          .filter((userTooltipState) => userTooltipState.cursorLocationData.empty)
+          .map((userTooltipState) => {
+            // let line = state.doc.lineAt(range.head);
+        
+            return {
+              pos: userTooltipState.cursorLocationData.head,
+              above: true,
+              strictSide: true,
+              arrow: true,
+              create: () => {
+                let dom = document.createElement("div")
+                dom.className = "cm-tooltip-cursor"
+                dom.textContent = userTooltipState.username;
+                dom.style.backgroundColor = userTooltipState.color;
+
+                return {
+                    dom
+                };
+              }
+            }
+          })
+      }
+    
+      const cursorTooltipField = StateField.define<readonly Tooltip[]>({
+        create: getCursorTooltips,
+      
+        update(tooltips, tr) {
+          if (!tr.docChanged && !tr.selection) return tooltips
+          return getCursorTooltips(tr.state)
+        },
+      
+        provide: f => showTooltip.computeN([f], state => state.field(f))
+      })
+
+    const colors = [
+        "#650cec",
+        "#3960f7",
+        "#424d71",
+        "#d91072",
+        "#af90fd",
+        "#60aa59"
+    ];
+
+    const c = randomColor();
+
+
+      const cursorTooltipBaseTheme = EditorView.theme({
+        ".cm-tooltip.cm-tooltip-cursor": {
+        //   backgroundColor: c,
+          color: "white",
+          border: "none",
+          padding: "2px 7px",
+          borderRadius: "4px",
+          "& .cm-tooltip-arrow:before": {
+            borderTopColor: "white" || c
+          },
+          "& .cm-tooltip-arrow:after": {
+            borderTopColor: "transparent"
+          }
         }
-    }, [])
-  
+      })
 
     return (
         <div className="w-[822px] h-[649px]">
@@ -79,14 +148,29 @@ export default ({
                 <CodeMirror
                     height="579px"
                     width="822px"
+                    theme={sublime}
+                    value={editorText}
+                    onUpdate={viewUpdate => {
+                        const currentData = viewUpdate.state.selection.ranges[0];
+
+                        if (myPresence.cursorLocationData.from !== currentData.from || myPresence.cursorLocationData.to !== currentData.to) {
+                            handleEditorPositionUpdate({ ...myPresence, cursorLocationData: {
+                                ...currentData,
+                                empty: currentData.empty,
+                                head: currentData.head
+                            } });
+                        }
+                    }}
+                    
                     extensions={[
-                        languageMapping
+                        ...languageMapping
                         .filter(([ lang, ext ]:any[]) => language === lang)
                         .map(([ lang, ext ]:any[]) => ext()),
-                        collabRef
-                    ]
-                    }
-                    theme={sublime}
+                        cursorTooltipField,
+                        cursorTooltipBaseTheme
+                    ]}
+
+                    onChange={handleEditorTextEdit}
                 />
             </div>
 
@@ -94,3 +178,5 @@ export default ({
     );
 
 };
+
+export default CodeEditor;
