@@ -65,11 +65,11 @@ export default ({
 
   useEffect(() => {
     socket.connect();
-    // socket.on('connect', () => {
-    //   socket.emit("joinRoom", data.uid, socket.id);
-    // });
+    socket.on('connect', () => {
+      socket.emit("joinRoom", data.uid, socket.id);
+    });
 
-    // socket.on("members", ({ message, username }) => toast(message));
+    socket.on("members", ({ message, username }) => toast(message));
   });
 
   if (username === "")
