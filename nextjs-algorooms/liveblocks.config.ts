@@ -32,14 +32,6 @@ type Storage = {
     host: string
 };
 
-// export const initialPresence = {
-//     isTypingCode: false,
-//     isTypingMessage: false,
-//     isRunningCode: false,
-//     isSubmittingCode: false,
-//     username: ""
-// };
-
 export const {
     RoomProvider,
     useOthers,
