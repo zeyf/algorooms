@@ -7,16 +7,14 @@ import { useState, useEffect, useRef } from 'react';
 // Interface imports
 import { textFeedInterface } from './Interfaces';
 import { RoomContext } from '@/contexts/RoomContextLayer';
+import { useStorage } from '../../../../../../../liveblocks.config';
+import formatTime from '@/utilities/formatTime';
 
 export default ({
 
 }: textFeedInterface) => {
-  // Code
 
-  const {
-    messages,
-    socket
-  } = useContext(RoomContext);
+  const messages = useStorage(root => root.messages) || [  ];
 
   const containerRef = useRef(null);
 
@@ -31,7 +29,7 @@ export default ({
     if(isBottom) {
       container.scrollTo(0, container.scrollHeight);
     }
-  }, [messages])
+  }, [ messages.length ]);
 
   return (
     <section>
@@ -52,7 +50,7 @@ export default ({
               <div key={index} className="my-2 mx-2">
                 <span className="text-white flex flex-row">
                   <div className="flex-shrink-0 text-gray-400 w-full">
-                    { `${username}: ${message}\t${hour}:${minutes}` }
+                    { `${username}: ${message}\t${formatTime(hour)}:${formatTime(minutes)}` }
                   </div>
                 </span>
               </div>
