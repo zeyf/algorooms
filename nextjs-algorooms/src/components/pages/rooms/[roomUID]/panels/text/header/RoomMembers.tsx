@@ -7,6 +7,8 @@ import { memberInterface } from './Interfaces';
 // Component imports
 import RoomMember from './RoomMember';
 import { RoomContext } from '@/contexts/RoomContextLayer';
+import { useOthers, useStorage } from '../../../../../../../../liveblocks.config';
+import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
 export default ({
 
@@ -20,21 +22,24 @@ export default ({
   } = useContext(RoomContext);
 
   const {
-    members
-  } = useContext(RoomContext);
+    username
+  } = useContext(AppUserContext);
+
+  const members = [
+    username,
+    ...useOthers().map((other) => other.presence.username)
+  ];
 
   return (
     <section className="flex flex-col bg-darkAccent p-5">
       <span className="text-white uppercase text-xl">{ name }</span>
+      <span>ROOM MEMBERS</span>
       <div className="flex flex-wrap gap-2">
-        {members.map(({
-          username
-        }:any, colorIndex: number) => (
-          <RoomMember
-            username={username}
-            colorIndex={colorIndex}
-          />
-        ))}
+        {
+          members.map((member, colorIndex) =>
+            <RoomMember username={member || "?"} colorIndex={colorIndex} />
+          )
+        }
       </div>
     </section>
   );
