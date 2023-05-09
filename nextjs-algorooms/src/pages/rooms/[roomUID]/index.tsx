@@ -23,6 +23,13 @@ import RoomContextLayer from '@/contexts/RoomContextLayer';
 import { RoomContext } from '@/contexts/RoomContextLayer';
 import Head from 'next/head';
 
+
+import { Presence, RoomProvider } from '../../../../liveblocks.config';
+import { LiveList } from '@liveblocks/client';
+import { AppUserContext } from '@/contexts/AppUserContextLayer';
+
+import randomColor from "randomcolor";
+
 export default ({
   exists,
   data
@@ -34,6 +41,20 @@ export default ({
     socket
   } = useContext(RoomContext);
 
+  const {
+    username
+  } = useContext(AppUserContext);
+  
+  const initialPresence: Presence = {
+    isTypingCode: false,
+    isTypingMessage: false,
+    isRunningCode: false,
+    isSubmittingCode: false,
+    cursorLocationData: {  },
+    username,
+    color: randomColor()
+  };
+
   useEffect(() => {
 
     if (!exists)
@@ -44,12 +65,15 @@ export default ({
 
   useEffect(() => {
     socket.connect();
-    socket.on('connect', () => {
-      socket.emit("joinRoom", data.uid, socket.id);
-    });
+    // socket.on('connect', () => {
+    //   socket.emit("joinRoom", data.uid, socket.id);
+    // });
 
-    socket.on("members", ({ message, username }) => toast(message));
+    // socket.on("members", ({ message, username }) => toast(message));
   });
+
+  if (username === "")
+    return <p>Loading...</p>
 
   return (
     <>
@@ -67,21 +91,37 @@ export default ({
         <RoomContextLayer
           { ...data }
         >
-          <div className="w-screen h-screen flex flex-row-reverse justify-center items-center">
-            <div className="w-2/3 h-screen flex flex-col justify-center items-center">
-              <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
-                <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
-                  {/* <QuestionPanel {...{QuestionDummyData}} /> */}
-                </div>
+          <RoomProvider
+            id={data.uid}
+            initialPresence={initialPresence}
+            initialStorage={{
+              uid: "",
+              editorText: "",
+              lobbyAccess: "",
+              difficulty: "",
+              topics: new LiveList<string>(data.topics),
+              members: new LiveList<string>([ username ]),
+              host: "",
+              messages: new LiveList<string>()
+            }}
+          >
 
-                <div className="flex justify-center mt-10">
-                  <CodePanel uid={data.uid}/>
-                </div>
+            <div className="w-screen h-screen flex flex-row-reverse justify-center items-center">
+              <div className="w-2/3 h-screen flex flex-col justify-center items-center">
+                <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
+                  <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
+                    {/* <QuestionPanel {...{QuestionDummyData}} /> */}
+                  </div>
 
-                <TextPanel />
-              </Split>
+                  <div className="flex justify-center mt-10">
+                    <CodePanel />
+                  </div>
+
+                  <TextPanel />
+                </Split>
+              </div>
             </div>
-          </div>
+          </RoomProvider>
         </RoomContextLayer>
       </div>
     </>
