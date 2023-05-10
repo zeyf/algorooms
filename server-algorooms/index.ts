@@ -64,6 +64,10 @@ io.on("connection", (socket) => {
         socket.broadcast.to(room).emit("updateTextChat", messageData);
     });
 
+    socket.on("startRound", (room, username, message) => {
+        socket.broadcast.to(room).emit("startRound", username, message);
+    });
+
     socket.on("disconnect", () => {
        console.log(`User Disconnected: ${socket.id}`);
     });
