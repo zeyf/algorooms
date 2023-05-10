@@ -7,7 +7,7 @@ import { memberInterface } from './Interfaces';
 // Component imports
 import RoomMember from './RoomMember';
 import { RoomContext } from '@/contexts/RoomContextLayer';
-import { useOthers, useStorage } from '../../../../../../../../liveblocks.config';
+import { useOthers, useSelf, useStorage } from '../../../../../../../../liveblocks.config';
 import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
 export default ({
@@ -21,13 +21,15 @@ export default ({
     name
   } = useContext(RoomContext);
 
-  const {
-    username
-  } = useContext(AppUserContext);
+  const myPresence = useSelf(me => me.presence);
+  const others = useOthers();
+
+  if (!myPresence)
+    return <p>Loading...</p>
 
   const members = [
-    username,
-    ...useOthers().map((other) => other.presence.username)
+    myPresence,
+    ...others.map((other) => other.presence)
   ];
 
   return (
@@ -36,8 +38,8 @@ export default ({
       <span>ROOM MEMBERS</span>
       <div className="flex flex-wrap gap-2">
         {
-          members.map((member, colorIndex) =>
-            <RoomMember username={member || "?"} colorIndex={colorIndex} />
+          members.map(member =>
+            <RoomMember { ...member } />
           )
         }
       </div>
