@@ -24,7 +24,7 @@ import { RoomContext } from '@/contexts/RoomContextLayer';
 import Head from 'next/head';
 
 
-import { Presence, RoomProvider } from '../../../../liveblocks.config';
+import { Presence, RoomProvider, TextChatMessage } from '../../../../liveblocks.config';
 import { LiveList } from '@liveblocks/client';
 import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
@@ -100,9 +100,9 @@ export default ({
               lobbyAccess: "",
               difficulty: "",
               topics: new LiveList<string>(data.topics),
-              members: new LiveList<string>([ username ]),
+              messages: new LiveList<TextChatMessage>(),
               host: "",
-              messages: new LiveList<string>()
+              language: "Python"
             }}
           >
 
