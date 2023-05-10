@@ -28,9 +28,9 @@ type Storage = {
     lobbyAccess: string,
     difficulty: string,
     topics: LiveList<string>,
-    members: LiveList<string>,
     messages: LiveList<TextChatMessage>,
-    host: string
+    host: string,
+    language: string
 };
 
 export const {
