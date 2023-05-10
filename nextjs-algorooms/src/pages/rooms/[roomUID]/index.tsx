@@ -70,6 +70,7 @@ export default ({
     });
 
     socket.on("members", ({ message, username }) => toast(message));
+    socket.on("startRound", (username, message) => toast(message));
   });
 
   if (username === "")
@@ -102,7 +103,11 @@ export default ({
               topics: new LiveList<string>(data.topics),
               messages: new LiveList<TextChatMessage>(),
               host: "",
-              language: "Python"
+              language: "Python",
+              startMinutes: 1,
+              minutesLeft: 1,
+              secondsLeft: 0,
+              inRound: false
             }}
           >
 

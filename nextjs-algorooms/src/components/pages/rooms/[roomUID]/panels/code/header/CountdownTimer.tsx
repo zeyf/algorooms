@@ -1,43 +1,74 @@
 // Module imports
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useRef, useEffect } from 'react'
 
 // Interface imports
 import { countdownTimerInterface } from "./Interfaces";
+import { useMutation, useStorage } from "../../../../../../../../liveblocks.config";
+import { RoomContext } from "@/contexts/RoomContextLayer";
+import { toast } from "react-toastify";
 
 export default ({
 
 }:countdownTimerInterface) => {
 
-    // Code
-    let minutes = 15;
-    let seconds = 0;
-    const [[mins, secs], setTime] = useState([minutes, seconds])
-    
-    const tick = () => {
-        if (mins === 0 && secs === 0){
-            reset();
-        }
-        else if (secs === 0){
-            setTime([mins - 1, 59]);
-        }
-        else{
-            setTime([mins, secs-1]);
-        }
-    };
+    const minutesLeft = useStorage(r => r.minutesLeft);
+    const secondsLeft = useStorage(r => r.secondsLeft);
+    const startMinutes = useStorage(r => r.startMinutes);
+    const inRound = useStorage(r => r.inRound);
 
-    // resets the timer
-    const reset = () => setTime([minutes, seconds]);
+    const {
+        socket,
+        uid
+    } = useContext(RoomContext);
 
-    useEffect(() => {
-        const timerID = setInterval(() => tick(), 1000);
-        return () => clearInterval(timerID);
-    })
+
+    const changeTime = useMutation(({ storage }, min, sec) => {
+
+        if (sec > 0)
+            storage.set("secondsLeft", sec - 1);
+        else {
+            if (min > 0) {
+                storage.set("minutesLeft", min - 1);
+                storage.set("secondsLeft", 59);
+            };
+        };
+
+    }, [  ]);
+
+    const handleEndRound = useMutation(({ storage }, startMin) => {
+        storage.set("inRound", false);
+        storage.set("minutesLeft", startMin);
+        storage.set("secondsLeft", 0);
+    }, [  ]);
+
+    useEffect(() => {   
+
+
+        if (inRound && minutesLeft !== null && secondsLeft !== null) {
+
+            const timerID = setInterval(() => {
+                if (minutesLeft === 0 && secondsLeft === 0) {
+                    clearInterval(timerID);
+                    handleEndRound(startMinutes);
+
+                    toast("The round is over!");
+                } else
+                    changeTime(minutesLeft, secondsLeft);
+            }, 1000);
+            
+            return () => clearInterval(timerID);
+        };
+
+    }, [ inRound, minutesLeft, secondsLeft ]);
+
+    if (minutesLeft === null || secondsLeft === null || startMinutes === null)
+        return <p>Loading...</p>
 
     return (
-        <div className="text-white bg-[#051135] w-[95px] h-[46px] flex justify-center items-center rounded-xl drop-shadow-lg">
+        <div className="text-white bg-[#051135] flex justify-center items-center rounded-xl drop-shadow-lg">
             <h3 className="font-bold text-lg">
-                {`${mins.toString()} : ${secs.toString().padStart(2, '0')}`}
+                {`${minutesLeft.toString()} : ${secondsLeft.toString().padStart(2, '0')}`}
             </h3>
         </div>
     );

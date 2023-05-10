@@ -30,7 +30,11 @@ type Storage = {
     topics: LiveList<string>,
     messages: LiveList<TextChatMessage>,
     host: string,
-    language: string
+    language: string,
+    startMinutes: number,
+    minutesLeft: number,
+    secondsLeft: number,
+    inRound: boolean
 };
 
 export const {
