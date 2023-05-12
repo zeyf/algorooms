@@ -96,7 +96,8 @@ router.post("/create", async (req, res) => {
             capacity,
             topics,
             difficulty,
-            lobbyAccess
+            lobbyAccess,
+            host
         }
     } = req;
 
@@ -111,7 +112,8 @@ router.post("/create", async (req, res) => {
         difficulty,
         lobbyAccess,
         uid,
-        occupied: 0
+        occupied: 0,
+        host
     }).then(async (response) => {
         
         // Send response
