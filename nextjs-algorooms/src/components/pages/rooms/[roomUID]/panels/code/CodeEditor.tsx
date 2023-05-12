@@ -79,7 +79,10 @@ const CodeEditor = ({
             color: myPresence.color
         };
 
-        return [ ...otherTooltips, myTooltip ]
+        return [
+            ...otherTooltips,
+            // myTooltip
+        ]
           .filter((userTooltipState) => userTooltipState.cursorLocationData.empty)
           .map((userTooltipState) => {
             // let line = state.doc.lineAt(range.head);
@@ -98,6 +101,7 @@ const CodeEditor = ({
                 return {
                     dom
                 };
+
               }
             }
           })
@@ -114,18 +118,6 @@ const CodeEditor = ({
         provide: f => showTooltip.computeN([f], state => state.field(f))
       })
 
-    const colors = [
-        "#650cec",
-        "#3960f7",
-        "#424d71",
-        "#d91072",
-        "#af90fd",
-        "#60aa59"
-    ];
-
-    const c = randomColor();
-
-
       const cursorTooltipBaseTheme = EditorView.theme({
         ".cm-tooltip.cm-tooltip-cursor": {
         //   backgroundColor: c,
@@ -134,7 +126,7 @@ const CodeEditor = ({
           padding: "2px 7px",
           borderRadius: "4px",
           "& .cm-tooltip-arrow:before": {
-            borderTopColor: "white" || c
+            borderTopColor: "white"
           },
           "& .cm-tooltip-arrow:after": {
             borderTopColor: "transparent"
@@ -154,11 +146,13 @@ const CodeEditor = ({
                         const currentData = viewUpdate.state.selection.ranges[0];
 
                         if (myPresence.cursorLocationData.from !== currentData.from || myPresence.cursorLocationData.to !== currentData.to) {
+
                             handleEditorPositionUpdate({ ...myPresence, cursorLocationData: {
                                 ...currentData,
                                 empty: currentData.empty,
                                 head: currentData.head
                             } });
+
                         }
                     }}
                     
@@ -171,6 +165,11 @@ const CodeEditor = ({
                     ]}
 
                     onChange={handleEditorTextEdit}
+
+                    style={{
+                        caretColor: myPresence.color
+                    }}
+
                 />
             </div>
 

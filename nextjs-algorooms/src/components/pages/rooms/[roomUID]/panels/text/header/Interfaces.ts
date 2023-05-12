@@ -1,6 +1,6 @@
 export interface roomMemberInterface {
     username: string;
-    colorIndex: number;
+    color: string;
 };
 
 export interface roomSettingsInterface {

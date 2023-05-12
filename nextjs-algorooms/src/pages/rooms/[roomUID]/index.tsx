@@ -24,7 +24,7 @@ import { RoomContext } from '@/contexts/RoomContextLayer';
 import Head from 'next/head';
 
 
-import { Presence, RoomProvider } from '../../../../liveblocks.config';
+import { Presence, RoomProvider, TextChatMessage } from '../../../../liveblocks.config';
 import { LiveList } from '@liveblocks/client';
 import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
@@ -70,6 +70,7 @@ export default ({
     });
 
     socket.on("members", ({ message, username }) => toast(message));
+    socket.on("startRound", (username, message) => toast(message));
   });
 
   if (username === "")
@@ -100,9 +101,13 @@ export default ({
               lobbyAccess: "",
               difficulty: "",
               topics: new LiveList<string>(data.topics),
-              members: new LiveList<string>([ username ]),
+              messages: new LiveList<TextChatMessage>(),
               host: "",
-              messages: new LiveList<string>()
+              language: "Python",
+              startMinutes: 1,
+              minutesLeft: 1,
+              secondsLeft: 0,
+              inRound: false
             }}
           >
 

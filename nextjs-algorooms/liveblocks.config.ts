@@ -1,7 +1,7 @@
 import { LiveList, LiveObject, createClient } from "@liveblocks/client";
 import { createRoomContext } from "@liveblocks/react";
 
-const client = createClient({
+export const client = createClient({
   publicApiKey: "pk_dev_7rSbiCxmktdPPA-hgYZsTSxKsm3d3WUtHWKcq8wYTBLEV6lJKnWHGmEkZzEGsfMS",
 });
 
@@ -15,10 +15,11 @@ export type Presence = {
     cursorLocationData: any
 };
 
-type TextChatMessage = {
+export type TextChatMessage = {
     username: string,
     message: string,
-    timestamp: number
+    timestamp: number,
+    color: string
 };
 
 type Storage = {
@@ -27,9 +28,13 @@ type Storage = {
     lobbyAccess: string,
     difficulty: string,
     topics: LiveList<string>,
-    members: LiveList<string>,
-    messages: LiveList<string>,
-    host: string
+    messages: LiveList<TextChatMessage>,
+    host: string,
+    language: string,
+    startMinutes: number,
+    minutesLeft: number,
+    secondsLeft: number,
+    inRound: boolean
 };
 
 export const {

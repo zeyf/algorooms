@@ -1,80 +1,73 @@
 // Module imports
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BsFillSendFill } from 'react-icons/bs';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 // Interface imports
 import { textEntryInterface } from './Interfaces';
 import { RoomContext } from '@/contexts/RoomContextLayer';
+import { TextChatMessage, useMutation, useOthers, useSelf, useUpdateMyPresence } from '../../../../../../../liveblocks.config';
+import { LiveList } from '@liveblocks/client';
 
 export default ({
 
 }: textEntryInterface) => {
 
-  // For message state
-  const [
-    message,
-    setMessage
-  ] = useState("");
+  const inputRef = useRef(null);
 
-  const {
-    socket
-  } = useContext(RoomContext);
+  const myPresence = useSelf(me => me.presence);
 
-  // Get user information
-  // Note, the /rooms/[roomUID] is auth protected
-  const {
-    user
-  } = useUser();
+  const updatePresence = useUpdateMyPresence();
 
-  const {
-    messages,
-    setMessages,
-    uid
-  } = useContext(RoomContext);
+  const handleTextChatMessageAdd = useMutation(({
+    storage,
+    setMyPresence
+  }, event, MYPRESENCE) => {
 
-  // Sends message to other users in the room
-  const sendMessage = () => {
+    event.preventDefault();
+    
+    const newMessage:TextChatMessage = {
+      username: MYPRESENCE.username,
+      color: MYPRESENCE.color,
+      message: inputRef.current.value,
+      timestamp: Date.now()
+    };
+    
+    storage.get("messages").push(newMessage);
 
-    //Check if the message is empty first
-    if (message !== "") {
+    setMyPresence({
+      ...MYPRESENCE,
+      isTypingMessage: false
+    });
 
-      //emit the message to the server
+    inputRef.current.value = "";
 
-      // Store the payload for local client and socket room-connected clients
-      const messagePayload = {
-        message,
-        username: user.name,
-        timestamp: Date.now()
-      };
+  }, [  ]);
 
-      // Alter local client
-      setMessages([
-        ...messages,
-        messagePayload
-      ]);
+  const handleGainFocus = () => {
+    updatePresence({
+      ...myPresence,
+      isTypingMessage: true
+    });
 
-      // Emit to the backend for socket room-connected clients to receive the message
-      socket.emit("newChatMessage", messagePayload, uid);
-
-      //Reset message to black after sending.
-      setMessage("");
-    }
   };
 
-  useEffect(() => {
+  const handleLoseFocus = () => {
+    updatePresence({
+      ...myPresence,
+      isTypingMessage: false
+    });
 
-    // Listen for updates on the text chat and update it
-    socket.on(
-      "updateTextChat",
-      newMessageData => setMessages([
-        ...messages,
-        newMessageData
-      ])
-    );
+  };
   
-  // Listen for a change, also re-poll on send of a message from local client
-  }, [ messages.length ]);
+  const others = useOthers();
+
+  if (!myPresence) {
+    return <p>Loading...</p>
+  };
+
+  const othersTyping = others.filter(other => other.presence.isTypingCode);
+  // ...(myPresence.isTypingMessage ? [ myPresence ] : [  ])
 
   return (
     <section className="py-5 border-t-[1px] border-black mx-4">
@@ -84,16 +77,27 @@ export default ({
         className="flex relative select-text"
       >
         <div className="bg-darkAccent relative w-full rounded overflow-hidden">
-          <input type="message"
-            value={message}
+          <p className="text-white">
+            {
+              `${othersTyping.length} users typing...`
+            }
+          </p>
+          <input
+            type="message"
+            
+            ref={inputRef}
             placeholder="Type something simple"
             className="caret-greenAccent bg-transparent text-white p-3 outline-0 w-11/12"
-            onChange={e => setMessage(e.target.value)}
+
+            onBlur={handleLoseFocus}
+            onFocus={handleGainFocus}
+
           />
-          <button type="submit" onClick={e => {
-            e.preventDefault();
-            sendMessage();
-          }}>
+          <button type="submit"
+            onClick={(e) => {
+              handleTextChatMessageAdd(e, myPresence);
+            }}
+          >
             <BsFillSendFill className="absolute right-4 top-4 rotate-45" color="gray" />
           </button>
         </div>

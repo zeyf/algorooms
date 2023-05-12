@@ -12,6 +12,7 @@ import { RoomContext } from "@/contexts/RoomContextLayer";
 import { toast } from "react-toastify";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { AppUserContext } from "@/contexts/AppUserContextLayer";
+import { useMutation, useStorage } from "../../../../../../../../liveblocks.config";
 
 export default ({
 
@@ -27,15 +28,13 @@ export default ({
         socket,
         uid,
 
-        language,
-        setLanguage,
         runningCode,
         setRunningCode,
         submittingCode,
         setSubmittingCode,
         setTopics,
         setDifficulty,
-        setLobbyAccess,
+        setLobbyAccess
     } = useContext(RoomContext);
 
     const {
@@ -64,7 +63,6 @@ export default ({
     useEffect(() => {
         socket.on("frontendLanguageChange", (usernameOfChanger, language, socketUser) => {
             toast(`${usernameOfChanger} changed language to: ${language}`);
-            setLanguage(language);
         });
 
         socket.on("frontendCodeExecution", (message, socketUser) => {
@@ -100,6 +98,9 @@ export default ({
 
     }, [  ]);
 
+    const language = useStorage(({ language }) => language);
+    const handleLanguageChange = useMutation(({ storage }, event) => storage.set("language", event.target.value), [  ]);
+
     return (
         <section>
             <div className="w-[822px] flex flex-row space-x-5 items-center p-1 justify-between">
@@ -114,8 +115,8 @@ export default ({
                             defaultValue={language}
                             value={language}
                             onChange={e => {
+                                handleLanguageChange(e);
                                 socket.emit("backendLanguageChange", e.target.value, username, uid, socket.id);
-                                setLanguage(e.target.value);
                                 toast(`${username} changed language to: ${e.target.value}`);
                             }}
                         >
