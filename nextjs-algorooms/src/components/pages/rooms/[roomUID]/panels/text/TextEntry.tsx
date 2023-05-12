@@ -57,12 +57,7 @@ export default ({
   
   const others = useOthers();
 
-  if (!myPresence) {
-    return <p>Loading...</p>
-  };
-
   const othersTyping = others.filter(other => other.presence.isTypingMessage);
-  // ...(myPresence.isTypingMessage ? [ myPresence ] : [  ])
 
   const buildUsersTypingMessage = () => {
     if (othersTyping.length === 0)

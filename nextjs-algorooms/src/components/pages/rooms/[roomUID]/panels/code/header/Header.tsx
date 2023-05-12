@@ -112,7 +112,6 @@ export default ({
                             placeholder="Select Language"
                             className="drop-shadow-lg"
                             color="blue"
-                            defaultValue={language}
                             value={language}
                             onChange={e => {
                                 handleLanguageChange(e);

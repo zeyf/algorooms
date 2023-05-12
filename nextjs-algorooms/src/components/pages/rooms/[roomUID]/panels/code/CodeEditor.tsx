@@ -59,9 +59,6 @@ const CodeEditor = ({
     const myPresence = useSelf(me => me.presence);
     
     const others = useOthers();
-
-    if (!myPresence)
-        return <p>Loading...</p>
     
     const handleEditorPositionUpdate = useUpdateMyPresence();
 

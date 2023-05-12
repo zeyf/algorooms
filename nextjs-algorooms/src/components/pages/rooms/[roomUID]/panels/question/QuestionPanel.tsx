@@ -18,22 +18,18 @@ export default ({
     questionConstraints,
     questionHints,
     questionTopics
-}:questionPanelInterface) => {
+}) => {
 
     return (
         <div className="bg-darkAccent text-white">
-            <QuestionHeader
-                questionIndex={questionIndex}
-                questionTitle={questionTitle}
-                questionDifficulty={questionDifficulty}
-            />
+            {/* <QuestionHeader /> */}
 
             <section className="px-2 py-4">
                 <div className="whitespace-pre-line break-normal"> { questionBody } </div>
-                <QuestionExamples questionExamples={questionExamples}/>
-                <QuestionHints questionHints={questionHints} />
-                <QuestionTopics questionTopics={questionTopics} />
-                <QuestionConstraints questionConstraints={questionConstraints} />
+                {/* <QuestionExamples />
+                <QuestionHints />
+                <QuestionTopics />
+                <QuestionConstraints /> */}
             </section>
         </div>
     );
