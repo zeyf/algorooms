@@ -12,7 +12,8 @@ export type Presence = {
     isSubmittingCode: boolean,
     username: string,
     color: string,
-    cursorLocationData: any
+    cursorLocationData: any,
+    joined: number
 };
 
 export type TextChatMessage = {
@@ -38,10 +39,13 @@ type Storage = {
 };
 
 export const {
-    RoomProvider,
-    useOthers,
-    useStorage,
-    useUpdateMyPresence,
-    useMutation,
-    useSelf
+    suspense: {
+        RoomProvider,
+        useOthers,
+        useStorage,
+        useUpdateMyPresence,
+        useMutation,
+        useSelf,
+        useRoom
+    }
 } = createRoomContext<Presence, Storage>(client);

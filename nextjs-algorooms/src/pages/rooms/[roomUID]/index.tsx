@@ -24,11 +24,13 @@ import { RoomContext } from '@/contexts/RoomContextLayer';
 import Head from 'next/head';
 
 
-import { Presence, RoomProvider, TextChatMessage } from '../../../../liveblocks.config';
+import { Presence, RoomProvider, TextChatMessage, useMutation, useOthers, useSelf, useStorage } from '../../../../liveblocks.config';
 import { LiveList } from '@liveblocks/client';
 import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
 import randomColor from "randomcolor";
+import RoomLoadWrapper from '@/components/pages/rooms/[roomUID]/RoomLoadWrapper';
+import { ClientSideSuspense } from '@liveblocks/react';
 
 export default ({
   exists,
@@ -52,7 +54,23 @@ export default ({
     isSubmittingCode: false,
     cursorLocationData: {  },
     username,
-    color: randomColor()
+    color: randomColor(),
+    joined: Date.now()
+  };
+
+  const initialStorage = {
+    uid: data.uid,
+    editorText: "",
+    lobbyAccess: data.lobbyAccess,
+    difficulty: data.difficulty,
+    topics: new LiveList<string>(data.topics),
+    messages: new LiveList<TextChatMessage>(),
+    host: data.host,
+    language: "Python",
+    startMinutes: 1,
+    minutesLeft: 1,
+    secondsLeft: 0,
+    inRound: false
   };
 
   useEffect(() => {
@@ -65,9 +83,10 @@ export default ({
 
   useEffect(() => {
     socket.connect();
-    socket.on('connect', () => {
-      socket.emit("joinRoom", data.uid, socket.id);
-    });
+
+    // socket.on('connect', () => {
+    //   socket.emit("joinRoom", data.uid, socket.id);
+    // });
 
     socket.on("members", ({ message, username }) => toast(message));
     socket.on("startRound", (username, message) => toast(message));
@@ -93,39 +112,14 @@ export default ({
           { ...data }
         >
           <RoomProvider
+            shouldInitiallyConnect={true}
             id={data.uid}
             initialPresence={initialPresence}
-            initialStorage={{
-              uid: "",
-              editorText: "",
-              lobbyAccess: "",
-              difficulty: "",
-              topics: new LiveList<string>(data.topics),
-              messages: new LiveList<TextChatMessage>(),
-              host: "",
-              language: "Python",
-              startMinutes: 1,
-              minutesLeft: 1,
-              secondsLeft: 0,
-              inRound: false
-            }}
+            initialStorage={initialStorage}
           >
-
-            <div className="w-screen h-screen flex flex-row-reverse justify-center items-center">
-              <div className="w-2/3 h-screen flex flex-col justify-center items-center">
-                <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
-                  <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
-                    {/* <QuestionPanel {...{QuestionDummyData}} /> */}
-                  </div>
-
-                  <div className="flex justify-center mt-10">
-                    <CodePanel />
-                  </div>
-
-                  <TextPanel />
-                </Split>
-              </div>
-            </div>
+            <ClientSideSuspense fallback={<p>Loading...</p>}>
+              { () => <RoomLoadWrapper /> }
+            </ClientSideSuspense>
           </RoomProvider>
         </RoomContextLayer>
       </div>
