@@ -16,6 +16,30 @@ const ROUTE_BASE = "/api/questions";
 *
 */
 
+router.get("/verify/:questionUID", async (req, res) => {
+
+    // For logging and testing
+    LOG(ROUTE_BASE, req);
+
+    const {
+        params: {
+            questionUID
+        }
+    } = req;
+
+    await Question.findOne({
+        uid: questionUID
+    }).then(mongoResponse => {
+
+        res.status(200).send({
+            exists: mongoResponse !== null,
+            question: mongoResponse
+        });
+
+    })
+
+});
+
 router.post("/filter", async (req, res) => {
 
     // For logging and testing
