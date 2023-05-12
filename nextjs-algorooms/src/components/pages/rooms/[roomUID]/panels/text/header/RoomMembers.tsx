@@ -25,22 +25,24 @@ export default ({
   } = useContext(RoomContext);
 
   const inRound = useStorage(r => r.inRound);
+  const host = useStorage(r => r.host);
 
   const myPresence = useSelf(me => me.presence);
   const others = useOthers();
   
-  const handleStartRound = useMutation(({ storage }, username, message) => {
-    storage.set("inRound", true);
-  }, [  ]);
+  // Starts the round
+  const handleStartRound = useMutation(({ storage }, e) => storage.set("inRound", true), [  ]);
 
   if (!myPresence)
     return <p>Loading...</p>
+
+
+  const username = myPresence.username;
 
   const members = [
     myPresence,
     ...others.map((other) => other.presence)
   ];
-
 
   return (
     <section className="flex flex-col bg-darkAccent p-5">
@@ -53,20 +55,13 @@ export default ({
           )
         }
       </div>
-      
-      <button disabled={inRound} className={`${inRound ? "opacity-50" : ""} px-8 py-2 rounded-xl my-4 font-bold bg-greenAccent`}
-        onClick={() => {
 
-          const message = `${myPresence.username} started the round!`;
-          toast(message);
+        <button disabled={inRound} className={`${inRound ? "opacity-50" : ""} px-8 py-2 rounded-xl my-4 font-bold bg-greenAccent`}
+        onClick={handleStartRound}
+        >
+          START ROUND
+        </button>
 
-          handleStartRound(myPresence.username, message);
-      
-          socket.emit("startRound", uid, myPresence.username, message);
-        }}
-      >
-        START ROUND
-      </button>
     </section>
   );
 };
