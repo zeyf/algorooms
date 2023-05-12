@@ -10,7 +10,8 @@ export interface IRoom extends mongoose.Document {
     host: string,
     lobbyAccess: string,
     difficulty: string,
-    topics: Array<string>
+    topics: Array<string>,
+    questions: Array<number>
 };
 
 export const roomSchematic = new Schema({
@@ -36,6 +37,10 @@ export const roomSchematic = new Schema({
     },
     topics: {
         type: Array<String>,
+        required: true
+    },
+    questions: {
+        type: Array<Number>,
         required: true
     }
 });

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 // Create the interface for the Question
 export interface IQuestion extends mongoose.Document {
     title: string,
-    index: number,
+    uid: number,
     difficulty: string,
     description: string,
     topics: Array<string>,
@@ -18,7 +18,7 @@ export const questionSchematic = new Schema({
         type: String,
         required: true
     },
-    index: {
+    uid: {
         type: Number,
         required: true
     },

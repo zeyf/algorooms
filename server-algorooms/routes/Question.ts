@@ -2,6 +2,7 @@ import express from "express";
 import Question from "../models/QuestionModel";
 import LOG from "../utilities/log";
 import shuffle from "../utilities/shuffle";
+import createUID from "../utilities/createUID";
 
 const router = express.Router();
 const ROUTE_BASE = "/api/questions";
@@ -42,7 +43,7 @@ router.post("/filter", async (req, res) => {
         // Send the questions!
         res.status(200).send({
             exists: response.length > 0,
-            questions: response
+            questions: response.map(question => question.title)
         });
 
     });
@@ -58,7 +59,6 @@ router.post("/create", async (req, res) => {
     const {
         body: {
             title,
-            index,
             difficulty,
             topics,
             description,
@@ -67,9 +67,11 @@ router.post("/create", async (req, res) => {
         }
     } = req;
 
+    const uid = createUID();
+
     await Question.create({
         title,
-        index,
+        uid,
         difficulty,
         topics,
         description,

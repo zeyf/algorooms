@@ -2,6 +2,8 @@ import express from "express";
 import Room from "../models/RoomModel";
 import createUID from "../utilities/createUID";
 import LOG from "../utilities/log";
+import Question from "../models/QuestionModel";
+import shuffle from "../utilities/shuffle";
 
 const router = express.Router();
 const ROUTE_BASE = "/api/rooms";
@@ -104,6 +106,20 @@ router.post("/create", async (req, res) => {
     // Create a room UID
     const uid = createUID();
 
+    // Find questions by difficulty and searching for at least of the request body topics' in the topics field in a given record in the questions collection
+    const questions = await Question.find({
+        difficulty,
+        topics: {
+            "$in" : topics
+        }
+    }).then(response => {
+
+        // Shuffle the response for pseudo-randomized ordering
+        shuffle(response);
+
+        return response.map(question => question.uid);
+    });
+
     // Create the room's record in mongoDB
     await Room.create({
         name,
@@ -113,8 +129,9 @@ router.post("/create", async (req, res) => {
         lobbyAccess,
         uid,
         occupied: 0,
-        host
-    }).then(async (response) => {
+        host,
+        questions
+    }).then(response => {
         
         // Send response
         res.status(200).send({
