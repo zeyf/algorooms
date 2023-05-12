@@ -22,6 +22,8 @@ import {Tooltip, showTooltip, EditorView} from "@codemirror/view"
 import {StateField} from "@codemirror/state"
 
 import randomColor from "randomcolor";
+import Split from 'react-split';
+import CodeTester from './CodeTester';
 
 
 
@@ -132,45 +134,52 @@ const CodeEditor = ({
             borderTopColor: "transparent"
           }
         }
-      })
+      });
 
     return (
         <div className="w-[822px] h-[649px]">
             <div className="rounded-lg overflow-hidden w-[822px] h-[579px] mt-5">
-                <CodeMirror
-                    height="579px"
-                    width="822px"
-                    theme={sublime}
-                    value={editorText}
-                    onUpdate={viewUpdate => {
-                        const currentData = viewUpdate.state.selection.ranges[0];
+                <Split>
+                    <CodeMirror
+                        height="579px"
+                        width="822px"
+                        
+                        style={{
+                            borderLeft: "1px",
+                            borderLeftColor: myPresence.color,
+                            background: myPresence.color
+                        }}
 
-                        if (myPresence.cursorLocationData.from !== currentData.from || myPresence.cursorLocationData.to !== currentData.to) {
+                        theme={sublime}
+                        value={editorText}
+                        extensions={[
+                            ...languageMapping
+                            .filter(([ lang, ext ]:any[]) => language === lang)
+                            .map(([ lang, ext ]:any[]) => ext()),
+                            cursorTooltipField,
+                            cursorTooltipBaseTheme
+                        ]}
 
-                            handleEditorPositionUpdate({ ...myPresence, cursorLocationData: {
-                                ...currentData,
-                                empty: currentData.empty,
-                                head: currentData.head
-                            } });
+                        onUpdate={viewUpdate => {
+                            const currentData = viewUpdate.state.selection.ranges[0];
 
-                        }
-                    }}
+                            if (myPresence.cursorLocationData.from !== currentData.from || myPresence.cursorLocationData.to !== currentData.to) {
+
+                                handleEditorPositionUpdate({ ...myPresence, cursorLocationData: {
+                                    ...currentData,
+                                    empty: currentData.empty,
+                                    head: currentData.head
+                                } });
+
+                            }
+                        }}
+
+                        onChange={handleEditorTextEdit}
+                        
+                    />
                     
-                    extensions={[
-                        ...languageMapping
-                        .filter(([ lang, ext ]:any[]) => language === lang)
-                        .map(([ lang, ext ]:any[]) => ext()),
-                        cursorTooltipField,
-                        cursorTooltipBaseTheme
-                    ]}
-
-                    onChange={handleEditorTextEdit}
-
-                    style={{
-                        caretColor: myPresence.color
-                    }}
-
-                />
+                    <CodeTester />
+                </Split>
             </div>
 
         </div>
