@@ -10,6 +10,7 @@ import { RoomContext } from '@/contexts/RoomContextLayer';
 import { useMutation, useOthers, useSelf, useStorage } from '../../../../../../../../liveblocks.config';
 import { AppUserContext } from '@/contexts/AppUserContextLayer';
 import { toast } from 'react-toastify';
+import createUID from '@/utilities/createUID';
 
 export default ({
 
@@ -33,10 +34,6 @@ export default ({
   // Starts the round
   const handleStartRound = useMutation(({ storage }, e) => storage.set("inRound", true), [  ]);
 
-  if (!myPresence)
-    return <p>Loading...</p>
-
-
   const username = myPresence.username;
 
   const members = [
@@ -51,16 +48,18 @@ export default ({
       <div className="flex flex-wrap gap-2">
         {
           members.map(member =>
-            <RoomMember { ...member } />
+            <RoomMember { ...member } key={createUID(25)} />
           )
         }
       </div>
 
+        { host === username &&
         <button disabled={inRound} className={`${inRound ? "opacity-50" : ""} px-8 py-2 rounded-xl my-4 font-bold bg-greenAccent`}
         onClick={handleStartRound}
         >
           START ROUND
         </button>
+        }
 
     </section>
   );
