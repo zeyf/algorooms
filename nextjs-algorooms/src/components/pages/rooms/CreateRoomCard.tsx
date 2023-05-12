@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Checkbox } from "@material-tailwind/react";
 import { useState } from "react";
 import JoinRoomCard from "./JoinRoomCard";
@@ -6,6 +6,8 @@ import Select from "react-select";
 import { useRouter } from "next/router";
 import buildRoute from "@/utilities/buildRoute";
 import axios from "axios";
+import { useSelf } from "../../../../liveblocks.config";
+import { AppUserContext } from "@/contexts/AppUserContextLayer";
 
 const topicOptions = [
   { value: "Strings", label: "Strings" },
@@ -41,6 +43,10 @@ export default ({
 
   const router = useRouter();
 
+  const {
+    username
+  } = useContext(AppUserContext);
+
   const createRoom = async () => {
 
     /*
@@ -50,7 +56,7 @@ export default ({
       - Error handling for no topics
     */
 
-    const response = await axios.post(buildRoute("/api/rooms/create"), data).then(res => res.data);
+    const response = await axios.post(buildRoute("/api/rooms/create"), { ...data, host: username }).then(res => res.data);
 
     const {
       uid
