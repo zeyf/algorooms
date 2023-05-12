@@ -1,16 +1,16 @@
 
 import mongoose from 'mongoose';
+import { IQuestion } from './QuestionModel';
 const Schema = mongoose.Schema;
 
 // Create the interface for the Question
 export interface IRoom extends mongoose.Document {
     uid: string,
     name: string,
+    host: string,
     lobbyAccess: string,
-    occupied: number,
-    capacity: number,
     difficulty: string,
-    topics: string[]
+    topics: Array<string>
 };
 
 export const roomSchematic = new Schema({
@@ -22,16 +22,12 @@ export const roomSchematic = new Schema({
         type: String,
         required: true
     },
-    lobbyAccess: {
+    host: {
         type: String,
         required: true
     },
-    occupied: {
-        type: Number,
-        required: true
-    },
-    capacity: {
-        type: Number,
+    lobbyAccess: {
+        type: String,
         required: true
     },
     difficulty: {
