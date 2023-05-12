@@ -19,7 +19,7 @@ export const questionSchematic = new Schema({
         required: true
     },
     uid: {
-        type: Number,
+        type: String,
         required: true
     },
     difficulty: {

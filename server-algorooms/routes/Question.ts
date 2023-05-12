@@ -43,7 +43,7 @@ router.post("/filter", async (req, res) => {
         // Send the questions!
         res.status(200).send({
             exists: response.length > 0,
-            questions: response.map(question => question.title)
+            questions: response.map(question => question.uid)
         });
 
     });

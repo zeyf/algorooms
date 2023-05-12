@@ -40,7 +40,7 @@ export const roomSchematic = new Schema({
         required: true
     },
     questions: {
-        type: Array<Number>,
+        type: Array<String>,
         required: true
     }
 });
