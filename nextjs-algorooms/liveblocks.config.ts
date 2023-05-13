@@ -23,19 +23,22 @@ export type TextChatMessage = {
     color: string
 };
 
-type Storage = {
+export type Storage = {
     uid: string,
     editorText: string,
     lobbyAccess: string,
     difficulty: string,
     topics: LiveList<string>,
     messages: LiveList<TextChatMessage>,
+    questions: LiveList<string>,
     host: string,
     language: string,
     startMinutes: number,
     minutesLeft: number,
     secondsLeft: number,
-    inRound: boolean
+    inRound: boolean,
+    awaitingQuestion: boolean,
+    currentQuestion: any // to be question object
 };
 
 export const {
