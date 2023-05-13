@@ -12,6 +12,7 @@ export default ({
 
 }) => {
 
+    // Get the question constraints
     const questionConstraints = useStorage(r => r.currentQuestion.constraints);
 
     return (
@@ -20,6 +21,8 @@ export default ({
             <br/>
 
             {
+                // Display all question constraints
+
                 questionConstraints.map(
                     (constraint: string) => <Constraint questionConstraint={ constraint } />
                 )

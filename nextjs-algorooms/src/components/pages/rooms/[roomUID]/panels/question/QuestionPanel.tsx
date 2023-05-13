@@ -14,6 +14,7 @@ export default ({
 
 }) => {
 
+    // Get the question body
     const questionBody = useStorage(r => r.currentQuestion.description);
 
     return (

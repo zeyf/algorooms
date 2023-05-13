@@ -9,7 +9,10 @@ export default ({
 
 }) => {
 
+    // Get the question title
     const questionTitle = useStorage(r => r.currentQuestion.title);
+
+    // Get the question difficulty
     const questionDifficulty = useStorage(r => r.currentQuestion.difficulty);
 
     return (

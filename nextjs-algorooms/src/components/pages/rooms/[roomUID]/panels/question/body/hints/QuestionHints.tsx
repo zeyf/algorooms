@@ -12,6 +12,7 @@ export default ({
 
 }) => {
 
+    // Get the question hints
     const questionHints = useStorage(r => r.currentQuestion.hints);
 
     return (
@@ -20,6 +21,8 @@ export default ({
             <br/>
 
             {
+                // Display all question hints
+
                 questionHints.map(
                     (hint: string, index: number) => <Hint questionHint={ hint } questionHintIndex={ index } />
                 )
