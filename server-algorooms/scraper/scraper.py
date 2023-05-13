@@ -25,18 +25,33 @@ count = 0
 questions = []
 for title, url in urlArray:
     if count == 20:
-        break;
+        break
     # Load the question page using the webdriver
     driver.get(url)
     soup = BeautifulSoup(driver.page_source, 'html.parser')
     
     # Get the question description and example inputs/outputs
+    print("title: " + title)
     description = soup.find('div', {'class': '_1l1MA'}).get_text().strip()
+    topics = []
+
+    # allA = [  soup.find_all("a") ]
+
+    tag = soup.find('div', {'class': 'mt-2 flex flex-wrap gap-y-3'})
+    if tag != None:
+        # tempTag = tag.get_text().strip()
+        # print(tempTag)
+        # topics.append(tempTag)
+        tempTags = tag.find_all("a", href=True)
+        for i in tempTags:
+            topics.append(i.get_text())
+        
     
     # Add the question information to the list of questions
     questions.append({
         'title': title,
         'description': description,
+        'topics': topics
     })
     count += 1
 
