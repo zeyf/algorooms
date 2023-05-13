@@ -1,9 +1,6 @@
 export interface roomMemberInterface {
-    member: string;
-};
-
-export interface roomMembersInterface {
-    members: string[];
+    username: string;
+    color: string;
 };
 
 export interface roomSettingsInterface {
@@ -17,3 +14,8 @@ export interface roomSettingsModalInterface {
     difficulty: string;
     link: string;
 };
+
+export interface memberInterface {
+  name: string;
+  color: string;
+}

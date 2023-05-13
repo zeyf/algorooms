@@ -1,18 +1,23 @@
 // Module imports
-import React from "react";
+import React, { useEffect } from "react";
 
 // Interface imports
 import { codeTesterInterface } from "./Interfaces";
+import { useStorage } from "../../../../../../../liveblocks.config";
 
 export default ({
 
 }:codeTesterInterface) => {
 
-    // Code
+    const codeTestIteration = useStorage(r => r);
+
+    useEffect(() => {
+
+    }, [ codeTestIteration ]);
 
     return (
-        <section>
-            {/* Body */}
+        <section className="bg-white w-full">
+            
         </section>
     );
 

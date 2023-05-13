@@ -1,19 +1,24 @@
 // Module imports
-import React from "react";
+import React, { useContext, useEffect, useState } from 'react';
+import TextEntry from './TextEntry';
+import TextFeed from './TextFeed';
 
 // Interface imports
-import { textPanelInterface } from "./Interfaces";
+import { textPanelInterface } from './Interfaces';
+import RoomMembers from './header/RoomMembers';
 
 export default ({
 
 }: textPanelInterface) => {
+  // Code
 
-    // Code
 
-    return (
-        <section>
-            {/* Body */}
-        </section>
-    );
-
+  return (
+    <section className="flex flex-col">
+      {/* Body */}
+      <RoomMembers />
+      <TextFeed />
+      <TextEntry />
+    </section>
+  );
 };

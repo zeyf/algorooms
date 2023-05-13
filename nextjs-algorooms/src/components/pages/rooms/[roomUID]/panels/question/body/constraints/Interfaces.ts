@@ -1,7 +1,7 @@
-export interface constraintInterface {
-    constraint: string;
+export interface questionConstraintInterface {
+    questionConstraint: string;
 };
 
-export interface constraintsInterface {
-    constraints: string[]
+export interface questionConstraintsInterface {
+    questionConstraints: string[]
 };
