@@ -140,9 +140,7 @@ const SettingsPopUp = ({
 
             if (toastMessage !== null)
                 toast(toastMessage);
-
         };
-
     };
 
     return (
