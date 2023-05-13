@@ -6,10 +6,13 @@ import { questionHintsInterface } from "./Interfaces";
 
 // Component imports
 import Hint from "./QuestionHint";
+import { useStorage } from "../../../../../../../../../liveblocks.config";
 
 export default ({
-    questionHints
-}:questionHintsInterface) => {
+
+}) => {
+
+    const questionHints = useStorage(r => r.currentQuestion.hints);
 
     return (
         <section>

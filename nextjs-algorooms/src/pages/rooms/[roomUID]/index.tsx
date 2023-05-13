@@ -24,7 +24,7 @@ import { RoomContext } from '@/contexts/RoomContextLayer';
 import Head from 'next/head';
 
 
-import { Presence, RoomProvider, TextChatMessage, useMutation, useOthers, useSelf, useStorage } from '../../../../liveblocks.config';
+import { Presence, RoomProvider, Storage, TextChatMessage, useMutation, useOthers, useSelf, useStorage } from '../../../../liveblocks.config';
 import { LiveList } from '@liveblocks/client';
 import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
@@ -58,19 +58,31 @@ export default ({
     joined: Date.now()
   };
 
-  const initialStorage = {
+  const initialStorage: Storage = {
     uid: data.uid,
     editorText: "",
     lobbyAccess: data.lobbyAccess,
     difficulty: data.difficulty,
     topics: new LiveList<string>(data.topics),
     messages: new LiveList<TextChatMessage>(),
+    questions: new LiveList<string>(data.questions),
     host: data.host,
     language: "Python",
     startMinutes: 1,
     minutesLeft: 1,
     secondsLeft: 0,
-    inRound: false
+    inRound: false,
+    awaitingQuestion: false,
+    currentQuestion: {
+      title: "You should start a round!",
+      uid: "BRUH",
+      difficulty: "Simple",
+      description: "You should start a round... for real tho.",
+      topics: [  ],
+      constraints: [  ],
+      hints: [  ],
+      examples: [  ]
+    }
   };
 
   useEffect(() => {

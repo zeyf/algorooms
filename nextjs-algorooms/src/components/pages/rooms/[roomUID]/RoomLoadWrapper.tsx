@@ -40,7 +40,7 @@ export default ({
       <div className="w-2/3 h-screen flex flex-col justify-center items-center">
         <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
           <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
-            {/* <QuestionPanel /> */}
+            <QuestionPanel />
           </div>
 
           <div className="flex justify-center mt-10">

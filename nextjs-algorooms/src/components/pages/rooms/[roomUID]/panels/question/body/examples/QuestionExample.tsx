@@ -1,19 +1,19 @@
 import { questionExampleInterface } from "./Interfaces";
 
 export default ({
-    questionExampleInput,
-    questionExampleOutput,
-    questionExampleExplanation
-}:questionExampleInterface) => (
+    input,
+    output,
+    explanation
+}) => (
     <section>
-        <p><strong>Input</strong>{ `: ${questionExampleInput}` }</p>
+        <p><strong>Input</strong>{ `: ${input}` }</p>
         <br/>
-        <p><strong>Output</strong>{ `: ${questionExampleOutput}` }</p>
+        <p><strong>Output</strong>{ `: ${output}` }</p>
         <br/>
         {
-            questionExampleExplanation !== "" &&
+            explanation !== "" &&
                 <>
-                    <p><strong>Explanation</strong>{ `: ${questionExampleExplanation}` }</p>
+                    <p><strong>Explanation</strong>{ `: ${explanation}` }</p>
                     <br/>
                 </>
         }

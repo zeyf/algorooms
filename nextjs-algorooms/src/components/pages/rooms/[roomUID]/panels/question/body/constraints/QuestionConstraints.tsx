@@ -6,12 +6,13 @@ import { questionConstraintsInterface } from "./Interfaces";
 
 // Component imports
 import Constraint from "./QuestionConstraint";
+import { useStorage } from "../../../../../../../../../liveblocks.config";
 
 export default ({
-    questionConstraints
-}:questionConstraintsInterface) => {
 
-    // Code
+}) => {
+
+    const questionConstraints = useStorage(r => r.currentQuestion.constraints);
 
     return (
         <section>
