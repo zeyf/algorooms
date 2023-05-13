@@ -9,11 +9,19 @@ export default ({
   username,
   color
 }: roomMemberInterface) => {
-  
+
+
+
+
+
   return (
     <Link
-      href={`/profile/${username}`}
       className="text-white text-center px-2 py-1 flex flex-col rounded-lg"
+    
+      // Link to the username
+      href={`/profile/${username}`}
+
+      // Set-force the background color
       style={{
         backgroundColor: color
       }}
@@ -21,4 +29,9 @@ export default ({
       { username }
     </Link>
   );
+
+
+
+
+
 };

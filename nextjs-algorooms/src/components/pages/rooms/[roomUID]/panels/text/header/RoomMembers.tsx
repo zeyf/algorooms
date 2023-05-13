@@ -15,6 +15,10 @@ export default ({
 
 }) => {
 
+
+
+
+
   // Get the name of the room
   const {
     name
