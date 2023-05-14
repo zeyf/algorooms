@@ -3,6 +3,8 @@ import json
 import re;
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+
 
 # open the questions url json
 f = open('leetcode_questions.json')
@@ -24,11 +26,13 @@ driver = webdriver.Chrome(executable_path=chromedriver_path, options=options)
 count = 0
 questions = []
 for title, url, difficulty in urlArray:
-
+    if count == 20:
+        break
 
     # Load the question page using the webdriver
     driver.get(url)
     soup = BeautifulSoup(driver.page_source, 'html.parser')
+    
     
     # Get the question description and example inputs/outputs
     print(f"#{count + 1}\ttitle: {title}")
@@ -76,7 +80,9 @@ for title, url, difficulty in urlArray:
             return "Medium";
         return "Hard";
     
-    ## If we have at least one topic
+    constraints = description.split("Constraints:")[1]
+
+    # If we have at least one topic
     if len(topics) > 0:
         # Add the question information to the list of questions
         questions.append({
@@ -84,7 +90,8 @@ for title, url, difficulty in urlArray:
             'description': description.split("Example 1")[0],
             'examples': examples,
             'topics': topics,
-            "difficulty": translateDifficulty(difficulty)
+            "difficulty": translateDifficulty(difficulty),
+            "constraints": constraints
         });
 
     count += 1
