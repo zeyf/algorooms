@@ -82,8 +82,26 @@ for title, url, difficulty in urlArray:
     
     constraints = description.split("Constraints:\n\n")[1]
     separateConstraints = constraints.split("\n")
+    hintList=[]
+    numHints = 0
+    driver.find_element(By.XPATH, '/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div/div[1]/div/div[1]').click()
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    if soup.find("span", {"class": "text-xs text-label-3 dark:text-dark-label-3"}) == None:
+        numHints = "0"
+    else:
+        numHints = soup.find("span", {"class": "text-xs text-label-3 dark:text-dark-label-3"}).get_text()
+        numHints = numHints[3]
+    for i in range(int(numHints)):
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        hint = soup.find("div", {"class": "description-html-content mt-2 text-md text-label-1 dark:text-dark-label-1"})
+        if hint == None:
+            continue
+        elif hint.get_text() in hintList:
+            continue
+        else:
+            hintList.append(hint.get_text())
 
-
+        driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div/div[1]/div/div[1]/div[2]/div/div[1]/div/div[2]/div[1]/div[1]/div/div[2]").click()
 
     # If we have at least one topic
     if len(topics) > 0:
@@ -94,7 +112,8 @@ for title, url, difficulty in urlArray:
             'examples': examples,
             'topics': topics,
             "difficulty": translateDifficulty(difficulty),
-            "constraints": separateConstraints
+            "constraints": separateConstraints,
+            "hints": hintList
         });
 
     count += 1
