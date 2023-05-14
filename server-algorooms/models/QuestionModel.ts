@@ -41,6 +41,9 @@ export const questionSchematic = new Schema({
     hints: {
         type: Array<String>,
         required: true
+    },
+    isApproved: {
+        type: Boolean
     }
 })
 

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import Question from "../models/QuestionModel";
 import LOG from "../utilities/log";
 import shuffle from "../utilities/shuffle";
@@ -74,6 +74,22 @@ router.post("/filter", async (req, res) => {
 
 });
 
+router.get("/approve", async (req, res) => {
+    // For logging and testing
+    LOG(ROUTE_BASE, req);
+
+    // Search for question with isApproved to be false
+    await Question.find({
+        isApproved: false
+    }).then(response => {
+
+        // Send the questions
+        res.status(200).send({
+            questions: response
+        })
+    })
+})
+
 router.post("/create", async (req, res) => {
 
     // For logging and testing
@@ -87,7 +103,8 @@ router.post("/create", async (req, res) => {
             topics,
             description,
             constraints,
-            hints
+            hints,
+            isApproved
         }
     } = req;
 
@@ -100,7 +117,8 @@ router.post("/create", async (req, res) => {
         topics,
         description,
         constraints,
-        hints
+        hints,
+        isApproved
     }).then((response) => {
 
         res.status(200).send({
