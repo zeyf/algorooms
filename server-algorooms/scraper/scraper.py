@@ -26,7 +26,7 @@ driver = webdriver.Chrome(executable_path=chromedriver_path, options=options)
 count = 0
 questions = []
 for title, url, difficulty in urlArray:
-    if count == 20:
+    if count == 10:
         break
 
     # Load the question page using the webdriver
@@ -80,7 +80,10 @@ for title, url, difficulty in urlArray:
             return "Medium";
         return "Hard";
     
-    constraints = description.split("Constraints:")[1]
+    constraints = description.split("Constraints:\n\n")[1]
+    separateConstraints = constraints.split("\n")
+
+
 
     # If we have at least one topic
     if len(topics) > 0:
@@ -91,7 +94,7 @@ for title, url, difficulty in urlArray:
             'examples': examples,
             'topics': topics,
             "difficulty": translateDifficulty(difficulty),
-            "constraints": constraints
+            "constraints": separateConstraints
         });
 
     count += 1
