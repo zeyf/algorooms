@@ -24,8 +24,7 @@ driver = webdriver.Chrome(executable_path=chromedriver_path, options=options)
 count = 0
 questions = []
 for title, url, difficulty in urlArray:
-    # if count == 150:
-    #     break
+
 
     # Load the question page using the webdriver
     driver.get(url)
@@ -58,8 +57,6 @@ for title, url, difficulty in urlArray:
             "explanation": explanationText
         });
 
-
-    
     topics = []
 
     # find div that contains the topic tags
@@ -84,15 +81,11 @@ for title, url, difficulty in urlArray:
         # Add the question information to the list of questions
         questions.append({
             'title': title,
-            'description': description,
+            'description': description.split("Example 1")[0],
             'examples': examples,
             'topics': topics,
             "difficulty": translateDifficulty(difficulty)
         });
-    
-
-
-
 
     count += 1
 
