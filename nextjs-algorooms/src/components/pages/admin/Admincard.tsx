@@ -159,9 +159,10 @@ export default ({
                         Create Announcement
                     </h2>
                 </div>
-                <div className="flex flex-col w-[975px] h-[200px] mx-auto">
+                <div className="flex flex-col w-[975px] h-[200px] mx-auto gap-3">
                     <input
                         placeholder="Enter title"
+                        className="bg-transparent w-full rounded-lg border-2 border-white text-white pl-3 pt-2 pb-2"
                         ref={announcementTitleRef}
                     />
                     <textarea
