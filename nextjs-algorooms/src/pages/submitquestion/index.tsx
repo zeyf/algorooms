@@ -16,6 +16,7 @@ interface dataInterface {
   explanation: string;
   constraints: string;
   hints: string;
+  isApproved: Boolean;
 }
 
 const difficultyOptions = [
@@ -49,6 +50,7 @@ export default () => {
     explanation: '',
     constraints: '',
     hints: '',
+    isApproved: false,
   });
 
   const handleSubmit = () => {
@@ -71,14 +73,13 @@ export default () => {
   };
 
   const submitQuestion = async () => {
-    // const response = await axios
-    //   .post(buildRoute('/api/questions/create'), data)
-    //   .then((res) => res.data);
+    const response = await axios
+      .post(buildRoute('/api/questions/create'), data)
+      .then((res) => res.data);
 
-    // const { created } = response;
+    const { created } = response;
 
     // console.log(created);
-    let created: boolean = false;
     if (created) {
       console.log('submitted');
     } else {
