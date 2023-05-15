@@ -8,32 +8,25 @@ import QuestionConstraints from "./body/constraints/QuestionConstraints";
 import QuestionTopics from "./body/topics/QuestionTopics";
 import QuestionHints from "./body/hints/QuestionHints";
 import QuestionExamples from "./body/examples/QuestionExamples";
+import { useStorage } from "../../../../../../../liveblocks.config";
 
 export default ({
-    questionIndex,
-    questionTitle,
-    questionDifficulty,
-    questionBody,
-    questionExamples,
-    questionConstraints,
-    questionHints,
-    questionTopics
-}:questionPanelInterface) => {
+
+}) => {
+
+    // Get the question body
+    const questionBody = useStorage(r => r.currentQuestion.description);
 
     return (
         <div className="bg-darkAccent text-white">
-            <QuestionHeader
-                questionIndex={questionIndex}
-                questionTitle={questionTitle}
-                questionDifficulty={questionDifficulty}
-            />
-
+            <QuestionHeader />
             <section className="px-2 py-4">
                 <div className="whitespace-pre-line break-normal"> { questionBody } </div>
-                <QuestionExamples questionExamples={questionExamples}/>
-                <QuestionHints questionHints={questionHints} />
-                <QuestionTopics questionTopics={questionTopics} />
-                <QuestionConstraints questionConstraints={questionConstraints} />
+                
+                <QuestionExamples />
+                <QuestionHints />
+                <QuestionTopics />
+                <QuestionConstraints />
             </section>
         </div>
     );

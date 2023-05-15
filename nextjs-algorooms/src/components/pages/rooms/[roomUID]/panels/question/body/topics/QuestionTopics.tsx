@@ -6,12 +6,14 @@ import { questionTopicsInterface } from "./Interfaces";
 
 // Component imports
 import QuestionTopic from "./QuestionTopic";
+import { useStorage } from "../../../../../../../../../liveblocks.config";
 
 export default ({
-    questionTopics
-}:questionTopicsInterface) => {
 
-    // Code
+}) => {
+
+    // Get the question topics
+    const questionTopics = useStorage(r => r.currentQuestion.topics);
 
     return (
         <section>
@@ -19,6 +21,8 @@ export default ({
             <br/>
             
             {
+                // Display all question topics
+
                 questionTopics.map(
                     (topic: string) => <QuestionTopic questionTopic={ topic } />
                 )

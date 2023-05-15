@@ -2,9 +2,13 @@ import React from 'react';
 import Header from '@/components/shared/Header';
 import AdminCard from '@/components/pages/admin/AdminCard';
 import Head from 'next/head';
+import buildRoute from "@/utilities/buildRoute";
+import axios from "axios";
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 
-export default () => {
+export default ({
+    questions
+}) => {
     return (
         <>
             <Head>
@@ -21,7 +25,7 @@ export default () => {
                             <h2 className="text-5xl font-bold text-greenAccent mb-[40px]">
                                 ADMIN PANEL
                             </h2>
-                            <AdminCard />
+                            <AdminCard questions={questions}/>
                         </div>
                     </div>
                 </div>
@@ -33,9 +37,13 @@ export default () => {
 export const getServerSideProps = withPageAuthRequired({
     getServerSideProps: async () => {
 
+        const response = await axios.get(buildRoute("/api/questions/approve")).then(res => res.data);
+
+        const questions = response.questions;
+
         return {
             props: {
-
+                questions
             }
         };
 

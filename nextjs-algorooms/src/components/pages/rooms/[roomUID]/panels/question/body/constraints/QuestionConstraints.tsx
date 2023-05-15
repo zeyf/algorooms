@@ -6,12 +6,14 @@ import { questionConstraintsInterface } from "./Interfaces";
 
 // Component imports
 import Constraint from "./QuestionConstraint";
+import { useStorage } from "../../../../../../../../../liveblocks.config";
 
 export default ({
-    questionConstraints
-}:questionConstraintsInterface) => {
 
-    // Code
+}) => {
+
+    // Get the question constraints
+    const questionConstraints = useStorage(r => r.currentQuestion.constraints);
 
     return (
         <section>
@@ -19,6 +21,8 @@ export default ({
             <br/>
 
             {
+                // Display all question constraints
+
                 questionConstraints.map(
                     (constraint: string) => <Constraint questionConstraint={ constraint } />
                 )

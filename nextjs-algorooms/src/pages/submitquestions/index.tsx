@@ -16,6 +16,7 @@ interface dataInterface {
   explanation: string;
   constraints: string;
   hints: string;
+  isApproved: Boolean;
 }
 
 const difficultyOptions = [
@@ -49,6 +50,7 @@ export default () => {
     explanation: '',
     constraints: '',
     hints: '',
+    isApproved: false,
   });
 
   const handleSubmit = () => {
@@ -71,14 +73,13 @@ export default () => {
   };
 
   const submitQuestion = async () => {
-    // const response = await axios
-    //   .post(buildRoute('/api/questions/create'), data)
-    //   .then((res) => res.data);
+    const response = await axios
+      .post(buildRoute('/api/questions/create'), data)
+      .then((res) => res.data);
 
-    // const { created } = response;
+    const { created } = response;
 
     // console.log(created);
-    let created: boolean = false;
     if (created) {
       console.log('submitted');
     } else {
@@ -105,10 +106,10 @@ export default () => {
 
       <div className="to flex h-screen w-screen flex-col bg-gradient-to-tr from-darkAccent to-gradientEnd">
         <Header />
-        <div className="m-10 h-full rounded-[15px] bg-white bg-opacity-25 p-10 flex flex-col justify-between">
-          <h2 className="text-center text-white text-5xl">
+        <h2 className="text-center text-5xl font-bold text-greenAccent mt-[40px]">
             Question Submission
-          </h2>
+        </h2>
+        <div className="m-10 h-full rounded-[15px] bg-white bg-opacity-25 p-10 flex flex-col justify-between">
           {/* First row */}
           <div className="flex justify-around gap-10">
             {/* Question Name */}
@@ -119,7 +120,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, title: e.target.value });
                 }}
-                className="w-full rounded h-[38px] text-black"
+                className="w-full rounded h-[38px] bg-transparent border-2 border-white rounded-lg text-white"
               />
             </div>
             {/* Difficulty */}
@@ -160,7 +161,7 @@ export default () => {
           <div className="flex w-full gap-10">
             {/* Description */}
             <textarea
-              className="w-full rounded"
+              className="w-full bg-transparent border-2 border-white rounded-lg text-white"
               name="description"
               placeholder="Description..."
               rows={4}
@@ -180,7 +181,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, input: e.target.value });
                 }}
-                className="w-full rounded text-black"
+                className="w-full bg-transparent border-2 border-white rounded-lg text-white"
               />
             </div>
             {/* Output */}
@@ -189,7 +190,7 @@ export default () => {
                 name="output"
                 placeholder="Output..."
                 rows={4}
-                className="w-full rounded text-black"
+                className="w-full bg-transparent border-2 border-white rounded-lg text-white"
                 onChange={(e: any) =>
                   setData({ ...data, output: e.target.value })
                 }
@@ -201,7 +202,7 @@ export default () => {
                 name="topics"
                 placeholder="Explanation..."
                 rows={4}
-                className="w-full rounded text-black"
+                className="w-full bg-transparent border-2 border-white rounded-lg text-white"
                 onChange={(e: any) =>
                   setData({ ...data, explanation: e.target.value })
                 }
@@ -223,7 +224,7 @@ export default () => {
                   onChange={(e) => {
                     setData({ ...data, constraints: e.target.value });
                   }}
-                  className="w-full rounded-l text-black"
+                  className="w-full bg-transparent border-l-2 border-t-2 border-b-2 border-r-0 border-white rounded-tl-lg rounded-bl-lg text-white"
                 />
                 <div
                   className="cursor-pointer rounded-r bg-greenAccent p-3 hover:bg-darkAccent hover:text-white"
@@ -246,7 +247,7 @@ export default () => {
                   onChange={(e) => {
                     setData({ ...data, hints: e.target.value });
                   }}
-                  className="w-full rounded-l text-black"
+                  className="w-full bg-transparent border-l-2 border-t-2 border-b-2 border-r-0 border-white rounded-tl-lg rounded-bl-lg text-white"
                 />
                 <div
                   className="cursor-pointer rounded-r bg-greenAccent p-3 hover:bg-darkAccent hover:text-white"

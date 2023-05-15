@@ -140,15 +140,13 @@ const SettingsPopUp = ({
 
             if (toastMessage !== null)
                 toast(toastMessage);
-
         };
-
     };
 
     return (
-        <div className="w-[270px] h-[300px]">
-            <div className="h-full flex-col rounded-2xl bg-[#222C4A] shadow-xl border-black border-[3px]">
-                <div className="flex flex-col translate-x-[42.5px] translate-y-[35px] justify-center z-50 text-white w-[185px]">
+        <div className="w-auto h-[300px]">
+            <div className="h-auto flex flex-col rounded-2xl  shadow-xl border-black border-[3px] items-center bg-[#222C4A]">
+                <div className="flex flex-col justify-center z-50 text-white w-[185px] mt-3 ml-2 mr-2">
                     <Select
                         name="colors"
                         className="w-full basic-multi-select text-black"
@@ -163,7 +161,7 @@ const SettingsPopUp = ({
                         onChange={(selections:any) => setData({ ...data, tempTopics: selections.map((selection:any) => selection.value) })}
                     />
                 </div>
-                <div className="flex flex-col translate-x-[42.5px] translate-y-[55px] justify-center z-50 text-white w-[185px]">
+                <div className="text-white w-[185px] mt-2 ml-2 mr-2">
                     <Select
                         name="colors"
                         className="w-full basic-multi-select text-black"
@@ -177,41 +175,50 @@ const SettingsPopUp = ({
                         onChange={({ value, label }) => {setData({ ...data, tempDifficulty: value })}}
                     />
                 </div>
-            </div>
-            <div className="flex flex-col justify-center translate-y-[-140px] translate-x-[45px]">
-                <div>
-                    <button
-                        type="button"
-                        className={`${setButtonColorOnCondition(data.tempLobbyAccess === "Public")} w-[92px] h-[41px] bg font-bold py-2 rounded-tl-[15px] rounded-bl-[15px]`}
-                        onClick={() => setData({ ...data, tempLobbyAccess: "Public" })}
-                    >
-                        Public
-                    </button>
-                    <button
-                        type="button"
-                        className={`${setButtonColorOnCondition(data.tempLobbyAccess === "Private")} w-[92px] h-[41px] bg font-bold py-2 rounded-tr-[15px] rounded-br-[15px]`}
-                        onClick={() => setData({ ...data, tempLobbyAccess: "Private" })}
-                    >
-                        Private
-                    </button>
+                <div className="flex flex-col justify-center items-center">
+                    <div className="mt-2">
+                        <button
+                            type="button"
+                            className={`${setButtonColorOnCondition(data.tempLobbyAccess === "Public")} w-[92px] h-[41px] bg font-bold py-2 rounded-tl-[15px] rounded-bl-[15px]`}
+                            onClick={() => setData({ ...data, tempLobbyAccess: "Public" })}
+                        >
+                            Public
+                        </button>
+                        <button
+                            type="button"
+                            className={`${setButtonColorOnCondition(data.tempLobbyAccess === "Private")} w-[92px] h-[41px] bg font-bold py-2 rounded-tr-[15px] rounded-br-[15px]`}
+                            onClick={() => setData({ ...data, tempLobbyAccess: "Private" })}
+                        >
+                            Private
+                        </button>
+                    </div>
                 </div>
+                <div className="flex flex-row mt-5 mb-3 space-x-2">
+                    <button
+                    type="button"
+                    className="w-[71px] h-[46px] bg-darkAccent font-bold py-2 rounded-[15px] border-white border-[3px]"
+                    onClick={() => {
+                        const url = window.location.href;
+                        navigator.clipboard.writeText(url).then(() => {});
+                    }}
+                    >
+                        <MdContentCopy className="text-white text-2xl ml-[23px]" />
+                    </button>
+                    <div className="flex w-[71px] h-[46px] bg-darkAccent font-bold rounded-[15px] items-center justify-center border-white border-[3px]">
+                        <button
+                            onClick={handleSave}
+                            className="text-white"
+                        >
+                            Save
+                        </button>
+                    </div>
+                </div>
+                
             </div>
-            <button
-                type="button"
-                className="w-[71px] h-[46px] bg-darkAccent font-bold py-2 rounded-[15px] mt-4 translate-y-[-135px] translate-x-[100px] border-white border-[3px]"
-                onClick={() => {
-                    const url = window.location.href;
-                    navigator.clipboard.writeText(url).then(() => {});
-                }}
-                >
-                    <MdContentCopy className="text-white text-2xl ml-[23px]" />
-            </button>
 
-            <button
-                onClick={handleSave}
-            >
-                Save
-            </button>
+
+
+
         </div>
     );
 };

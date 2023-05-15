@@ -1,21 +1,10 @@
 // Import statements
 import React, { useContext, useEffect } from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
-import QuestionPanel from '@/components/pages/rooms/[roomUID]/panels/question/QuestionPanel';
-import CodePanel from '@/components/pages/rooms/[roomUID]/panels/code/CodePanel';
-import TextPanel from '@/components/pages/rooms/[roomUID]/panels/text/TextPanel';
-import { io } from 'socket.io-client';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import CodeTester from '@/components/pages/rooms/[roomUID]/panels/code/CodeTester';
-import { codePanelInterface } from '@/components/pages/rooms/[roomUID]/panels/code/Interfaces';
-import { textPanelInterface } from '@/components/pages/rooms/[roomUID]/panels/text/Interfaces';
-
-///
-
-import Split from 'react-split';
 import Header from '@/components/shared/Header';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -23,28 +12,38 @@ import RoomContextLayer from '@/contexts/RoomContextLayer';
 import { RoomContext } from '@/contexts/RoomContextLayer';
 import Head from 'next/head';
 
-
-import { Presence, RoomProvider, TextChatMessage } from '../../../../liveblocks.config';
+import { Presence, RoomProvider, Storage, TextChatMessage } from '../../../../liveblocks.config';
 import { LiveList } from '@liveblocks/client';
 import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
 import randomColor from "randomcolor";
+import RoomLoadWrapper from '@/components/pages/rooms/[roomUID]/RoomLoadWrapper';
+import { ClientSideSuspense } from '@liveblocks/react';
+
 
 export default ({
   exists,
   data
 }: any) => {
 
+
+
+
+
+  // Get router for redirection
   const router = useRouter();
   
+  // Get self socket
   const {
     socket
   } = useContext(RoomContext);
 
+  // Get self username
   const {
     username
   } = useContext(AppUserContext);
   
+  // Define the default presence
   const initialPresence: Presence = {
     isTypingCode: false,
     isTypingMessage: false,
@@ -52,9 +51,43 @@ export default ({
     isSubmittingCode: false,
     cursorLocationData: {  },
     username,
-    color: randomColor()
+    color: randomColor(),
+    joined: Date.now()
   };
 
+  // Define the default storage
+  const initialStorage: Storage = {
+    uid: data.uid,
+    editorText: "",
+    lobbyAccess: data.lobbyAccess,
+    difficulty: data.difficulty,
+    topics: new LiveList<string>(data.topics),
+    messages: new LiveList<TextChatMessage>(),
+    questions: new LiveList<string>(data.questions),
+    host: data.host,
+    language: "Python",
+    startMinutes: 1,
+    minutesLeft: 1,
+    secondsLeft: 0,
+    inRound: false,
+    awaitingQuestion: false,
+    currentQuestion: {
+      title: "You should start a round!",
+      uid: "BRUH",
+      difficulty: "Simple",
+      description: "You should start a round... for real tho.",
+      topics: [  ],
+      constraints: [  ],
+      hints: [  ],
+      examples: [  ]
+    }
+  };
+
+
+
+
+
+  // Re-route to 404 if room does not exists
   useEffect(() => {
 
     if (!exists)
@@ -63,18 +96,25 @@ export default ({
   }, [  ]);
 
 
+  // Establish socket connection with backend
   useEffect(() => {
     socket.connect();
-    socket.on('connect', () => {
-      socket.emit("joinRoom", data.uid, socket.id);
-    });
+
+    // socket.on('connect', () => {
+    //   socket.emit("joinRoom", data.uid, socket.id);
+    // });
 
     socket.on("members", ({ message, username }) => toast(message));
     socket.on("startRound", (username, message) => toast(message));
   });
 
+  // Ensure username is loaded before rendering the true room
   if (username === "")
     return <p>Loading...</p>
+
+
+
+
 
   return (
     <>
@@ -93,69 +133,55 @@ export default ({
           { ...data }
         >
           <RoomProvider
+            shouldInitiallyConnect={true}
             id={data.uid}
             initialPresence={initialPresence}
-            initialStorage={{
-              uid: "",
-              editorText: "",
-              lobbyAccess: "",
-              difficulty: "",
-              topics: new LiveList<string>(data.topics),
-              messages: new LiveList<TextChatMessage>(),
-              host: "",
-              language: "Python",
-              startMinutes: 1,
-              minutesLeft: 1,
-              secondsLeft: 0,
-              inRound: false
-            }}
+            initialStorage={initialStorage}
           >
-
-            <div className="w-screen h-screen flex flex-row-reverse justify-center items-center">
-              <div className="w-2/3 h-screen flex flex-col justify-center items-center">
-                <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
-                  <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
-                    {/* <QuestionPanel {...{QuestionDummyData}} /> */}
-                  </div>
-
-                  <div className="flex justify-center mt-10">
-                    <CodePanel />
-                  </div>
-
-                  <TextPanel />
-                </Split>
-              </div>
-            </div>
+            {/* Allows for full suspense rendering of hook calls before initial render */}
+            <ClientSideSuspense fallback={<p>Loading...</p>}>
+              { () => <RoomLoadWrapper /> }
+            </ClientSideSuspense>
           </RoomProvider>
         </RoomContextLayer>
       </div>
     </>
   );
 
+
+
+
+
 };
 
 // Auth-guarding the /rooms/[roomUID] page
 export const getServerSideProps = withPageAuthRequired({
+
   async getServerSideProps(context:any) {
 
+    // Pull out the parameter aka roomUID
     const {
       params: {
         roomUID
       }
     } = context;
 
+    // Make a request to verify the room exists
     const response = await axios.get(`http://localhost:4000/api/rooms/verify/${roomUID}`).then(res => res.data);
 
+    // Pull out the response
     const {
       exists,
       roomData
     } = response;
 
+    // Send response as props
     return {
       props: {
         exists,
         data: roomData
       },
     };
-  },
+  }
+
 });

@@ -8,6 +8,7 @@ import { textEntryInterface } from './Interfaces';
 import { RoomContext } from '@/contexts/RoomContextLayer';
 import { TextChatMessage, useMutation, useOthers, useSelf, useUpdateMyPresence } from '../../../../../../../liveblocks.config';
 import { LiveList } from '@liveblocks/client';
+import TextTypingAnimation from './TextTypingAnimation';
 
 export default ({
 
@@ -44,30 +45,28 @@ export default ({
 
   }, [  ]);
 
-  const handleGainFocus = () => {
-    updatePresence({
-      ...myPresence,
-      isTypingMessage: true
-    });
+  const handleStartedTyping = () => !myPresence.isTypingCode && updatePresence({
+    ...myPresence,
+    isTypingMessage: true
+  });
 
-  };
-
-  const handleLoseFocus = () => {
-    updatePresence({
-      ...myPresence,
-      isTypingMessage: false
-    });
-
-  };
+  const handleStoppedTyping = () => updatePresence({
+    ...myPresence,
+    isTypingMessage: false
+  });
   
   const others = useOthers();
 
-  if (!myPresence) {
-    return <p>Loading...</p>
-  };
+  const othersTyping = others.filter(other => other.presence.isTypingMessage);
 
-  const othersTyping = others.filter(other => other.presence.isTypingCode);
-  // ...(myPresence.isTypingMessage ? [ myPresence ] : [  ])
+  const buildUsersTypingMessage = () => {
+    if (othersTyping.length === 0)
+      return "";
+    else if (othersTyping.length === 1)
+      return `${othersTyping[0].presence.username} is typing...`;
+    else
+      return "Several users are typing...";
+  };
 
   return (
     <section className="py-5 border-t-[1px] border-black mx-4">
@@ -78,9 +77,7 @@ export default ({
       >
         <div className="bg-darkAccent relative w-full rounded overflow-hidden">
           <p className="text-white">
-            {
-              `${othersTyping.length} users typing...`
-            }
+            { buildUsersTypingMessage() } 
           </p>
           <input
             type="message"
@@ -89,8 +86,9 @@ export default ({
             placeholder="Type something simple"
             className="caret-greenAccent bg-transparent text-white p-3 outline-0 w-11/12"
 
-            onBlur={handleLoseFocus}
-            onFocus={handleGainFocus}
+            onBlur={handleStoppedTyping}
+            onFocus={handleStartedTyping}
+            onChange={handleStartedTyping}
 
           />
           <button type="submit"

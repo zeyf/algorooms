@@ -24,9 +24,9 @@ export default ({
 
     const isBottom = container.scrollHeight - container.scrollTop - 40 === container.clientHeight;
 
-    console.log(`Scroll height: ${container.scrollHeight} scroll top: ${container.scrollTop} clientHeight: ${container.clientHeight}`)
+    const isTop = container.scrollTop === 0;
 
-    if(isBottom) {
+    if(isBottom || isTop) {
       container.scrollTo(0, container.scrollHeight);
     }
   }, [ messages.length ]);

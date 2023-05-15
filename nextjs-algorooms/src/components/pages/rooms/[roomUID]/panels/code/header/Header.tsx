@@ -41,9 +41,8 @@ export default ({
         username
     } = useContext(AppUserContext);
 
-    const {
-        user
-    } = useUser();
+    const inRound = useStorage(r => r.inRound);
+    const awaitingQuestion = useStorage(r => r.awaitingQuestion);
 
     const buildSettingsChangeToastMessage = (usernameOfChanger, newTopics, newDifficulty, newLobbyAccess) => {
         let toastMessage = [  ];
@@ -112,7 +111,6 @@ export default ({
                             placeholder="Select Language"
                             className="drop-shadow-lg"
                             color="blue"
-                            defaultValue={language}
                             value={language}
                             onChange={e => {
                                 handleLanguageChange(e);
@@ -175,7 +173,12 @@ export default ({
                 <div className="flex items-center gap-[21px]">
                     <CountdownTimer />
                     
-                    <button onClick={() => setIsSettingsOpen(!isSettingsOpen)} className="w-[71px] h-[46px] bg-darkAccent font-bold py-2 rounded-[15px] border-white border-[3px]">
+                    <button 
+                        onClick={() => setIsSettingsOpen(!isSettingsOpen)} 
+                        className={` ${inRound ? "opacity-50" : ""} w-[71px] h-[46px] bg-darkAccent font-bold py-2 rounded-[15px] border-white border-[3px]` }
+
+                        disabled={inRound || awaitingQuestion}
+                    >   
                         <FaCog className="text-white text-2xl ml-[21px]" />
                     </button>
                     {isSettingsOpen && (
