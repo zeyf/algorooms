@@ -1,4 +1,3 @@
-import requests
 import json
 import re;
 from bs4 import BeautifulSoup
@@ -26,8 +25,6 @@ driver = webdriver.Chrome(executable_path=chromedriver_path, options=options)
 count = 0
 questions = []
 for title, url, difficulty in urlArray:
-    if count == 10:
-        break
 
     # Load the question page using the webdriver
     driver.get(url)
@@ -42,7 +39,9 @@ for title, url, difficulty in urlArray:
     pre_tags = mainContainer.find_all('pre')
 
 
+    ## Text parsing and splitting via regular expressions, by Zain
     inputRegex, outputRegex, explanationRegex = r"Input(\n|: ).*", r"Output(\n|: ).*", r"Explanation(\n|: ).*"; 
+
     for ex in pre_tags:
         exampleText = ex.get_text();
 
@@ -108,7 +107,7 @@ for title, url, difficulty in urlArray:
         # Add the question information to the list of questions
         questions.append({
             'title': title,
-            'description': description.split("Example 1")[0],
+            'description': description.split("Example 1")[0], ## Simple intuition to split text starting with examples and onwards from the description of the problem, by Zain
             'examples': examples,
             'topics': topics,
             "difficulty": translateDifficulty(difficulty),
