@@ -25,7 +25,7 @@ const Header = ({}: headerInterface) => {
   } = useContext(AppUserContext);
 
   return (
-    <div className="w-screen min-h-[64px] bg-darkAccent drop-shadow-lg flex flex-row rounded-b-lg items-center">
+    <div className="w-screen h-[64px] bg-darkAccent drop-shadow-lg flex flex-row rounded-b-lg items-center">
       <div className="absolute left-3">
         <Link href="/">
           <Image alt="Logo" src={Logo} width={125} height={125} />

@@ -41,6 +41,7 @@ module.exports = withMT({
       noto: ['Open Sans', 'sans-serif'],
       monte: ['Montserrat', 'sans-serif'],
       inter: ['Inter', 'sans-serif'],
+      mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
     },
   },
   plugins: [

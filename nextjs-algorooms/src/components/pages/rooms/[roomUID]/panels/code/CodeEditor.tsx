@@ -134,12 +134,13 @@ const CodeEditor = ({
       });
 
     return (
-        <div className="w-[822px] h-[649px]">
-            <div className="rounded-lg overflow-hidden w-[822px] h-[579px] mt-5">
-                <Split>
+        <div className="w-full h-full">
+            <div
+              className="rounded-lg overflow-hidden w-full h-full mt-5 bg-[#303841]">
+                <Split className="w-full">
                     <CodeMirror
-                        height="579px"
-                        width="822px"
+                        height="100%"
+                        width="100%"
                         
                         style={{
                             borderLeft: "1px",
@@ -168,14 +169,11 @@ const CodeEditor = ({
                                     head: currentData.head
                                 } });
 
-                            }
-                        }}
+                        }
+                    }}
 
-                        onChange={handleEditorTextEdit}
-                        
-                    />
-                    
-                    <CodeTester />
+                    onChange={handleEditorTextEdit}
+                />
                 </Split>
             </div>
 

@@ -10,10 +10,6 @@ export default ({
 
 }) => {
 
-
-
-
-
   // Get the room
   const room = useRoom();
 
@@ -28,10 +24,6 @@ export default ({
 
   // Get current room host
   const currentHost = useStorage(r => r.host);
-
-
-
-
 
   // Changes the new host
   const setNewHost = useMutation(({ storage }, user) => {
@@ -59,13 +51,8 @@ export default ({
   // Handles establishing of a new host when a user connects to a room or others leave the room
   useEffect(() => establishNewHost(), [ connected, myPresence, others.length ]);
 
-
-
-
-
   return (
-    <div className="w-screen h-screen flex flex-row-reverse justify-center items-center">
-      <div className="w-2/3 h-screen flex flex-col justify-center items-center">
+      <div className="yuh w-full h-full flex justify-center items-center">
         <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
           <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
             <QuestionPanel />
@@ -78,11 +65,5 @@ export default ({
           <TextPanel />
         </Split>
       </div>
-    </div>
   );
-
-
-
-
-
 };

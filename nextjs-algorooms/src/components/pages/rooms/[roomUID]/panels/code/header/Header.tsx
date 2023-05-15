@@ -102,14 +102,14 @@ export default ({
 
     return (
         <section>
-            <div className="w-[822px] flex flex-row space-x-5 items-center p-1 justify-between">
+            <div className="w-full flex flex-row space-x-5 items-center justify-between">
                 <div className="flex items-center gap-[21px]">
                     <div className="w-[200px]">
                         <select
                             // If you are the host, true. Otherwise, false.
                             disabled={runningCode || submittingCode}
                             placeholder="Select Language"
-                            className="drop-shadow-lg"
+                            className="drop-shadow-lg w-full"
                             color="blue"
                             value={language}
                             onChange={e => {

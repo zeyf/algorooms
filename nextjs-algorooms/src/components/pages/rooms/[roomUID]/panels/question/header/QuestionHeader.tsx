@@ -24,9 +24,11 @@ export default ({
                 </h1>
             </section>
 
-            <QuestionDifficultyRanking
-                questionDifficulty={questionDifficulty}
-            />
+            <section>
+              <QuestionDifficultyRanking
+                  questionDifficulty={questionDifficulty}
+              />
+            </section>
         </section>
     );
 

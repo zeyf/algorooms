@@ -2,7 +2,9 @@
 import React from "react";
 import Header from "./header/Header";
 import dynamic from "next/dynamic";
+import CodeTester from "./CodeTester";
 const CodeEditor = dynamic(() => import('./CodeEditor'), {ssr:false})
+import Split from 'react-split';
 
 
 
@@ -18,9 +20,16 @@ export default ({
     // Code
 
     return (
-        <section>
+        <section className="w-full">
             <Header />
-            <CodeEditor />
+            <Split sizes={[70,30]} minSize={[300, 0]} direction="vertical" cursor="row-resize" className="w-full h-full">
+              <div>
+                <CodeEditor />
+              </div>
+              <div>
+                <CodeTester />
+              </div>
+            </Split>
         </section>
     );
 

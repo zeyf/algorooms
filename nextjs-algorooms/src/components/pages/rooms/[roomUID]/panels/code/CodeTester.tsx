@@ -15,10 +15,9 @@ export default ({
 
     }, [ codeTestIteration ]);
 
-    return (
-        <section className="bg-white w-full">
-            
-        </section>
-    );
-
+  return (
+    <div className="bg-darkAccent w-full h-full rounded text-white font-mono p-5">
+      Try running your code!
+    </div>
+  );
 };
