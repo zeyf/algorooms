@@ -33,7 +33,9 @@ export default ({
 
   return (
     <section>
-      <div className="overflow-y-auto max-h-[400px] bg-darkAccent flex flex-col" ref={containerRef}>
+      <div className="overflow-y-auto bg-lightAccent flex flex-col" ref={containerRef}
+        style={{height: "calc(100vh - 380px"}}
+      >
         {/* NOT TESTED */}
         {
           messages.map(({
@@ -48,7 +50,7 @@ export default ({
 
             return (
               <div key={index} className="my-2 mx-2">
-                <span className="text-white flex flex-row">
+                <span className="text-white">
                   <div className="flex-shrink-0 text-gray-400 w-full">
                     { `${username}: ${message}\t${formatTime(hour)}:${formatTime(minutes)}` }
                   </div>

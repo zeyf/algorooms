@@ -14,7 +14,7 @@ export default ({
 
 
   return (
-    <section className="flex flex-col">
+    <section>
       {/* Body */}
       <RoomMembers />
       <TextFeed />

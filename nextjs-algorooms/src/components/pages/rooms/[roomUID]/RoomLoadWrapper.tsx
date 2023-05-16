@@ -54,7 +54,7 @@ export default ({
   return (
       <div className="yuh w-full h-full flex justify-center items-center">
         <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
-          <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
+          <div className="max-h-screen overflow-y-auto min-h-screen">
             <QuestionPanel />
           </div>
 

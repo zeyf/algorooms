@@ -22,7 +22,9 @@ export default ({
     return (
         <section className="w-full">
             <Header />
-            <Split sizes={[70,30]} minSize={[300, 0]} direction="vertical" cursor="row-resize" className="w-full h-full">
+            <Split sizes={[70,30]} minSize={[300, 0]} direction="vertical" cursor="row-resize" className="w-full"
+              style={{height: "calc(100% - 129px"}}
+            >
               <div>
                 <CodeEditor />
               </div>
