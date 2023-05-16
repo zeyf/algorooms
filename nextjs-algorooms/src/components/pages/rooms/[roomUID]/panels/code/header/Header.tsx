@@ -97,8 +97,12 @@ export default ({
 
     }, [  ]);
 
-    const language = useStorage(({ language }) => language);
-    const handleLanguageChange = useMutation(({ storage }, event) => storage.set("language", event.target.value), [  ]);
+
+    // Get the current editor language
+    const editorLanguage = useStorage(({ language }) => language);
+
+    // Handle the change of the current editor language
+    const handleLanguageChange = useMutation(({ storage }, event) => storage.set("language", event.target.value.toLowerCase()), [  ]);
 
     return (
         <section>
@@ -106,12 +110,18 @@ export default ({
                 <div className="flex items-center gap-[21px]">
                     <div className="w-[200px]">
                         <select
+
                             // If you are the host, true. Otherwise, false.
                             disabled={runningCode || submittingCode}
+                            
+                            // This will hold the value of the current langauge
+                            value={editorLanguage}
+
                             placeholder="Select Language"
                             className="drop-shadow-lg"
                             color="blue"
-                            value={language}
+
+                            // Change the language and communicate the changes
                             onChange={e => {
                                 handleLanguageChange(e);
                                 socket.emit("backendLanguageChange", e.target.value, username, uid, socket.id);

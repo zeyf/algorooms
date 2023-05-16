@@ -12,8 +12,8 @@ import RoomContextLayer from '@/contexts/RoomContextLayer';
 import { RoomContext } from '@/contexts/RoomContextLayer';
 import Head from 'next/head';
 
-import { Presence, RoomProvider, Storage, TextChatMessage } from '../../../../liveblocks.config';
-import { LiveList } from '@liveblocks/client';
+import { EditorTexts, Presence, RoomProvider, Storage, TextChatMessage } from '../../../../liveblocks.config';
+import { LiveList, LiveObject } from '@liveblocks/client';
 import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
 import randomColor from "randomcolor";
@@ -47,18 +47,25 @@ export default ({
   const initialPresence: Presence = {
     isTypingCode: false,
     isTypingMessage: false,
-    isRunningCode: false,
-    isSubmittingCode: false,
     cursorLocationData: {  },
-    username,
     color: randomColor(),
-    joined: Date.now()
+    joined: Date.now(),
+    votedToExecuteCode: false,
+    username
   };
 
   // Define the default storage
   const initialStorage: Storage = {
     uid: data.uid,
-    editorText: "",
+    editorTexts: new LiveObject<EditorTexts>({
+      python: "",
+      cpp: "",
+      java: "",
+      javascript: ""
+    }),
+    runCodeInQueue: false,
+    submitCodeInQueue: false,
+    voteCount: 0,
     lobbyAccess: data.lobbyAccess,
     difficulty: data.difficulty,
     topics: new LiveList<string>(data.topics),
