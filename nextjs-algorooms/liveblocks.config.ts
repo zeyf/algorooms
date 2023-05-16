@@ -1,5 +1,6 @@
 import {
     LiveList,
+    LiveObject,
     createClient
 } from "@liveblocks/client";
 
@@ -12,22 +13,29 @@ export const client = createClient({
   publicApiKey: "pk_dev_7rSbiCxmktdPPA-hgYZsTSxKsm3d3WUtHWKcq8wYTBLEV6lJKnWHGmEkZzEGsfMS",
 });
 
+// Type schema for the editor texts for the different languages supported as of right now
+export type EditorTexts = {
+    python: string,
+    javascript: string,
+    cpp: string,
+    java: string
+};
+
 // Type schema for presence -- a user's own unique state that is shared
 export type Presence = {
     isTypingCode: boolean,
     isTypingMessage: boolean,
-    isRunningCode: boolean,
-    isSubmittingCode: boolean,
     username: string,
     color: string,
     cursorLocationData: any,
-    joined: number
+    joined: number,
+    votedToExecuteCode: boolean
 };
 
 // Type schema for storage -- non-unique shared data
 export type Storage = {
     uid: string,
-    editorText: string,
+    editorTexts: LiveObject<EditorTexts>,
     lobbyAccess: string,
     difficulty: string,
     topics: LiveList<string>,
@@ -40,7 +48,10 @@ export type Storage = {
     secondsLeft: number,
     inRound: boolean,
     awaitingQuestion: boolean,
-    currentQuestion: any // to be question object
+    currentQuestion: any, // to be question object
+    runCodeInQueue: boolean,
+    submitCodeInQueue: boolean,
+    voteCount: number
 };
 
 // Type schema for text chat messages
