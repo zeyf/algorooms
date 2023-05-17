@@ -16,8 +16,10 @@ export default ({
     }, [ codeTestIteration ]);
 
     return (
-        <section className="bg-white w-full">
-            
+        <section>
+            <div className="bg-[#303841] w-[822px] h-[150px] rounded-lg mt-3">
+                
+            </div>
         </section>
     );
 

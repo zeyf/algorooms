@@ -72,7 +72,7 @@ export default ({
     messages: new LiveList<TextChatMessage>(),
     questions: new LiveList<string>(data.questions),
     host: data.host,
-    language: "Python",
+    language: "python",
     startMinutes: 1,
     minutesLeft: 1,
     secondsLeft: 0,
