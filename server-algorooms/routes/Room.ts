@@ -4,6 +4,7 @@ import createUID from "../utilities/createUID";
 import LOG from "../utilities/log";
 import Question from "../models/QuestionModel";
 import shuffle from "../utilities/shuffle";
+import axios from "axios";
 
 const router = express.Router();
 const ROUTE_BASE = "/api/rooms";
@@ -20,7 +21,8 @@ const ROUTE_BASE = "/api/rooms";
 * POST routes
 *
 * - /api/rooms/create
-* - api/rooms/update/:roomUID
+* - /api/rooms/update/:roomUID
+* - /api/rooms/execute
 *
 */
 
@@ -169,6 +171,33 @@ router.post("/update/:roomUID", async (req, res) => {
     res.status(200).send({
         updated: true
     });
+
+});
+
+router.post("/execute", async (req, res) => {
+
+    // for logging and testing
+    LOG(ROUTE_BASE, req);
+
+    const {
+        body
+    } = req;
+
+    const executeResponse = await axios.post("https://api.jdoodle.com/v1/execute", body).then(r => {
+        return r;
+    }).then(r => {
+
+        const {
+            output
+        } = r.data;
+
+
+        res.status(200).send({
+            output
+        });
+
+    });
+
 
 });
 
