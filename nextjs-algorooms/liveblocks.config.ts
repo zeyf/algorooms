@@ -10,7 +10,7 @@ import {
 
 // Create the client connection to LiveBlocks
 export const client = createClient({
-  publicApiKey: "pk_dev_7rSbiCxmktdPPA-hgYZsTSxKsm3d3WUtHWKcq8wYTBLEV6lJKnWHGmEkZzEGsfMS",
+  publicApiKey: process.env.LB_PUBLIC_API_KEY
 });
 
 // Type schema for the editor texts for the different languages supported as of right now

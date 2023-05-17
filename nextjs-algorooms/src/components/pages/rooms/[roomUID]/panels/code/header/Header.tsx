@@ -1,6 +1,5 @@
 // Module imports
 import React, { useContext, useEffect, useState } from "react";
-import { Select, Option } from "@material-tailwind/react";
 import { Button } from "flowbite-react";
 import SettingsPop from "../../../shared/SettingsPopUp";
 import { FaCog } from "react-icons/fa";
@@ -10,13 +9,17 @@ import { headerInterface } from "./Interfaces";
 import CountdownTimer from "./CountdownTimer";
 import { RoomContext } from "@/contexts/RoomContextLayer";
 import { toast } from "react-toastify";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { AppUserContext } from "@/contexts/AppUserContextLayer";
 import { useMutation, useStorage } from "../../../../../../../../liveblocks.config";
+import languageMapper from "@/utilities/languageMapper";
+import buildRoute from "@/utilities/buildRoute";
+import axios from "axios";
 
 export default ({
 
 }:headerInterface) => {
+
+    const CLIENT_ID = process.env.EXEC_CLIENT_ID, CLIENT_SECRET = process.env.EXEC_CLIENT_SECRET;
 
     // Code
     const [
@@ -104,6 +107,53 @@ export default ({
     // Handle the change of the current editor language
     const handleLanguageChange = useMutation(({ storage }, event) => storage.set("language", event.target.value.toLowerCase()), [  ]);
 
+
+    const handleRunCode = useMutation(async ({
+        storage,
+        setMyPresence
+    }, editorLang = editorLanguage, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+
+        storage.set("runCodeInQueue", true);
+
+        const editorText = storage.get("editorTexts").get(editorLang);
+
+        const payload = {
+            type: "run",
+            clientId,
+            clientSecret,
+            script: editorText,
+            ...langMapper[editorLanguage].jDoodleAPITemplateConfiguration
+        };
+
+        const response = await axios.post(buildRoute("/api/rooms/execute"), payload).then(r => r).then(r => r.data);
+
+        storage.set("runCodeInQueue", false);
+
+    }, [  ]);
+
+    const handleSubmitCode = useMutation(async ({
+        storage,
+        setMyPresence
+    }, editorLang = editorLanguage, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+
+        storage.set("submitCodeInQueue", true);
+
+        const editorText = storage.get("editorTexts").get(editorLang);
+
+        const payload = {
+            type: "submit",
+            clientId,
+            clientSecret,
+            script: editorText,
+            ...langMapper[editorLang].jDoodleAPITemplateConfiguration
+        };
+
+        const response = await axios.post(buildRoute("/api/rooms/execute"), payload).then(r => r).then(r => r.data);
+
+        storage.set("submitCodeInQueue", false);
+
+    }, [  ]);
+
     return (
         <section>
             <div className="w-[822px] flex flex-row space-x-5 items-center p-1 justify-between">
@@ -140,13 +190,16 @@ export default ({
                         color="dark"
                         className="drop-shadow-lg"
                         onClick={e => {
+
                             e.preventDefault();
+                            handleRunCode();
+
                             setRunningCode(true);
                             
                             const runMessage = `${username} is running code!`;
                             toast(runMessage);
 
-                            socket.emit("backendCodeExecution", runMessage, uid, socket.uid);
+                            // socket.emit("backendCodeExecution", runMessage, uid, socket.uid);
 
                             // Will be replaced with an async await (on response from execution)
                             setInterval(() => {
@@ -163,12 +216,14 @@ export default ({
                         className="drop-shadow-lg"
                         onClick={e => {
                             e.preventDefault();
+                            handleSubmitCode();
+
                             setSubmittingCode(true);
 
                             const submitMessage = `${username} is submitting code!`;
                             toast(submitMessage);
 
-                            socket.emit("backendCodeExecution", submitMessage, uid, socket.uid);
+                            // socket.emit("backendCodeExecution", submitMessage, uid, socket.uid);
 
                             // Will be replaced with an async await (on response from execution)
                             setInterval(() => {

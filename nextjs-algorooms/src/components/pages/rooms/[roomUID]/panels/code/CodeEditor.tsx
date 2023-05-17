@@ -1,10 +1,7 @@
 // Module imports
 import CodeMirror from '@uiw/react-codemirror';
-import { javascript as JAVASCRIPT_SYNTAX_HIGHLIGHTING_EXTENSION } from '@codemirror/lang-javascript';
-import { python as PYTHON_SYNTAX_HIGHLIGHTING_EXTENSION } from "@codemirror/lang-python";
-import { cpp as CPP_SYNTAX_HIGHLIGHTING_EXTENSION } from "@codemirror/lang-cpp";
-import { java as JAVA_SYNTAX_HIGHLIGHTING_EXTENSION } from '@codemirror/lang-java';
 import { sublime } from '@uiw/codemirror-theme-sublime'
+import languageMapper from '@/utilities/languageMapper';
 
 // Interface imports
 import { useMutation, useOthers, useSelf, useStorage, useUpdateMyPresence } from '../../../../../../../liveblocks.config';
@@ -26,14 +23,6 @@ const CodeEditor = ({
 
     // Get the current editor text based on what the current language is
     const editorText = useStorage(({ editorTexts }) => editorTexts)[editorLanguage];
-
-    // Stores the language-specific syntax highlighting for the different editor languages
-    const languageMapping = {
-        "python": PYTHON_SYNTAX_HIGHLIGHTING_EXTENSION,
-        "javascript": JAVASCRIPT_SYNTAX_HIGHLIGHTING_EXTENSION,
-        "cpp": CPP_SYNTAX_HIGHLIGHTING_EXTENSION,
-        "java": JAVA_SYNTAX_HIGHLIGHTING_EXTENSION
-    };
 
     // Get the LiveObject<EditorTexts> and set the specific language's editor text to the newEditorText onChange
     const handleEditorTextEdit = useMutation(({ storage }, newEditorText, editorLanguage) => {
@@ -174,7 +163,7 @@ const CodeEditor = ({
                         extensions={[
                             
                             // Get the syntax highlighting for the specific language selected
-                            languageMapping[editorLanguage](),
+                            languageMapper[editorLanguage].syntaxHighlightingExtension(),
 
                             // Creates the tooltip
                             cursorTooltipField,
