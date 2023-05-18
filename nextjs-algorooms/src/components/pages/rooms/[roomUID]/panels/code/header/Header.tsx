@@ -111,7 +111,9 @@ export default ({
     const handleRunCode = useMutation(async ({
         storage,
         setMyPresence
-    }, editorLang = editorLanguage, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+    }, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+
+        const editorLang:any = storage.get("language");
 
         storage.set("runCodeInQueue", true);
 
@@ -122,7 +124,7 @@ export default ({
             clientId,
             clientSecret,
             script: editorText,
-            ...langMapper[editorLanguage].jDoodleAPITemplateConfiguration
+            ...langMapper[editorLang].jDoodleAPITemplateConfiguration
         };
 
         const response = await axios.post(buildRoute("/api/rooms/execute"), payload).then(r => r).then(r => r.data);
@@ -134,7 +136,9 @@ export default ({
     const handleSubmitCode = useMutation(async ({
         storage,
         setMyPresence
-    }, editorLang = editorLanguage, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+    }, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+
+        const editorLang:any = storage.get("language");
 
         storage.set("submitCodeInQueue", true);
 

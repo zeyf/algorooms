@@ -146,8 +146,6 @@ const CodeEditor = ({
 
       });
 
-    console.log(editorLanguage)
-    console.log(languageMapper[editorLanguage])
     return (
         <div className="w-[822px] h-[579px]">
             <div className="rounded-lg overflow-hidden w-[822px] h-[579px] mt-5">
