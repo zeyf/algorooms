@@ -52,16 +52,10 @@ export default ({
   useEffect(() => establishNewHost(), [ connected, myPresence, others.length ]);
 
   return (
-      <div className="yuh w-full h-full flex justify-center items-center">
-        <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
-          <div className="max-h-screen overflow-y-auto min-h-screen">
-            <QuestionPanel />
-          </div>
-
-          <div className="flex justify-center mt-10">
-            <CodePanel />
-          </div>
-
+      <div className="w-full h-full flex justify-center items-center">
+        <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className="w-full flex h-full">
+          <QuestionPanel />
+          <CodePanel />
           <TextPanel />
         </Split>
       </div>

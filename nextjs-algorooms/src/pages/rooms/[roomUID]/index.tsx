@@ -19,6 +19,7 @@ import { AppUserContext } from '@/contexts/AppUserContextLayer';
 import randomColor from "randomcolor";
 import RoomLoadWrapper from '@/components/pages/rooms/[roomUID]/RoomLoadWrapper';
 import { ClientSideSuspense } from '@liveblocks/react';
+import Content from '@/components/shared/Content';
 
 
 export default ({
@@ -126,24 +127,25 @@ export default ({
       </Head>
 
       <div className="bg-[#222C4A] w-screen h-screen overflow-hidden">
-        {/*  */}
         <ToastContainer />
         <Header />
-        <RoomContextLayer
-          { ...data }
-        >
-          <RoomProvider
-            shouldInitiallyConnect={true}
-            id={data.uid}
-            initialPresence={initialPresence}
-            initialStorage={initialStorage}
+        <Content>
+          <RoomContextLayer
+            { ...data }
           >
-            {/* Allows for full suspense rendering of hook calls before initial render */}
-            <ClientSideSuspense fallback={<p>Loading...</p>}>
-              { () => <RoomLoadWrapper /> }
-            </ClientSideSuspense>
-          </RoomProvider>
-        </RoomContextLayer>
+            <RoomProvider
+              shouldInitiallyConnect={true}
+              id={data.uid}
+              initialPresence={initialPresence}
+              initialStorage={initialStorage}
+            >
+              {/* Allows for full suspense rendering of hook calls before initial render */}
+              <ClientSideSuspense fallback={<p>Loading...</p>}>
+                { () => <RoomLoadWrapper /> }
+              </ClientSideSuspense>
+            </RoomProvider>
+          </RoomContextLayer>  
+        </Content>
       </div>
     </>
   );

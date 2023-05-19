@@ -12,15 +12,14 @@ export default ({}) => {
   // Code
 
   return (
-    <section className="w-full">
+    <section className="w-full h-full">
       <Header />
       <Split
         sizes={[70, 30]}
         minSize={[300, 0]}
         direction="vertical"
         cursor="row-resize"
-        className="w-full"
-        style={{ height: 'calc(100% - 110px' }}
+        className="w-full h-[calc(100%-84px)]"
       >
         <div className="overflow-auto">
           <CodeEditor />
