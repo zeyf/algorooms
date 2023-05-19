@@ -19,7 +19,7 @@ export default ({}) => {
         minSize={[300, 0]}
         direction="vertical"
         cursor="row-resize"
-        className="w-full h-[calc(100%-84px)]"
+        className="w-full h-[calc(100%-82px)]"
       >
         <div className="overflow-auto">
           <CodeEditor />
