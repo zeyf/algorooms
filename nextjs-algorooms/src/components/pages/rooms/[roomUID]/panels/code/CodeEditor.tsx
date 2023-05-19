@@ -149,7 +149,6 @@ const CodeEditor = ({
     return (
         <div className="w-[822px] h-[579px]">
             <div className="rounded-lg overflow-hidden w-[822px] h-[579px] mt-5">
-                <Split>
                     <CodeMirror
 
                         // Stores the theme for the text editor
@@ -215,8 +214,6 @@ const CodeEditor = ({
                         }}
                     />
                     
-                    <CodeTester />
-                </Split>
             </div>
 
         </div>

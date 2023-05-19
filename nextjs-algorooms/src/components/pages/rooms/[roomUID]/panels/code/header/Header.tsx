@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button } from "flowbite-react";
 import SettingsPop from "../../../shared/SettingsPopUp";
 import { FaCog } from "react-icons/fa";
+import WhiteBoard from "../WhiteBoard";
 
 // Interface imports
 import { headerInterface } from "./Interfaces";
@@ -30,14 +31,15 @@ export default ({
     const {
         socket,
         uid,
-
         runningCode,
         setRunningCode,
         submittingCode,
         setSubmittingCode,
         setTopics,
         setDifficulty,
-        setLobbyAccess
+        setLobbyAccess,
+        setWhiteBoard,
+        whiteBoard
     } = useContext(RoomContext);
 
     const {
@@ -237,6 +239,15 @@ export default ({
                         }}
                     >
                         Submit
+                    </Button>
+                    <Button
+                        color="dark"
+                        className="drop-shadow-lg"
+                        onClick={() => {
+                            setWhiteBoard(!whiteBoard)
+                        }}
+                    >
+                        WhiteBoard
                     </Button>
                 </div>
                 <div className="flex items-center gap-[21px]">

@@ -5,14 +5,17 @@ import Split from "react-split";
 import CodePanel from "./panels/code/CodePanel";
 import TextPanel from "./panels/text/TextPanel";
 import QuestionPanel from "./panels/question/QuestionPanel";
+import { RoomContext } from "@/contexts/RoomContextLayer";
+import WhiteBoard from "./panels/code/WhiteBoard";
 
 export default ({
 
 }) => {
 
-
-
-
+  // Room Context
+  const {
+    whiteBoard
+  } = useContext(RoomContext);
 
   // Get the room
   const room = useRoom();
@@ -64,25 +67,24 @@ export default ({
 
 
   return (
-    <div className="w-screen h-screen flex flex-row-reverse justify-center items-center">
-      <div className="w-2/3 h-screen flex flex-col justify-center items-center">
-        <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
-          <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
-            <QuestionPanel />
-          </div>
 
-          <div className="flex justify-center mt-10">
-            <CodePanel />
-          </div>
-
-          <TextPanel />
-        </Split>
+      <div className="w-screen h-screen flex justify-center items-center">
+        {
+          whiteBoard && <WhiteBoard />
+        }   
+        <div className="w-2/3 h-screen flex flex-col justify-center items-center">
+          <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
+            <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
+              <QuestionPanel />
+            </div>
+  
+            <div className="flex justify-center mt-10">
+              <CodePanel />
+            </div>
+  
+            <TextPanel />
+          </Split>
+        </div>
       </div>
-    </div>
   );
-
-
-
-
-
 };
