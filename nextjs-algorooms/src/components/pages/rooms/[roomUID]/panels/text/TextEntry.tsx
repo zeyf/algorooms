@@ -69,13 +69,13 @@ export default ({
   };
 
   return (
-    <section className="py-5 border-t-[1px] border-black mx-4">
+    <section className="py-5 border-t-[1px] border-black mx-4 absolute bottom-0">
       {/* Body */}
       <form
         onSubmit={e => e.preventDefault()}
         className="flex relative select-text"
       >
-        <div className="bg-darkAccent relative w-full rounded overflow-hidden">
+        <div className="bg-darkAccent relative w-full rounded">
           <p className="text-white">
             { buildUsersTypingMessage() } 
           </p>
@@ -84,7 +84,7 @@ export default ({
             
             ref={inputRef}
             placeholder="Type something simple"
-            className="caret-greenAccent bg-transparent text-white p-3 outline-0 w-11/12"
+            className="caret-greenAccent bg-transparent text-white p-3 outline-0 w-full"
 
             onBlur={handleStoppedTyping}
             onFocus={handleStartedTyping}
