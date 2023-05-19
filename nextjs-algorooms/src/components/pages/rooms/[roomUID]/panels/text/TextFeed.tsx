@@ -38,7 +38,7 @@ export default ({
 
   return (
     <section>
-      <div className="overflow-y-auto max-h-[400px] bg-darkAccent flex flex-col" ref={containerRef}>
+      <div className="overflow-y-auto min-h-[500px] max-h-[500px] bg-darkAccent flex flex-col" ref={containerRef}>
         {
 
           // Display all messages
