@@ -1,6 +1,6 @@
 // Module imports
 import { useState, useRef, useEffect, useContext } from 'react';
-import CodeMirror from '@uiw/react-codemirror';
+import CodeMirror, { ReactCodeMirrorRef } from '@uiw/react-codemirror';
 import { javascript as JAVASCRIPT_SYNTAX_HIGHLIGHTING_EXTENSION } from '@codemirror/lang-javascript';
 import { python as PYTHON_SYNTAX_HIGHLIGHTING_EXTENSION } from '@codemirror/lang-python';
 import { cpp as CPP_SYNTAX_HIGHLIGHTING_EXTENSION } from '@codemirror/lang-cpp';
@@ -40,6 +40,8 @@ const CodeEditor = ({}: codeEditorInterface) => {
     ['cpp', CPP_SYNTAX_HIGHLIGHTING_EXTENSION],
     ['java', JAVA_SYNTAX_HIGHLIGHTING_EXTENSION],
   ];
+
+  const codeMirrorRefs = useRef<ReactCodeMirrorRef>({});
 
   const handleEditorTextEdit = useMutation(({ storage }, newEditorText) => {
     storage.set('editorText', newEditorText);
@@ -120,10 +122,18 @@ const CodeEditor = ({}: codeEditorInterface) => {
     },
   });
 
+  // Focus on the editor if empty line is clicked
+  const handleEditorClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      codeMirrorRefs.current.view.focus();
+    }
+  }
+
   return (
     <div className="w-full h-full">
-      <div className="rounded-lg overflow-auto w-full h-full bg-[#303841]">
+      <div className="rounded-lg overflow-auto w-full h-full bg-[#303841] relative z-1" onClick={handleEditorClick}>
         <CodeMirror
+          ref={codeMirrorRefs}
           height="100%"
           style={{
             borderLeft: '1px',
