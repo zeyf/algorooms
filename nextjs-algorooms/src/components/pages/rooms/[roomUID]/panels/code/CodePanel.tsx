@@ -12,7 +12,7 @@ export default ({}) => {
   // Code
 
   return (
-    <section className="w-full h-full">
+    <section className="w-full h-full bg-lightAccent relative z-1">
       <Header />
       <Split
         sizes={[70, 30]}

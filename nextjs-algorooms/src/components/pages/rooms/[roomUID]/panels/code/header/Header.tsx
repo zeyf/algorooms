@@ -102,7 +102,7 @@ export default ({
 
     return (
         <section>
-            <div className="w-full flex flex-row space-x-5 items-center justify-between">
+            <div className="w-full flex flex-row space-x-5 items-center justify-between py-5">
                 <div className="flex items-center gap-[21px]">
                     <div className="w-[200px]">
                         <select
