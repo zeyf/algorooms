@@ -1,10 +1,12 @@
 // Module imports
-import React from 'react';
-import Header from './header/Header';
-import dynamic from 'next/dynamic';
-import CodeTester from './CodeTester';
-const CodeEditor = dynamic(() => import('./CodeEditor'), { ssr: false });
-import Split from 'react-split';
+import React from "react";
+import Header from "./header/Header";
+import dynamic from "next/dynamic";
+import Split from "react-split";
+import CodeTester from "./CodeTester";
+const CodeEditor = dynamic(() => import('./CodeEditor'), {ssr:false})
+
+
 
 // Interface imports
 

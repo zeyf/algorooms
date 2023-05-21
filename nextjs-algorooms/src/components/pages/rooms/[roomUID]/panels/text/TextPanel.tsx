@@ -1,11 +1,11 @@
 // Module imports
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import TextEntry from './TextEntry';
 import TextFeed from './TextFeed';
+import RoomMembers from './header/RoomMembers';
 
 // Interface imports
 import { textPanelInterface } from './Interfaces';
-import RoomMembers from './header/RoomMembers';
 
 export default ({
 

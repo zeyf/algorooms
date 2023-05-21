@@ -1,14 +1,14 @@
 // Module imports
 import React from "react";
-
-// Interface imports
-import { questionPanelInterface } from "./Interfaces";
 import QuestionHeader from "./header/QuestionHeader";
 import QuestionConstraints from "./body/constraints/QuestionConstraints";
 import QuestionTopics from "./body/topics/QuestionTopics";
 import QuestionHints from "./body/hints/QuestionHints";
 import QuestionExamples from "./body/examples/QuestionExamples";
 import { useStorage } from "../../../../../../../liveblocks.config";
+
+// Interface imports
+import { questionPanelInterface } from "./Interfaces";
 
 export default ({
 

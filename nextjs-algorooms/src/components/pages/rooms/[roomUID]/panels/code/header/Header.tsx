@@ -1,22 +1,26 @@
 // Module imports
 import React, { useContext, useEffect, useState } from "react";
-import { Select, Option } from "@material-tailwind/react";
 import { Button } from "flowbite-react";
 import SettingsPop from "../../../shared/SettingsPopUp";
 import { FaCog } from "react-icons/fa";
+import WhiteBoard from "../WhiteBoard";
 
 // Interface imports
 import { headerInterface } from "./Interfaces";
 import CountdownTimer from "./CountdownTimer";
 import { RoomContext } from "@/contexts/RoomContextLayer";
 import { toast } from "react-toastify";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { AppUserContext } from "@/contexts/AppUserContextLayer";
 import { useMutation, useStorage } from "../../../../../../../../liveblocks.config";
+import languageMapper from "@/utilities/languageMapper";
+import buildRoute from "@/utilities/buildRoute";
+import axios from "axios";
 
 export default ({
 
 }:headerInterface) => {
+
+    const CLIENT_ID = process.env.EXEC_CLIENT_ID, CLIENT_SECRET = process.env.EXEC_CLIENT_SECRET;
 
     // Code
     const [
@@ -27,14 +31,15 @@ export default ({
     const {
         socket,
         uid,
-
         runningCode,
         setRunningCode,
         submittingCode,
         setSubmittingCode,
         setTopics,
         setDifficulty,
-        setLobbyAccess
+        setLobbyAccess,
+        setWhiteBoard,
+        whiteBoard
     } = useContext(RoomContext);
 
     const {
@@ -97,8 +102,63 @@ export default ({
 
     }, [  ]);
 
-    const language = useStorage(({ language }) => language);
-    const handleLanguageChange = useMutation(({ storage }, event) => storage.set("language", event.target.value), [  ]);
+
+    // Get the current editor language
+    const editorLanguage = useStorage(({ language }) => language);
+
+    // Handle the change of the current editor language
+    const handleLanguageChange = useMutation(({ storage }, event) => storage.set("language", event.target.value.toLowerCase()), [  ]);
+
+
+    const handleRunCode = useMutation(async ({
+        storage,
+        setMyPresence
+    }, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+
+        const editorLang:any = storage.get("language");
+
+        storage.set("runCodeInQueue", true);
+
+        const editorText = storage.get("editorTexts").get(editorLang);
+
+        const payload = {
+            type: "run",
+            clientId,
+            clientSecret,
+            script: editorText,
+            ...langMapper[editorLang].jDoodleAPITemplateConfiguration
+        };
+
+        const response = await axios.post(buildRoute("/api/rooms/execute"), payload).then(r => r).then(r => r.data);
+
+        storage.set("runCodeInQueue", false);
+
+    }, [  ]);
+
+    const handleSubmitCode = useMutation(async ({
+        storage,
+        setMyPresence
+    }, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+
+        const editorLang:any = storage.get("language");
+
+        storage.set("submitCodeInQueue", true);
+
+        const editorText = storage.get("editorTexts").get(editorLang);
+
+        const payload = {
+            type: "submit",
+            clientId,
+            clientSecret,
+            script: editorText,
+            ...langMapper[editorLang].jDoodleAPITemplateConfiguration
+        };
+
+        const response = await axios.post(buildRoute("/api/rooms/execute"), payload).then(r => r).then(r => r.data);
+
+        storage.set("submitCodeInQueue", false);
+
+    }, [  ]);
 
     return (
         <section>
@@ -106,12 +166,18 @@ export default ({
                 <div className="flex items-center gap-[21px]">
                     <div className="w-[200px]">
                         <select
+
                             // If you are the host, true. Otherwise, false.
                             disabled={runningCode || submittingCode}
+                            
+                            // This will hold the value of the current langauge
+                            value={editorLanguage}
+
                             placeholder="Select Language"
                             className="drop-shadow-lg w-full"
                             color="blue"
-                            value={language}
+
+                            // Change the language and communicate the changes
                             onChange={e => {
                                 handleLanguageChange(e);
                                 socket.emit("backendLanguageChange", e.target.value, username, uid, socket.id);
@@ -130,13 +196,16 @@ export default ({
                         color="dark"
                         className="drop-shadow-lg"
                         onClick={e => {
+
                             e.preventDefault();
+                            handleRunCode();
+
                             setRunningCode(true);
                             
                             const runMessage = `${username} is running code!`;
                             toast(runMessage);
 
-                            socket.emit("backendCodeExecution", runMessage, uid, socket.uid);
+                            // socket.emit("backendCodeExecution", runMessage, uid, socket.uid);
 
                             // Will be replaced with an async await (on response from execution)
                             setInterval(() => {
@@ -153,12 +222,14 @@ export default ({
                         className="drop-shadow-lg"
                         onClick={e => {
                             e.preventDefault();
+                            handleSubmitCode();
+
                             setSubmittingCode(true);
 
                             const submitMessage = `${username} is submitting code!`;
                             toast(submitMessage);
 
-                            socket.emit("backendCodeExecution", submitMessage, uid, socket.uid);
+                            // socket.emit("backendCodeExecution", submitMessage, uid, socket.uid);
 
                             // Will be replaced with an async await (on response from execution)
                             setInterval(() => {
@@ -168,6 +239,15 @@ export default ({
                         }}
                     >
                         Submit
+                    </Button>
+                    <Button
+                        color="dark"
+                        className="drop-shadow-lg"
+                        onClick={() => {
+                            setWhiteBoard(!whiteBoard)
+                        }}
+                    >
+                        WhiteBoard
                     </Button>
                 </div>
                 <div className="flex items-center gap-[21px]">

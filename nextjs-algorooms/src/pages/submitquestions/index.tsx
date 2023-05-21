@@ -120,7 +120,7 @@ export default () => {
                 onChange={(e) => {
                   setData({ ...data, title: e.target.value });
                 }}
-                className="w-full rounded h-[38px] bg-transparent border-2 border-white rounded-lg text-white"
+                className="w-full h-[38px] bg-transparent border-2 border-white rounded-lg text-white"
               />
             </div>
             {/* Difficulty */}
