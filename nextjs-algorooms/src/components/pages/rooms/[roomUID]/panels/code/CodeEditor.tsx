@@ -7,8 +7,11 @@ import { useMutation, useOthers, useSelf, useStorage, useUpdateMyPresence } from
 import { EditorState } from '@codemirror/state';
 import { Tooltip, showTooltip, EditorView } from '@codemirror/view';
 import { StateField } from '@codemirror/state';
+import Split from 'react-split';
 
-// Interface imports
+import randomColor from "randomcolor";
+import CodeTester from './CodeTester';
+
 
 
 const CodeEditor = ({
@@ -200,10 +203,18 @@ const CodeEditor = ({
                         }
                     }}
 
-                    onChange={(e) => {
-                      handleEditorTextEdit(e, editorLanguage);
-                    }}
-                />
+                        // Handle text editor changes and map it to the specific editor language that is currently selected
+                        onChange={(e) => {
+                            handleEditorTextEdit(e, editorLanguage);
+                        }}
+
+                        // An attempt to style the cursor color for a given client
+                        style={{
+                            borderLeft: "1px",
+                            borderLeftColor: myPresence.color,
+                            background: myPresence.color
+                        }}
+                    />
                     
             </div>
 
