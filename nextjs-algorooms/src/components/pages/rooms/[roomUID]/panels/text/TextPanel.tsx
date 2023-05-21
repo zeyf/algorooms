@@ -16,9 +16,11 @@ export default ({
   return (
     <section>
       {/* Body */}
-      <RoomMembers />
-      <TextFeed />
-      <TextEntry />
+      <div className='flex flex-col relative h-full -z-1'>
+        <RoomMembers />
+        <TextFeed />
+        <TextEntry />
+      </div>
     </section>
   );
 };

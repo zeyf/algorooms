@@ -69,13 +69,13 @@ export default ({
   };
 
   return (
-    <section className="py-5 border-t-[1px] border-black mx-4 absolute bottom-0">
+    <section className="h-[84px] py-5 border-t-[1px] border-black mx-4 box-border">
       {/* Body */}
       <form
         onSubmit={e => e.preventDefault()}
         className="flex relative select-text"
       >
-        <div className="bg-darkAccent relative w-full rounded">
+        <div className="bg-darkAccent relative rounded">
           <p className="text-white">
             { buildUsersTypingMessage() } 
           </p>

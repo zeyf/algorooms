@@ -32,10 +32,7 @@ export default ({
   }, [ messages.length ]);
 
   return (
-    <section>
-      <div className="overflow-y-auto bg-lightAccent flex flex-col" ref={containerRef}
-        style={{height: "calc(100vh - 380px"}}
-      >
+      <section className="flex-[3] overflow-y-auto bg-lightAccent flex flex-col h-full" ref={containerRef}>
         {/* NOT TESTED */}
         {
           messages.map(({
@@ -59,7 +56,6 @@ export default ({
             )
           })
         }
-      </div>
-    </section>
+      </section>
   );
 };

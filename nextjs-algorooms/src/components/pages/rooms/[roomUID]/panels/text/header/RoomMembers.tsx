@@ -146,7 +146,7 @@ export default ({
 
 
   return (
-    <section className="flex flex-col bg-darkAccent p-5">
+    <section className="flex-1 flex flex-col bg-darkAccent p-5 box-border">
       <span className="text-white uppercase text-xl">{ name }</span>
       <span className="py-6 font-bold text-white">ROOM MEMBERS</span>
       <div className="flex flex-wrap gap-2">
