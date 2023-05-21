@@ -75,7 +75,7 @@ export default ({
         onSubmit={e => e.preventDefault()}
         className="flex relative select-text"
       >
-        <div className="bg-darkAccent relative rounded">
+        <div className="bg-darkAccent relative rounded w-full">
           <p className="text-white">
             { buildUsersTypingMessage() } 
           </p>
