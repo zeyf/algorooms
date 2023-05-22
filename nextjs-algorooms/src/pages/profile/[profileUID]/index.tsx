@@ -20,6 +20,7 @@ export default ({
   exists,
   data
 }: any) => {
+
   const router = useRouter();
 
   useEffect(() => {
@@ -145,34 +146,29 @@ export default ({
             <div className="flex flex-row justify-between h-1/2 pt-4">
               {/* Recently Solved Problems */}
               <div className="w-1/3 border-r-2 border-gray">
+
                 <Title
                   text="Recently Solved Problems"
                   alignment="center"
                   color="white"
                 />
-                <ol>
-                  <Title
-                    text="1. Minimum Array"
-                    alignment="left"
-                    color="white"
-                  />
-                  <Title
-                    text="2. Selling Stock"
-                    alignment="left"
-                    color="white"
-                  />
-                  <Title
-                    text="3. Shortest Path v1"
-                    alignment="left"
-                    color="white"
-                  />
-                  <Title text="4. 17 Sum" alignment="left" color="white" />
-                  <Title
-                    text="5. Maximum Array"
-                    alignment="left"
-                    color="white"
-                  />
-                </ol>
+
+                <div>
+
+                {
+                  data.submissions.map(submission => {
+
+                    return <Title
+                      text={ submission.questionTitle }
+                      alignment="left"
+                      color="white"
+                    />
+
+                  })
+                }
+
+                </div>
+
               </div>
 
               {/* Top Topics Solved */}
