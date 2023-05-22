@@ -12,14 +12,15 @@ import RoomContextLayer from '@/contexts/RoomContextLayer';
 import { RoomContext } from '@/contexts/RoomContextLayer';
 import Head from 'next/head';
 
-import { Presence, RoomProvider, Storage, TextChatMessage } from '../../../../liveblocks.config';
-import { LiveList } from '@liveblocks/client';
+import { EditorTexts, Presence, RoomProvider, Storage, TextChatMessage } from '../../../../liveblocks.config';
+import { LiveList, LiveObject } from '@liveblocks/client';
 import { AppUserContext } from '@/contexts/AppUserContextLayer';
 
 import randomColor from "randomcolor";
 import RoomLoadWrapper from '@/components/pages/rooms/[roomUID]/RoomLoadWrapper';
 import { ClientSideSuspense } from '@liveblocks/react';
-
+import WhiteBoard from '@/components/pages/rooms/[roomUID]/panels/code/WhiteBoard';
+import Content from '@/components/shared/Content';
 
 export default ({
   exists,
@@ -35,7 +36,7 @@ export default ({
   
   // Get self socket
   const {
-    socket
+    socket,
   } = useContext(RoomContext);
 
   // Get self username
@@ -47,25 +48,32 @@ export default ({
   const initialPresence: Presence = {
     isTypingCode: false,
     isTypingMessage: false,
-    isRunningCode: false,
-    isSubmittingCode: false,
     cursorLocationData: {  },
-    username,
     color: randomColor(),
-    joined: Date.now()
+    joined: Date.now(),
+    votedToExecuteCode: false,
+    username
   };
 
   // Define the default storage
   const initialStorage: Storage = {
     uid: data.uid,
-    editorText: "",
+    editorTexts: new LiveObject<EditorTexts>({
+      python: "",
+      cpp: "",
+      java: "",
+      javascript: ""
+    }),
+    runCodeInQueue: false,
+    submitCodeInQueue: false,
+    voteCount: 0,
     lobbyAccess: data.lobbyAccess,
     difficulty: data.difficulty,
     topics: new LiveList<string>(data.topics),
     messages: new LiveList<TextChatMessage>(),
     questions: new LiveList<string>(data.questions),
     host: data.host,
-    language: "Python",
+    language: "python",
     startMinutes: 1,
     minutesLeft: 1,
     secondsLeft: 0,
@@ -126,24 +134,25 @@ export default ({
       </Head>
 
       <div className="bg-[#222C4A] w-screen h-screen overflow-hidden">
-        {/*  */}
         <ToastContainer />
         <Header />
-        <RoomContextLayer
-          { ...data }
-        >
-          <RoomProvider
-            shouldInitiallyConnect={true}
-            id={data.uid}
-            initialPresence={initialPresence}
-            initialStorage={initialStorage}
+        <Content>
+          <RoomContextLayer
+            { ...data }
           >
-            {/* Allows for full suspense rendering of hook calls before initial render */}
-            <ClientSideSuspense fallback={<p>Loading...</p>}>
-              { () => <RoomLoadWrapper /> }
-            </ClientSideSuspense>
-          </RoomProvider>
-        </RoomContextLayer>
+            <RoomProvider
+              shouldInitiallyConnect={true}
+              id={data.uid}
+              initialPresence={initialPresence}
+              initialStorage={initialStorage}
+            >
+              {/* Allows for full suspense rendering of hook calls before initial render */}
+              <ClientSideSuspense fallback={<p>Loading...</p>}>
+                { () => <RoomLoadWrapper /> }
+              </ClientSideSuspense>
+            </RoomProvider>
+          </RoomContextLayer>  
+        </Content>
       </div>
     </>
   );

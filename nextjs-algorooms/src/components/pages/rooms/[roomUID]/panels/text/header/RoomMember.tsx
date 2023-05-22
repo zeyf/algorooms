@@ -10,9 +10,18 @@ export default ({
   color
 }: roomMemberInterface) => {
 
+  // Use black text on light colors, white text on dark colors
+  const blackOrWhiteText = () => {
+    const r = parseInt(color.slice(1, 3), 16) / 255;
+    const g = parseInt(color.slice(3, 5), 16) / 255;
+    const b = parseInt(color.slice(5, 7), 16) / 255;
+    const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
-
-
+    if (luminance > 0.5) {
+      return "black";
+    }
+    return "white";
+  }
 
   return (
     <Link
@@ -23,15 +32,11 @@ export default ({
 
       // Set-force the background color
       style={{
-        backgroundColor: color
+        backgroundColor: color,
+        color: blackOrWhiteText()
       }}
     >
       { username }
     </Link>
   );
-
-
-
-
-
 };

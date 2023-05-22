@@ -2,26 +2,34 @@
 import React from "react";
 import Header from "./header/Header";
 import dynamic from "next/dynamic";
+import Split from "react-split";
+import CodeTester from "./CodeTester";
 const CodeEditor = dynamic(() => import('./CodeEditor'), {ssr:false})
 
 
 
 // Interface imports
 
+export default ({}) => {
+  // Code
 
-
-
-export default ({
-
-}) => {
-
-    // Code
-
-    return (
-        <section>
-            <Header />
-            <CodeEditor />
-        </section>
-    );
-
+  return (
+    <section className="w-full h-full bg-lightAccent relative z-1">
+      <Header />
+      <Split
+        sizes={[70, 30]}
+        minSize={[300, 0]}
+        direction="vertical"
+        cursor="row-resize"
+        className="w-full h-[calc(100%-82px)]"
+      >
+        <div className="overflow-auto">
+          <CodeEditor />
+        </div>
+        <div>
+          <CodeTester />
+        </div>
+      </Split>
+    </section>
+  );
 };

@@ -1,5 +1,5 @@
 // Module imports
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 // Component imports
 import RoomMember from './RoomMember';
@@ -9,7 +9,8 @@ import { toast } from 'react-toastify';
 import createUID from '@/utilities/createUID';
 import axios from 'axios';
 import buildRoute from '@/utilities/buildRoute';
-import { LiveList } from '@liveblocks/client';
+import { LiveList, LiveObject } from '@liveblocks/client';
+import languageMapper, { languageMap } from '@/utilities/languageMapper';
 
 export default ({
 
@@ -64,7 +65,7 @@ export default ({
 
 
   // Performs mutation on the room storage
-  const nextQuestion = useMutation(async ({ storage }) => {
+  const nextQuestion = useMutation(async ({ storage }, langMapper = languageMapper) => {
 
     // Change status to let all users know a question is being awaited
     storage.set("awaitingQuestion", true);
@@ -81,19 +82,28 @@ export default ({
     // Make a request to get the next question by UID
     const response = await axios.get(buildRoute(`/api/questions/verify/${nextQuestionUID}`)).then(r => r).then(r => r.data);
     
+    // Reset the editor texts for the supported languages
+    const newEditorTextsObject:any = {  };
+
+    // Populate and declare blank language editor texts for all supported languages
+    for (const language of Object.keys(langMapper))
+      newEditorTextsObject[language] = "";
+
+    // Reset the LiveObject<EditorTexts> for the supported languages
+    storage.set("editorTexts", new LiveObject(newEditorTextsObject));
+
     // Set the current question
     storage.set("currentQuestion", response.question);
 
     // Change status to let all users know a question is not being awaited anymore
     storage.set("awaitingQuestion", false);
 
-
     // Change status to start the round
     storage.set("inRound", true);
 
   }, [  ]);
 
-  const repopulateQuestions = useMutation(async ({ storage }) => {
+  const repopulateQuestions = useMutation(async ({ storage }, langMapper = languageMapper) => {
 
     // Change status to let all users know a question is being awaited
     storage.set("awaitingQuestion", true);
@@ -130,6 +140,16 @@ export default ({
     // Make a request to get the next question by UID
     const questionResponse = await axios.get(buildRoute(`/api/questions/verify/${nextQuestionUID}`)).then(r => r).then(r => r.data);
 
+    // Reset the editor texts for the supported languages
+    const newEditorTextsObject:any = {  };
+
+    // Populate and declare blank language editor texts for all supported languages
+    for (const language of Object.keys(langMapper))
+      newEditorTextsObject[language] = "";
+
+    // Reset the LiveObject<EditorTexts> for the supported languages
+    storage.set("editorTexts", new LiveObject(newEditorTextsObject));
+
     // Set the current question
     storage.set("currentQuestion", questionResponse.question);
 
@@ -146,7 +166,7 @@ export default ({
 
 
   return (
-    <section className="flex flex-col bg-darkAccent p-5">
+    <section className="flex-1 flex flex-col bg-darkAccent p-5 box-border">
       <span className="text-white uppercase text-xl">{ name }</span>
       <span className="py-6 font-bold text-white">ROOM MEMBERS</span>
       <div className="flex flex-wrap gap-2">

@@ -21,6 +21,8 @@ export interface roomContextLayerInterface {
     setLobbyAccess?: Function,
     difficulty: string,
     setDifficulty?: Function
+    whiteBoard: boolean,
+    setWhiteBoard?: Function 
 };
 
 export interface appUserContextInterface {

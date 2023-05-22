@@ -1,11 +1,11 @@
 // Module imports
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import TextEntry from './TextEntry';
 import TextFeed from './TextFeed';
+import RoomMembers from './header/RoomMembers';
 
 // Interface imports
 import { textPanelInterface } from './Interfaces';
-import RoomMembers from './header/RoomMembers';
 
 export default ({
 
@@ -14,11 +14,13 @@ export default ({
 
 
   return (
-    <section className="flex flex-col">
+    <section>
       {/* Body */}
-      <RoomMembers />
-      <TextFeed />
-      <TextEntry />
+      <div className='flex flex-col relative h-full -z-1'>
+        <RoomMembers />
+        <TextFeed />
+        <TextEntry />
+      </div>
     </section>
   );
 };

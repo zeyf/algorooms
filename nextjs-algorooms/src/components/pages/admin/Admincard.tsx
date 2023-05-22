@@ -58,19 +58,19 @@ const AdminSubmission = ({
 };
 
 export default ({
-
+    questions
 }) => {
 
     const router = useRouter();
 
-    const questions = [
-        {name: "tempName1", difficulty: "Easy", topics: "Arrays", description: "Temp description for temp 1 and it is much longer than the other descriptions.", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
-        {name: "tempName2", difficulty: "Medium", topics: "Trees", description: "Temp description for temp 2", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
-        {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3 and it is also much longer than the other descriptions", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
-        {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
-        {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
-        {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
-    ];
+    // const questions = [
+    //     {name: "tempName1", difficulty: "Easy", topics: "Arrays", description: "Temp description for temp 1 and it is much longer than the other descriptions.", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+    //     {name: "tempName2", difficulty: "Medium", topics: "Trees", description: "Temp description for temp 2", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+    //     {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3 and it is also much longer than the other descriptions", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+    //     {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+    //     {name: "tempName3", difficulty: "Hard", topics: "Graphing", description: "Temp description for temp 3", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+    //     {name: "tempName4", difficulty: "Easy", topics: "Hash", description: "Temp description for temp 4", input: "[1, 2, 3, 4, 5]", output: "1", explanation: "Because it is the minimum value.", constraints: "2 < nums.length < 1000", hints: "Keep it simple, to the point, and simple as well"},
+    // ];
 
     const [
         madeAnnouncement,
@@ -139,7 +139,7 @@ export default ({
                             {questions.map((question, index) => (
                                 <div key={index} style={{ scrollSnapAlign: 'start' }}>
                                     <AdminSubmission 
-                                        name={question.name} 
+                                        name={question.title} 
                                         difficulty={question.difficulty} 
                                         topics={question.topics} 
                                         description={question.description}
@@ -159,9 +159,10 @@ export default ({
                         Create Announcement
                     </h2>
                 </div>
-                <div className="flex flex-col w-[975px] h-[200px] mx-auto">
+                <div className="flex flex-col w-[975px] h-[200px] mx-auto gap-3">
                     <input
                         placeholder="Enter title"
+                        className="bg-transparent w-full rounded-lg border-2 border-white text-white pl-3 pt-2 pb-2"
                         ref={announcementTitleRef}
                     />
                     <textarea

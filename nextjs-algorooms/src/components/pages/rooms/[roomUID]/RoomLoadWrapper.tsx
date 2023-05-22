@@ -5,14 +5,17 @@ import Split from "react-split";
 import CodePanel from "./panels/code/CodePanel";
 import TextPanel from "./panels/text/TextPanel";
 import QuestionPanel from "./panels/question/QuestionPanel";
+import { RoomContext } from "@/contexts/RoomContextLayer";
+import WhiteBoard from "./panels/code/WhiteBoard";
 
 export default ({
 
 }) => {
 
-
-
-
+  // Room Context
+  const {
+    whiteBoard
+  } = useContext(RoomContext);
 
   // Get the room
   const room = useRoom();
@@ -28,10 +31,6 @@ export default ({
 
   // Get current room host
   const currentHost = useStorage(r => r.host);
-
-
-
-
 
   // Changes the new host
   const setNewHost = useMutation(({ storage }, user) => {
@@ -59,30 +58,16 @@ export default ({
   // Handles establishing of a new host when a user connects to a room or others leave the room
   useEffect(() => establishNewHost(), [ connected, myPresence, others.length ]);
 
-
-
-
-
   return (
-    <div className="w-screen h-screen flex flex-row-reverse justify-center items-center">
-      <div className="w-2/3 h-screen flex flex-col justify-center items-center">
-        <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className={`w-screen flex`}>
-          <div className="max-h-screen overflow-y-auto ml-1 min-h-screen">
-            <QuestionPanel />
-          </div>
-
-          <div className="flex justify-center mt-10">
-            <CodePanel />
-          </div>
-
+      <div className="w-full h-full flex justify-center items-center">
+        {
+          whiteBoard && <WhiteBoard />
+        }
+        <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className="w-full flex h-full">
+          <QuestionPanel />
+          <CodePanel />
           <TextPanel />
         </Split>
       </div>
-    </div>
   );
-
-
-
-
-
 };
