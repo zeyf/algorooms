@@ -69,13 +69,19 @@ router.get("/verify/:profileUID", async (req, res) => {
                 username: profileUID
             }).then(mongoResponse => mongoResponse);
 
-            // Inject the submissions to the user record in descending order by timestamp
-            foundUserResponse["submissions"] = submissions.sort((a, b) => b.timestamp - a.timestamp);
 
             // Sends response with existence and data
             res.status(200).send({
                 exists,
-                profileData: foundUserResponse
+                profileData: {
+
+                    // Spread in the true contents of the user record
+                    ...foundUserResponse["_doc"],
+
+                    // Inject the submissions into the user record
+                    submissions: submissions.sort((a, b) => b.timestamp - a.timestamp)
+
+                }
             });
 
         }
