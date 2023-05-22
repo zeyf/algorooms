@@ -1,6 +1,7 @@
 import express from "express";
 import User from "../models/UserModel";
 import LOG from "../utilities/log";
+import Submission from "../models/SubmissionModel";
 
 const router = express.Router();
 const ROUTE_BASE = "/api/users";
@@ -44,17 +45,41 @@ router.get("/verify/:profileUID", async (req, res) => {
     } else {
         
         // Try to find a user with a given profileUID
-        await User.findOne({
+        const foundUserResponse = await User.findOne({
             username: profileUID
-        }).then((response) => {
+        }).then(mongoResponse => mongoResponse);
+
+        // Track whether the single record was found based on the username
+        const exists = foundUserResponse !== null;
+    
+        // If the user does not exist
+        if (!exists) {
             
+            // Send response that nothing was found
+            res.status(200).send({
+                exists,
+                profileData: foundUserResponse
+            });
+
+        // Otherwise if the user exists
+        } else {
+
+            // Pull the users' submissions
+            const submissions = await Submission.find({
+                username: profileUID
+            }).then(mongoResponse => mongoResponse);
+
+            // Inject the submissions to the user record in descending order by timestamp
+            foundUserResponse["submissions"] = submissions.sort((a, b) => b.timestamp - a.timestamp);
+
             // Sends response with existence and data
             res.status(200).send({
-                exists: response !== null,
-                profileData: response
+                exists,
+                profileData: foundUserResponse
             });
-            
-        });
+
+        }
+
     }
 
 });

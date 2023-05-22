@@ -6,17 +6,27 @@ const Schema = mongoose.Schema;
 export interface ISubmission extends mongoose.Document {
     username: string,
     questionUID: string,
+    questionTitle: string,
     timestamp: number,
     language: string,
-    code: string
+    code: string,
+    uid: string
 };
 
 export const submissionSchematic = new Schema({
+    uid: {
+        type: String,
+        required: true
+    },
     username: {
         type: String,
         required: true
     },
     questionUID: {
+        type: String,
+        required: true
+    },
+    questionTitle: {
         type: String,
         required: true
     },
