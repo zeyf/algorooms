@@ -5,6 +5,7 @@ import LOG from "../utilities/log";
 import Question from "../models/QuestionModel";
 import shuffle from "../utilities/shuffle";
 import axios from "axios";
+import Submission from "../models/SubmissionModel";
 
 const router = express.Router();
 const ROUTE_BASE = "/api/rooms";
@@ -183,20 +184,80 @@ router.post("/execute", async (req, res) => {
         body
     } = req;
 
+    const {
+        username,
+        questionUID,
+        questionTitle,
+        timestamp,
+        language
+    } = body;
+
+    const question = await Question.findOne({
+        uid: questionUID
+    }).then(mongoResponse => mongoResponse);
+
+    // const {
+    //     testCases
+    // } = question;
+
+
     const executeResponse = await axios.post("https://api.jdoodle.com/v1/execute", body).then(r => {
         return r;
-    }).then(r => {
+    }).then(r => r.data);
 
-        const {
-            output
-        } = r.data;
+    const {
+        output
+    } = executeResponse;
 
+    const uid = createUID();
 
-        res.status(200).send({
-            output
+    if (output === null) {
+
+    } else if (output === "ACCEPTED") {
+
+        await Submission.create({
+            result: "ACCEPTED",
+            questionTitle,
+            username,
+            questionUID,
+            timestamp,
+            language,
+            code: body.script,
+            uid
+        }).then(mongoResponse => {
+
+            res.status(200).send({
+                created: true,
+                result: "ACCEPTED",
+                output
+            });
+
         });
 
-    });
+    // If wrong answer or other case...
+    // Must be extended further to handle
+    } else if (output === "WRONG ANSWER" || true) {
+
+        await Submission.create({
+            result: "WRONG ANSWER",
+            username,
+            questionUID,
+            questionTitle,
+            timestamp,
+            language,
+            code: body.script,
+            uid
+        }).then(mongoResponse => {
+
+            res.status(200).send({
+                created: true,
+                result: "WRONG ANSWER",
+                output
+            });
+
+        });
+
+    };
 
 
 });
