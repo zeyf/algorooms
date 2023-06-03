@@ -90,6 +90,34 @@ router.get("/approve", async (req, res) => {
     })
 })
 
+// Update the isApproved to true
+router.patch("/isApproved", async (req, res) => {
+    // For logging and testing
+    LOG(ROUTE_BASE, req);
+
+    const {
+        body : {
+            questionUID
+        }
+    } = req;
+
+    await Question.findOneAndUpdate({ uid: questionUID}, { isApproved: true })
+})
+
+// Delete a question 
+router.delete("/delete/:questionUID", async (req, res) => {
+    // For logging and testing
+    LOG(ROUTE_BASE, req);
+
+    const {
+        params : {
+            questionUID
+        }
+    } = req;
+
+    await Question.findOneAndDelete({ uid: questionUID })
+})
+
 router.post("/create", async (req, res) => {
 
     // For logging and testing
