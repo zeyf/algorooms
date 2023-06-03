@@ -8,26 +8,12 @@ import buildRoute from "@/utilities/buildRoute";
 import axios from "axios";
 import { useSelf } from "../../../../liveblocks.config";
 import { AppUserContext } from "@/contexts/AppUserContextLayer";
+import StaticRoomSettingsOptionsData from "@/data/StaticRoomSettingsOptionsData";
 
-const topicOptions = [
-  { value: "Strings", label: "Strings" },
-  { value: "Arrays", label: "Arrays" },
-  { value: "Stacks", label: "Stacks" },
-  { value: "Queues", label: "Queues" },
-  { value: "Linked Lists", label: "Linked Lists" },
-  { value: "Trees", label: "Trees" },
-  { value: "Tries", label: "Tries" },
-  { value: "Recursion", label: "Recursion" },
-  { value: "Hash Tables", label: "Hash Tables" },
-  { value: "Graphs", label: "Graphs" },
-  { value: "Bitwise", label: "Bitwise" }
-];
-
-const difficultyOptions = [
-  { value: "Simpler", label: "Simpler" },
-  { value: "Simple", label: "Simple" },
-  { value: "Not Simple", label: "Not Simple" }
-];
+const {
+  selectableDifficulties,
+  selectableTopics
+} = StaticRoomSettingsOptionsData;
 
 export default ({
 
@@ -37,7 +23,7 @@ export default ({
     name: "",
     capacity: 1,
     topics: [  ],
-    difficulty: "Simpler",
+    difficulty: "Easy",
     lobbyAccess: "Public"
   });
 
@@ -114,7 +100,7 @@ export default ({
                 className="w-full basic-multi-select text-black"
                 classNamePrefix="select"
                 isMulti={true}
-                options={topicOptions}
+                options={selectableTopics}
                 onChange={(selections:any) => setData({ ...data, topics: selections.map((selection:any) => selection.value) })}
               />
 
@@ -125,7 +111,7 @@ export default ({
                 name="colors"
                 className="w-full basic-multi-select text-black"
                 classNamePrefix="select"
-                options={difficultyOptions}
+                options={selectableDifficulties}
                 onChange={(selection:any) => setData({ ...data, difficulty: selection.value })}
               />
             </div>

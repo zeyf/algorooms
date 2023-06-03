@@ -10,26 +10,12 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { AppUserContext } from "@/contexts/AppUserContextLayer";
 import {  useMutation } from "../../../../../../liveblocks.config";
 import { LiveList } from '@liveblocks/client';
+import StaticRoomSettingsOptionsData from "@/data/StaticRoomSettingsOptionsData";
 
-const options = [
-    { value: "Strings", label: "Strings" },
-    { value: "Arrays", label: "Arrays" },
-    { value: "Stacks", label: "Stacks" },
-    { value: "Queues", label: "Queues" },
-    { value: "Linked Lists", label: "Linked Lists" },
-    { value: "Trees", label: "Trees" },
-    { value: "Tries", label: "Tries" },
-    { value: "Recursion", label: "Recursion" },
-    { value: "Hash Tables", label: "Hash Tables" },
-    { value: "Graphs", label: "Graphs" },
-    { value: "Bitwise", label: "Bitwise" }
-  ];
-
-const optionsDiff = [
-    { value: "Simpler", label: "Simpler" },
-    { value: "Simple", label: "Simple" },
-    { value: "Not Simple", label: "Not Simple" },
-];
+const {
+    selectableDifficulties,
+    selectableTopics
+} = StaticRoomSettingsOptionsData;
 
 const SettingsPopUp = ({
     isSettingsOpen,
@@ -165,7 +151,7 @@ const SettingsPopUp = ({
                         className="w-full basic-multi-select text-black"
                         classNamePrefix="select"
                         isMulti={true}
-                        options={options}
+                        options={selectableTopics}
                         placeholder="Topics"
                         menuPortalTarget={document.body}
                         styles={{ menuPortal: (base) => ({ ...base, zIndex: 99 }) }}
@@ -179,7 +165,7 @@ const SettingsPopUp = ({
                         name="colors"
                         className="w-full basic-multi-select text-black"
                         classNamePrefix="select"
-                        options={optionsDiff}
+                        options={selectableDifficulties}
                         placeholder="Difficulty"
                         menuPortalTarget={document.body}
                         styles={{ menuPortal: (base) => ({ ...base, zIndex: 99 }) }}

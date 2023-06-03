@@ -98,7 +98,8 @@ export default ({
               <div className="w-1/2 pl-2 h-full">
                 <Title text="Problems" alignment="left" color="white" />
                 <div className="flex-col justify-between items-center w-full h-full">
-                  {/* Simpler */}
+
+                  {/* Easy */}
                   <section className="flex flex-col items-start">
                     <Subtitle text="Simpler" alignment="left" color="white" />
                     <ProgressBar
@@ -110,7 +111,8 @@ export default ({
                       height={'4'}
                     />
                   </section>
-                  {/* Simple */}
+
+                  {/* Medium */}
                   <section className="flex flex-col items-start">
                     <Subtitle text="Simple" alignment="left" color="white" />
                     <ProgressBar
@@ -122,7 +124,8 @@ export default ({
                       height={'4'}
                     />
                   </section>
-                  {/* Not Simple */}
+
+                  {/* Hard */}
                   <section className="flex flex-col items-start">
                     <Subtitle
                       text="Not Simple"
