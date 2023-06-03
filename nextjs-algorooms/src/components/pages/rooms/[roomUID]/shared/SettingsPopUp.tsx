@@ -8,6 +8,8 @@ import { RoomContext } from "@/contexts/RoomContextLayer";
 import { toast } from "react-toastify";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { AppUserContext } from "@/contexts/AppUserContextLayer";
+import {  useMutation } from "../../../../../../liveblocks.config";
+import { LiveList } from '@liveblocks/client';
 
 const options = [
     { value: "Strings", label: "Strings" },
@@ -139,9 +141,20 @@ const SettingsPopUp = ({
             );
 
             if (toastMessage !== null)
+                handleChanges(topicChange, difficultyChange, lobbyAccessChange)
                 toast(toastMessage);
         };
     };
+
+    // Changes the setting of the room
+    const handleChanges = useMutation(( { storage }, topicChange, difficultyChange, lobbyAccessChange) => {
+        if(topicChange !== null)
+            storage.set("topics", new LiveList<string>(topicChange));
+        if(difficultyChange !== null)
+            storage.set("difficulty", difficultyChange);
+        if(lobbyAccessChange !== null)
+            storage.set("lobbyAccess", lobbyAccessChange);
+    }, [ ])
 
     return (
         <div className="w-auto h-[300px]">

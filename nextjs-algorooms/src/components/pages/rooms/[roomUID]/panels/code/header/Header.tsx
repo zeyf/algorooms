@@ -94,9 +94,10 @@ export default ({
                 settingsPayload.difficulty,
                 settingsPayload.lobbyAccess
             );
-
-            if (toastMessage !== null)
+            if (toastMessage !== null){
                 toast(toastMessage);
+
+            }
 
         });
 

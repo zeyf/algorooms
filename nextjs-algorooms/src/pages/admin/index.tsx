@@ -36,7 +36,7 @@ export default ({
 
 export const getServerSideProps = withPageAuthRequired({
     getServerSideProps: async () => {
-
+        // Get the questions to be approved
         const response = await axios.get(buildRoute("/api/questions/approve")).then(res => res.data);
 
         const questions = response.questions;

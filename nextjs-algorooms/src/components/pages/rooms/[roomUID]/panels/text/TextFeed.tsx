@@ -46,7 +46,8 @@ export default ({
           messages.map(({
             message,
             username,
-            timestamp
+            timestamp,
+            color
           }, index) => {
             
             // Get the hour and time from the timestamp
@@ -58,7 +59,10 @@ export default ({
               <div key={index} className="my-2 mx-2">
                 <span className="text-white">
                   <div className="flex-shrink-0 text-gray-400 w-full">
-                    { `${username}: ${message}\t${formatTime(hour)}:${formatTime(minutes)}` }
+                    <span style={{ color: color}}>
+                      {`${username}`}
+                    </span>
+                    { `: ${message}\t${formatTime(hour)}:${formatTime(minutes)}` }
                   </div>
                 </span>
               </div>

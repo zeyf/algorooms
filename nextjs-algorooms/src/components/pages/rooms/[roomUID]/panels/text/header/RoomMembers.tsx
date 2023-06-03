@@ -202,7 +202,11 @@ export default ({
               // Otherwise if we have completed all questions, toast and repopulate questions
               else {
                 toast("All questions completed! Starting round based on current difficulty and topics settings.");
-                repopulateQuestions();
+                repopulateQuestions()
+                // If we are not in a round, that mean there is no questions found
+                 if(!inRound){
+                  toast("No questions with suitable difficulty and topics");
+                 }
               };
 
             }}
