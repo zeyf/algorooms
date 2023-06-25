@@ -58,12 +58,20 @@ export default ({
   // Define the default storage
   const initialStorage: Storage = {
     uid: data.uid,
-    editorTexts: new LiveObject<EditorTexts>({
+    activeEditorTexts: new LiveObject<EditorTexts>({
       python: "",
       cpp: "",
       java: "",
       javascript: ""
     }),
+    resetEditorTexts: new LiveObject<EditorTexts>({
+      python: "",
+      cpp: "",
+      java: "",
+      javascript: ""
+    }),
+    hasRanCodeOnQuestion: false,
+    ranCodeOutputOnQuestion: "Try running your code!", 
     runCodeInQueue: false,
     submitCodeInQueue: false,
     voteCount: 0,
