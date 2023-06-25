@@ -24,11 +24,11 @@ const CodeEditor = ({
     const editorLanguage = useStorage(({ language }) => language);
 
     // Get the current editor text based on what the current language is
-    const editorText = useStorage(({ editorTexts }) => editorTexts)[editorLanguage];
+    const editorText = useStorage(({ activeEditorTexts }) => activeEditorTexts)[editorLanguage];
 
-    // Get the LiveObject<EditorTexts> and set the specific language's editor text to the newEditorText onChange
+    // Get the LiveObject<EditorTexts> of active editor texts and set the specific language's editor text to the newEditorText onChange
     const handleEditorTextEdit = useMutation(({ storage }, newEditorText, editorLanguage) => {
-        storage.get("editorTexts").set(editorLanguage.toLowerCase(), newEditorText);
+        storage.get("activeEditorTexts").set(editorLanguage.toLowerCase(), newEditorText);
     }, [  ]);
 
     // Get self presence
