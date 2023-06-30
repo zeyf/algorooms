@@ -27,7 +27,6 @@ export default ({
     if (!exists) router.push("/404?injectable=profile");
   }, []);
 
-
   if (!exists) {
     // router.push('/404?injectable=profile');
     return <></>;
@@ -101,12 +100,18 @@ export default ({
 
                   {/* Easy */}
                   <section className="flex flex-col items-start">
-                    <Subtitle text="Simpler" alignment="left" color="white" />
+                    <div className='flex flex-row space-x-3 items-center'>
+                      <Subtitle text="Easy: " alignment="left" color="white" />
+                      <div className='text-white'>
+                        {data.questionsSolved.simpler} / 128
+                      </div>
+                    </div>
+
                     <ProgressBar
                       backgroundColor={'bg-green-300'}
                       accentColor={'bg-green-800'}
-                      numerator={5}
-                      denominator={25}
+                      numerator={data.questionsSolved.simpler} // Easy questions completed
+                      denominator={128} // Total easy questions
                       width={'full'}
                       height={'4'}
                     />
@@ -114,12 +119,18 @@ export default ({
 
                   {/* Medium */}
                   <section className="flex flex-col items-start">
-                    <Subtitle text="Simple" alignment="left" color="white" />
+                    <div className='flex flex-row space-x-3 items-center'>
+                      <Subtitle text="Medium: " alignment="left" color="white" />
+                      <div className='text-white'>
+                        {data.questionsSolved.simple} / 230
+                      </div>
+                    </div>
+
                     <ProgressBar
                       backgroundColor={'bg-yellow-300'}
                       accentColor={'bg-yellow-800'}
-                      numerator={5}
-                      denominator={25}
+                      numerator={data.questionsSolved.simple}
+                      denominator={230}
                       width={'full'}
                       height={'4'}
                     />
@@ -127,16 +138,17 @@ export default ({
 
                   {/* Hard */}
                   <section className="flex flex-col items-start">
-                    <Subtitle
-                      text="Not Simple"
-                      alignment="left"
-                      color="white"
-                    />
+                  <div className='flex flex-row space-x-3 items-center'>
+                      <Subtitle text="Hard: " alignment="left" color="white" />
+                      <div className='text-white'>
+                        {data.questionsSolved.notSimple} / 120
+                      </div>
+                    </div>
                     <ProgressBar
                       backgroundColor={'bg-red-300'}
                       accentColor={'bg-red-800'}
-                      numerator={5}
-                      denominator={25}
+                      numerator={data.questionsSolved.notSimple}
+                      denominator={120}
                       width={'full'}
                       height={'4'}
                     />
@@ -221,7 +233,7 @@ export default ({
 export async function getServerSideProps(context: any) {
   const {
     query: {
-      profileUID
+      profileUID,
     },
   } = context;
 
