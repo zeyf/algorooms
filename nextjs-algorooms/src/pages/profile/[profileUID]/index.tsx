@@ -66,7 +66,7 @@ export default ({
                         color="white"
                       />
                       <Subtitle
-                        text={`Joined...`}
+                        text={`Joined: ${data.dateJoined}`}
                         alignment="left"
                         color="white"
                       />

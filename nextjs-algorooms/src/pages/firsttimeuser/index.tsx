@@ -16,7 +16,11 @@ export default () => {
   ] = useState<boolean>(false);
 
   const router = useRouter();
-
+  const date = new Date()
+  let dd = String(date.getDate()).padStart(2, '0');
+  let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+  let yyyy = date.getFullYear();
+  let today = mm + '/' + dd + '/' + yyyy;
   const {
     user,
     isLoading,
@@ -53,7 +57,8 @@ export default () => {
         await axios.post(buildRoute(`/api/users/create`), {
           authuid: user.sub,
           username: inputRef.current.value,
-          picture: user.picture
+          picture: user.picture,
+          dateJoined: today
         }).then(res => router.push("/rooms"));
 
       };
