@@ -78,16 +78,19 @@ export default () => {
         </Head>
         <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex justify-center items-center">
           <div className="w-[500px] h-[300px] bg-darkAccent rounded-lg drop-shadow-lg flex flex-col items-center justify-center">
-            <div className="w-[300px]">
+            <p className='text-white'>
+              Enter Username
+            </p>
+            <div className="w-[300px] flex items-center justify-center">
               <input
                 ref={inputRef}
-                placeholder="Username"
-                className="fill-white"
+                placeholder=" Username"
+                className="fill-white rounded-md h-8"
               />
             </div>
             <Button
               onClick={checkUsername}
-              className=""
+              className="m-3"
             >
               Submit Username
             </Button>
