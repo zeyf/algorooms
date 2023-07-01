@@ -108,8 +108,8 @@ export default ({
                     </div>
 
                     <ProgressBar
-                      backgroundColor={'bg-green-300'}
-                      accentColor={'bg-green-800'}
+                      backgroundColor={'bg-green-800'}
+                      accentColor={'bg-green-300'}
                       numerator={data.questionsSolved.simpler} // Easy questions completed
                       denominator={128} // Total easy questions
                       width={'full'}
@@ -127,8 +127,8 @@ export default ({
                     </div>
 
                     <ProgressBar
-                      backgroundColor={'bg-yellow-300'}
-                      accentColor={'bg-yellow-800'}
+                      backgroundColor={'bg-yellow-800'}
+                      accentColor={'bg-yellow-300'}
                       numerator={data.questionsSolved.simple}
                       denominator={230}
                       width={'full'}
@@ -145,8 +145,8 @@ export default ({
                       </div>
                     </div>
                     <ProgressBar
-                      backgroundColor={'bg-red-300'}
-                      accentColor={'bg-red-800'}
+                      backgroundColor={'bg-red-800'}
+                      accentColor={'bg-red-300'}
                       numerator={data.questionsSolved.notSimple}
                       denominator={120}
                       width={'full'}
