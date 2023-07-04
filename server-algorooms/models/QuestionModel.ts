@@ -2,36 +2,61 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
+interface languageTemplate {
+    submissionTemplate: string,
+    transformedReturnType: string,
+    generalReturnType: string,
+    testCases: Array<string>,
+    testingTemplate: string,
+    libraries: Array<string>
+};
+
+type templateSet = {
+    python: languageTemplate,
+    javascript: languageTemplate,
+    java: languageTemplate,
+    cpp: languageTemplate
+};
+
+interface example {
+    input: string,
+    output: string,
+    explanation: string
+};
+
 // Create the interface for the Question
 export interface IQuestion extends mongoose.Document {
-    title: string,
     uid: number,
-    difficulty: string,
+    title: string,
     description: string,
+    examples: Array<example>,
     topics: Array<string>,
     constraints: Array<string>,
-    hints: Array<string>
+    hints: Array<string>,
+    difficulty: string,
+    isApproved: boolean,
+    templates: templateSet
 };
 
 export const questionSchematic = new Schema({
-    title: {
-        type: String,
-        required: true
-    },
     uid: {
         type: String,
         required: true
     },
-    difficulty: {
+    title: {
         type: String,
-        required: true
-    },
-    topics: {
-        type: Array<String>,
         required: true
     },
     description: {
         type: String,
+        required: true
+    },
+    examples: {
+        type: Array<example>,
+        required: true
+    },
+    topics: {
+        type: Array<String>,
         required: true
     },
     constraints: {
@@ -42,8 +67,17 @@ export const questionSchematic = new Schema({
         type: Array<String>,
         required: true
     },
+    difficulty: {
+        type: String,
+        required: true
+    },
     isApproved: {
-        type: Boolean
+        type: Boolean,
+        required: true
+    },
+    templates: {
+        type: Schema.Types.Mixed,
+        required: true
     }
 })
 
