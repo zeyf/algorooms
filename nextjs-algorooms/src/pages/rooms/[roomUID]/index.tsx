@@ -155,7 +155,7 @@ export default ({
             >
               {/* Allows for full suspense rendering of hook calls before initial render */}
               <ClientSideSuspense fallback={<p>Loading...</p>}>
-                { () => <RoomLoadWrapper /> }
+                { () => <RoomLoadWrapper roomUID={data.uid}/> }
               </ClientSideSuspense>
             </RoomProvider>
           </RoomContextLayer>  
