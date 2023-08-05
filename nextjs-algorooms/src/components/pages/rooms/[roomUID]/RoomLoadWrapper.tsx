@@ -7,9 +7,12 @@ import TextPanel from "./panels/text/TextPanel";
 import QuestionPanel from "./panels/question/QuestionPanel";
 import { RoomContext } from "@/contexts/RoomContextLayer";
 import WhiteBoard from "./panels/code/WhiteBoard";
+import axios from "axios";
+import buildRoute from "@/utilities/buildRoute";
+
 
 export default ({
-
+  roomUID
 }) => {
 
   // Room Context
@@ -57,6 +60,34 @@ export default ({
 
   // Handles establishing of a new host when a user connects to a room or others leave the room
   useEffect(() => establishNewHost(), [ connected, myPresence, others.length ]);
+  
+  // Handles number of active users in room 
+  useEffect(() => {
+
+    const updateUserCountOfRoom = async () => {
+      await axios.post(
+        buildRoute("/api/rooms/update/usercount"), 
+        {
+          roomUID: roomUID,
+        }
+      )
+    }
+
+    updateUserCountOfRoom()
+
+    return () => {
+      const updateUserCountOfRoom = async () => {
+        await axios.post(
+          buildRoute("/api/rooms/update/usercount"), 
+          {
+            roomUID: roomUID,
+          }
+        )
+      }
+
+      updateUserCountOfRoom()
+    }
+  },[others.length, currentHost])
 
   return (
       <div className="w-full h-full flex justify-center items-center">
