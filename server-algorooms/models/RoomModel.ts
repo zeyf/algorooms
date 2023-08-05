@@ -12,6 +12,8 @@ export interface IRoom extends mongoose.Document {
     difficulty: string,
     topics: Array<string>,
     questions: Array<number>
+    occupied: number,
+    capacity: number
 };
 
 export const roomSchematic = new Schema({
@@ -41,6 +43,14 @@ export const roomSchematic = new Schema({
     },
     questions: {
         type: Array<String>,
+        required: true
+    },
+    occupied: {
+        type: Number,
+        required: true
+    },
+    capacity: {
+        type: Number,
         required: true
     }
 });

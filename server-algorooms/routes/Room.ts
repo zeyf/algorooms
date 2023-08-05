@@ -145,6 +145,71 @@ router.post("/create", async (req, res) => {
 
 });
 
+// Delete room from MongoDb
+router.post("/delete", async (req, res) => {
+    LOG(ROUTE_BASE, req);
+    const {
+        body: {
+            roomUID
+        }
+    } = req
+
+    console.log("delete: ", roomUID)
+})
+
+router.post("/update/usercount", async(req, res) => {
+
+    // for logging and testing
+    LOG(ROUTE_BASE, req);
+    const {
+        body: {
+            roomUID
+        }
+    } = req
+
+    const LIVEBLOCKS_API_KEY = "sk_dev_zrV3LKJ7TVlPZagOoN514nqbxy2BIUXOOu6Yej6bIhy5zq6U5MC1VyfpSb9B9Ris";
+
+    const numberOfUsersInRoom = await axios.get(
+        `https://api.liveblocks.io/v2/rooms/${roomUID}/active_users`,
+        {
+            headers: {
+                Authorization: `Bearer ${LIVEBLOCKS_API_KEY}`
+            }
+        }
+    ).then(liveBlocksResponse => liveBlocksResponse.data.data.length);
+
+    if (numberOfUsersInRoom > 0) {
+        await Room.updateOne(
+            { uid: roomUID },
+            { occupied: numberOfUsersInRoom }
+        )
+
+        console.log("fuck john, james, and khoa you fucking bums");
+    } else {
+        await Room.deleteOne({
+            uid: roomUID
+        });
+
+        try {
+            await axios.delete(
+                `https://api.liveblocks.io/v2/rooms/${roomUID}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${LIVEBLOCKS_API_KEY}`
+                    }
+                }
+            ).then(liveBlocksResponse => liveBlocksResponse.data.data.length);
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+
+
+
+   // console.log("update count: ", occupied)
+})
+
 router.post("/update/:roomUID", async (req, res) => {
 
     // for logging and testing
