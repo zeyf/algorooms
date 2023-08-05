@@ -140,7 +140,8 @@ router.post("/create", async (req, res) => {
         body: {
             authuid,
             username,
-            picture
+            picture,
+            dateJoined
         }
     } = req;
 
@@ -165,7 +166,8 @@ router.post("/create", async (req, res) => {
                 simpler: 0,
                 simple: 0,
                 notSimple: 0
-            }
+            },
+            dateJoined
         }).then((mongoResponse) => {
 
             // Sends response with creation of the new record with the user's data

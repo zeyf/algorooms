@@ -12,7 +12,8 @@ export interface IUser extends mongoose.Document {
         simple: number,
         notSimple: number
     },
-    bestTopics: Array<string>
+    bestTopics: Array<string>,
+    dateJoined: string
 }
 
 export const userSchematic = new Schema({
@@ -44,6 +45,10 @@ export const userSchematic = new Schema({
     },
     bestTopics: {
         type: Array<String>,
+        required: true
+    },
+    dateJoined: {
+        type: String,
         required: true
     }
 })
