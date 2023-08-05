@@ -19,7 +19,6 @@ import { AppUserContext } from '@/contexts/AppUserContextLayer';
 import randomColor from "randomcolor";
 import RoomLoadWrapper from '@/components/pages/rooms/[roomUID]/RoomLoadWrapper';
 import { ClientSideSuspense } from '@liveblocks/react';
-import WhiteBoard from '@/components/pages/rooms/[roomUID]/panels/code/WhiteBoard';
 import Content from '@/components/shared/Content';
 
 export default ({
