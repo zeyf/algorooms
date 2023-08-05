@@ -80,23 +80,28 @@ export default ({
     questions.delete(questions.length - 1);
   
     // Make a request to get the next question by UID
-    const response = await axios.get(buildRoute(`/api/questions/verify/${nextQuestionUID}`)).then(r => r).then(r => r.data);
+    const questionResponse = await axios.get(buildRoute(`/api/questions/verify/${nextQuestionUID}`)).then(r => r).then(r => r.data);
     
     // Reset the editor texts for the supported languages
     const newEditorTextsObject:any = {  };
 
     // Populate and declare blank language editor texts for all supported languages
     for (const language of Object.keys(langMapper))
-      newEditorTextsObject[language] = "";
+      newEditorTextsObject[language] = questionResponse.question["templates"][language]["submissionTemplate"];
 
-    // Reset the LiveObject<EditorTexts> for the supported languages
-    storage.set("editorTexts", new LiveObject(newEditorTextsObject));
+    // Reset both LiveObject<EditorTexts> for the supported languages
+    storage.set("activeEditorTexts", new LiveObject(newEditorTextsObject));
+    storage.set("resetEditorTexts", new LiveObject(newEditorTextsObject));
 
     // Set the current question
-    storage.set("currentQuestion", response.question);
+    storage.set("currentQuestion", questionResponse.question);
 
     // Change status to let all users know a question is not being awaited anymore
     storage.set("awaitingQuestion", false);
+
+    // Reset Code Tester content
+    storage.set("hasRanCodeOnQuestion", false);
+    storage.set("ranCodeOutputOnQuestion", "Try running your code!");
 
     // Change status to start the round
     storage.set("inRound", true);
@@ -145,16 +150,21 @@ export default ({
 
     // Populate and declare blank language editor texts for all supported languages
     for (const language of Object.keys(langMapper))
-      newEditorTextsObject[language] = "";
+      newEditorTextsObject[language] = questionResponse.question["templates"][language]["submissionTemplate"];
 
-    // Reset the LiveObject<EditorTexts> for the supported languages
-    storage.set("editorTexts", new LiveObject(newEditorTextsObject));
+    // Reset both LiveObject<EditorTexts> for the supported languages
+    storage.set("activeEditorTexts", new LiveObject(newEditorTextsObject));
+    storage.set("resetEditorTexts", new LiveObject(newEditorTextsObject));
 
     // Set the current question
     storage.set("currentQuestion", questionResponse.question);
 
     // Change status to let all users know a question is not being awaited anymore
     storage.set("awaitingQuestion", false);
+
+    // Reset Code Tester content
+    storage.set("hasRanCodeOnQuestion", false);
+    storage.set("ranCodeOutputOnQuestion", "Try running your code!");
 
     // Change status to start the round
     storage.set("inRound", true);

@@ -6,9 +6,9 @@ export default ({
     explanation
 }) => (
     <section>
-        <p><strong>Input</strong>{ `: ${input}` }</p>
+        <p><strong>Input</strong>{ `: ${input.slice(7)}` }</p>
         <br/>
-        <p><strong>Output</strong>{ `: ${output}` }</p>
+        <p><strong>Output</strong>{ `: ${output.slice(8)}` }</p>
         <br/>
         {
             explanation !== "" &&

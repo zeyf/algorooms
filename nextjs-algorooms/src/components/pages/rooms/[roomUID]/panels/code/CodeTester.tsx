@@ -9,15 +9,17 @@ export default ({
 
 }:codeTesterInterface) => {
 
-    const codeTestIteration = useStorage(r => r);
+  const codeTestIteration = useStorage(r => r);
 
-    useEffect(() => {
+  useEffect(() => {
 
-    }, [ codeTestIteration ]);
+  }, [ codeTestIteration ]);
+
+  const codeResult = useStorage(r => r.ranCodeOutputOnQuestion);
 
   return (
     <div className="bg-darkAccent w-full h-full rounded text-white font-mono p-5">
-      Try running your code!
+      { codeResult }
     </div>
   );
 };
