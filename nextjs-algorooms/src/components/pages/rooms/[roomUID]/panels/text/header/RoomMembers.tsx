@@ -87,10 +87,15 @@ export default ({
 
     // Populate and declare blank language editor texts for all supported languages
     for (const language of Object.keys(langMapper))
-      newEditorTextsObject[language] = "";
+      newEditorTextsObject[language] = response.question.templates[language].submissionTemplate;
+
+    console.log(response.question)
+    console.log(newEditorTextsObject)
 
     // Reset the LiveObject<EditorTexts> for the supported languages
-    storage.set("editorTexts", new LiveObject(newEditorTextsObject));
+    storage.set("activeEditorTexts", new LiveObject(newEditorTextsObject));
+    storage.set("resetEditorTexts", new LiveObject(newEditorTextsObject));
+
 
     // Set the current question
     storage.set("currentQuestion", response.question);
@@ -148,7 +153,9 @@ export default ({
       newEditorTextsObject[language] = "";
 
     // Reset the LiveObject<EditorTexts> for the supported languages
-    storage.set("editorTexts", new LiveObject(newEditorTextsObject));
+    storage.set("activeEditorTexts", new LiveObject(newEditorTextsObject));
+    storage.set("resetEditorTexts", new LiveObject(newEditorTextsObject));
+
 
     // Set the current question
     storage.set("currentQuestion", questionResponse.question);

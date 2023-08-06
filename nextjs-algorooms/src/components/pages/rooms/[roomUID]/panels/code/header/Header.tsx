@@ -119,7 +119,7 @@ export default ({
 
         storage.set("runCodeInQueue", true);
 
-        const editorText = storage.get("editorTexts").get(editorLang);
+        const editorText = storage.get("activeEditorTexts").get(editorLang);
 
         const payload = {
             type: "run",
@@ -144,7 +144,7 @@ export default ({
 
         storage.set("submitCodeInQueue", true);
 
-        const editorText = storage.get("editorTexts").get(editorLang);
+        const editorText = storage.get("activeEditorTexts").get(editorLang);
 
         const payload = {
             type: "submit",
@@ -159,6 +159,17 @@ export default ({
         storage.set("submitCodeInQueue", false);
 
     }, [  ]);
+
+        const handleResetCode = useMutation(({ storage }) => {
+
+            const editorLanguage: any = storage.get("language");
+            const resetEditorTextTemplateForLanguage = storage.get("resetEditorTexts").get(editorLanguage);
+            storage.get("activeEditorTexts").set(
+                editorLanguage,
+                resetEditorTextTemplateForLanguage
+            );
+            
+        }, []);
 
     return (
         <section>
@@ -191,6 +202,17 @@ export default ({
                         </select>
                     </div>
 
+                    <Button
+                        disabled={runningCode || submittingCode}
+                        color="dark"
+                        className="drop-shadow-lg"
+                        onClick={e => {
+                            e.preventDefault();
+                            handleResetCode();
+                        }}
+                    >
+                        Reset
+                    </Button>
                     <Button
                         disabled={runningCode || submittingCode}
                         color="dark"
