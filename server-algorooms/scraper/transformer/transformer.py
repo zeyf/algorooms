@@ -17031,12 +17031,18 @@ def generateTestTemplate(testCases, returnType, language):
       testingTemplateInjection += f"if solution({INPUT_PARAMETER_VALUES}) != {EXPECTED_OUTPUT}:\n\tprint('" + TEST_INJECTION_PLACEMENT_TERM_SWAP + str(testCaseIndex) + "');\n\texit();\n";
 
     elif language == "javascript":
-      ## handle special case of list...
+      ## testingTemplateInjection += f"if (JSON.stringify(solution({INPUT_PARAMETER_VALUES})) != JSON.stringify({EXPECTED_OUTPUT}))" + " {\n" + "\tconsole.log('" + TEST_INJECTION_PLACEMENT_TERM_SWAP + str(testCaseIndex) + "');\n\texit();\n};\n";
 
-      
+      testingTemplateInjection += "".join([
+        f"\nconst expectedAnswer_{str(testCaseIndex)} = solution({INPUT_PARAMETER_VALUES});\n",
+        f"const userAnswer_{str(testCaseIndex)} = solution({EXPECTED_OUTPUT});\n\n",
+        f"if (JSON.stringify(expectedAnswer_{str(testCaseIndex)}) !== JSON.stringify(userAnswer_{str(testCaseIndex)}))",
+        " {\n",
+        f"\tconsole.log('{TEST_INJECTION_PLACEMENT_TERM_SWAP}WRONGANSWER_{str(testCaseIndex)}{TEST_INJECTION_PLACEMENT_TERM_SWAP}'{' + String(userAnswer_' + str(testCaseIndex) + ')' + ' + '}'{TEST_INJECTION_PLACEMENT_TERM_SWAP}');\n\t",
+        "exit();\n",
+        "};",
+      ]);
 
-      testingTemplateInjection += f"if (JSON.stringify(solution({INPUT_PARAMETER_VALUES})) != JSON.stringify({EXPECTED_OUTPUT}))" + " {\n" + "\tconsole.log('" + TEST_INJECTION_PLACEMENT_TERM_SWAP + str(testCaseIndex) + "');\n\texit();\n};\n";
-    
     elif language == "java":
       testingTemplateInjection += f"\t\tif (new Solution().solution({INPUT_PARAMETER_VALUES}){'.toString()' if isListReturnType else ''} != {EXPECTED_OUTPUT}{'.toString()' if isListReturnType else ''})" + " {\n" + "\t\t\tSystem.out.println(" + TEST_INJECTION_PLACEMENT_TERM_SWAP + str(testCaseIndex) + "\");\n\t\t\tSystem.exit(0);\n\t\t};\n";
 
@@ -17049,7 +17055,11 @@ def generateTestTemplate(testCases, returnType, language):
   if language == "python":
     testingTemplateInjection += "\nprint('ACCEPTED_" + TEST_INJECTION_PLACEMENT_TERM_SWAP + "');\n";
   elif language == "javascript":
-    testingTemplateInjection += "\nconsole.log('ACCEPTED_" + TEST_INJECTION_PLACEMENT_TERM_SWAP + "');\n"
+    ## testingTemplateInjection += "\nconsole.log('ACCEPTED_" + TEST_INJECTION_PLACEMENT_TERM_SWAP + "');\n"
+
+    testingTemplateInjection += "".join([
+      f"console.log('{TEST_INJECTION_PLACEMENT_TERM_SWAP}ACCEPTED{TEST_INJECTION_PLACEMENT_TERM_SWAP}'{' + String('}{EXPECTED_OUTPUT}{') + '}'{TEST_INJECTION_PLACEMENT_TERM_SWAP}');"
+    ]);
   elif language == "java":
     testingTemplateInjection += "\n\t\tSystem.out.println(\"ACCEPTED_" + TEST_INJECTION_PLACEMENT_TERM_SWAP + "\");\n";
   elif language == "cpp":
@@ -17256,7 +17266,8 @@ def buildLanguageTemplates(examples, returnType):
 
       ];
   
-    print(f"{language}:\n{resultingTemplates[language]['testingTemplate']}");
+    if language == "javascript":
+      print(f"{language}:\n{resultingTemplates[language]['testingTemplate']}");
 
   return resultingTemplates;
 
