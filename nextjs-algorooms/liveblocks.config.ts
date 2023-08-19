@@ -17,8 +17,8 @@ export const client = createClient({
 export type EditorTexts = {
     python: string,
     javascript: string,
-    cpp: string,
-    java: string
+    // cpp: string,
+    // java: string
 };
 
 // Type schema for presence -- a user's own unique state that is shared
