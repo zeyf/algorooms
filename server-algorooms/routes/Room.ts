@@ -6,6 +6,7 @@ import Question from "../models/QuestionModel";
 import shuffle from "../utilities/shuffle";
 import axios from "axios";
 import Submission from "../models/SubmissionModel";
+import { CodeExecutionConstants, TestingConstants } from "../data/CONSTANTS";
 
 const router = express.Router();
 const ROUTE_BASE = "/api/rooms";
@@ -261,9 +262,27 @@ router.post("/execute", async (req, res) => {
         uid: questionUID
     }).then(mongoResponse => mongoResponse);
 
-    // const {
-    //     testCases
-    // } = question;
+
+    const {
+        templates
+    } = question;
+
+    console.log(templates)
+
+    const {
+        testingTemplate,
+        libraries,
+        testCases
+    } = templates[body.relativeLanguage];
+
+    
+    body.script = [
+        libraries.join("\n"),
+        body.script,
+        testingTemplate
+    ].join("\n");
+
+    console.log(body.script)
 
 
     const executeResponse = await axios.post("https://api.jdoodle.com/v1/execute", body).then(r => {
@@ -274,14 +293,12 @@ router.post("/execute", async (req, res) => {
         output
     } = executeResponse;
 
-    const uid = createUID();
+    const uid = createUID(50);
+    const outputTokens = output.split(TestingConstants.TEST_INJECTION_PLACEMENT_TERM_SWAP).filter(term => term !== "" && term !== "\n")
 
     if (output === null) {
-
-    } else if (output === "ACCEPTED") {
-
         await Submission.create({
-            result: "ACCEPTED",
+            result: CodeExecutionConstants.WRONG_ANSWER,
             questionTitle,
             username,
             questionUID,
@@ -293,18 +310,66 @@ router.post("/execute", async (req, res) => {
 
             res.status(200).send({
                 created: true,
-                result: "ACCEPTED",
-                output
+                result: {
+                    state: CodeExecutionConstants.WRONG_ANSWER,
+                    userOutput: outputTokens[1],
+                    expectedOutput: testCases[0][1]
+                }
+            });
+
+        });
+    } else if (outputTokens.length === 0) {
+        await Submission.create({
+            result: CodeExecutionConstants.WRONG_ANSWER,
+            questionTitle,
+            username,
+            questionUID,
+            timestamp,
+            language,
+            code: body.script,
+            uid
+        }).then(mongoResponse => {
+
+            res.status(200).send({
+                created: true,
+                result: {
+                    state: CodeExecutionConstants.WRONG_ANSWER,
+                    userOutput: outputTokens[1],
+                    expectedOutput: testCases[0][1]
+                }
+            });
+
+        });
+    } else if (/^WRONGANSWER_[0-9]*$/.test(outputTokens[0])) {
+
+        await Submission.create({
+            result: CodeExecutionConstants.WRONG_ANSWER,
+            questionTitle,
+            username,
+            questionUID,
+            timestamp,
+            language,
+            code: body.script,
+            uid
+        }).then(mongoResponse => {
+
+            res.status(200).send({
+                created: true,
+                result: {
+                    state: CodeExecutionConstants.WRONG_ANSWER,
+                    userOutput: outputTokens[1],
+                    expectedOutput: testCases[Number(outputTokens[0].split("_")[1])][1]
+                }
             });
 
         });
 
     // If wrong answer or other case...
     // Must be extended further to handle
-    } else if (output === "WRONG ANSWER" || true) {
+    } else if (/^ACCEPTED$/.test(outputTokens[0])) {
 
         await Submission.create({
-            result: "WRONG ANSWER",
+            result: CodeExecutionConstants.ACCEPTED,
             username,
             questionUID,
             questionTitle,
@@ -316,13 +381,39 @@ router.post("/execute", async (req, res) => {
 
             res.status(200).send({
                 created: true,
-                result: "WRONG ANSWER",
-                output
+                result: {
+                    state: CodeExecutionConstants.ACCEPTED,
+                    userOutput: outputTokens[1],
+                    expectedOutput: outputTokens[1]
+                }
             });
 
         });
 
-    };
+    } else {
+        outputTokens[0] = outputTokens[0].replaceAll(/WRONGANSWER_[0-9]*$/gi, "").replaceAll(/ACCEPTED/gi, "")
+        await Submission.create({
+            result: CodeExecutionConstants.WRONG_ANSWER,
+            username,
+            questionUID,
+            questionTitle,
+            timestamp,
+            language,
+            code: body.script,
+            uid
+        }).then(mongoResponse => {
+
+            res.status(200).send({
+                created: true,
+                result: {
+                    state: CodeExecutionConstants.WRONG_ANSWER,
+                    userOutput: outputTokens[0],
+                    expectedOutput: testCases[0][1]
+                }
+            });
+
+        });
+    }
 
 
 });

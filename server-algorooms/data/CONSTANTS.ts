@@ -1,3 +1,8 @@
 export enum TestingConstants {
     TEST_INJECTION_PLACEMENT_TERM_SWAP = "7xY5rPU32L37eQ7WCYP0108thgf7u5Uj3M8Eq076K87Nk6ExIjPcO71878dX9fVt88Uxp8zDVM12bM4BgmS37gRDIdmxmJ7ENZ0v"
 };
+
+export enum CodeExecutionConstants {
+    WRONG_ANSWER = "WRONG_ANSWER",
+    ACCEPTED = "ACCEPTED"
+}
