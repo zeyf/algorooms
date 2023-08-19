@@ -59,14 +59,14 @@ export default ({
     uid: data.uid,
     activeEditorTexts: new LiveObject<EditorTexts>({
       python: "",
-      cpp: "",
-      java: "",
+      // cpp: "",
+      // java: "",
       javascript: ""
     }),
     resetEditorTexts: new LiveObject<EditorTexts>({
       python: "",
-      cpp: "",
-      java: "",
+      // cpp: "",
+      // java: "",
       javascript: ""
     }),
     hasRanCodeOnQuestion: false,
