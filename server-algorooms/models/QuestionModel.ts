@@ -2,20 +2,20 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-interface languageTemplate {
+interface questionLanguageTemplate {
     submissionTemplate: string,
     transformedReturnType: string,
     generalReturnType: string,
-    testCases: Array<string>,
+    testCases: Array<Array<string>>,
     testingTemplate: string,
     libraries: Array<string>
 };
 
 type templateSet = {
-    python: languageTemplate,
-    javascript: languageTemplate,
-    java: languageTemplate,
-    cpp: languageTemplate
+    python: questionLanguageTemplate,
+    javascript: questionLanguageTemplate,
+    java: questionLanguageTemplate,
+    cpp: questionLanguageTemplate
 };
 
 interface example {
