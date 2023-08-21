@@ -313,7 +313,9 @@ router.post("/execute", async (req, res) => {
                 result: {
                     state: CodeExecutionConstants.WRONG_ANSWER,
                     userOutput: outputTokens[1],
-                    expectedOutput: testCases[0][1]
+                    expectedOutput: testCases[0][1],
+                    testCaseIndex: 0,
+                    totalTestCases: testCases.length
                 }
             });
 
@@ -335,7 +337,9 @@ router.post("/execute", async (req, res) => {
                 result: {
                     state: CodeExecutionConstants.WRONG_ANSWER,
                     userOutput: outputTokens[1],
-                    expectedOutput: testCases[0][1]
+                    expectedOutput: testCases[0][1],
+                    testCaseIndex: 0,
+                    totalTestCases: testCases.length
                 }
             });
 
@@ -352,13 +356,15 @@ router.post("/execute", async (req, res) => {
             code: body.script,
             uid
         }).then(mongoResponse => {
-
+            const testCaseIndex = Number(outputTokens[0].split("_")[1])
             res.status(200).send({
                 created: true,
                 result: {
                     state: CodeExecutionConstants.WRONG_ANSWER,
                     userOutput: outputTokens[1],
-                    expectedOutput: testCases[Number(outputTokens[0].split("_")[1])][1]
+                    expectedOutput: testCases[testCaseIndex][1],
+                    testCaseIndex: testCaseIndex,
+                    totalTestCases: testCases.length,
                 }
             });
 
@@ -384,7 +390,9 @@ router.post("/execute", async (req, res) => {
                 result: {
                     state: CodeExecutionConstants.ACCEPTED,
                     userOutput: outputTokens[1],
-                    expectedOutput: outputTokens[1]
+                    expectedOutput: outputTokens[1],
+                    testCaseIndex: testCases.length - 1,
+                    totalTestCases: testCases.length,
                 }
             });
 
@@ -408,7 +416,9 @@ router.post("/execute", async (req, res) => {
                 result: {
                     state: CodeExecutionConstants.WRONG_ANSWER,
                     userOutput: outputTokens[0],
-                    expectedOutput: testCases[0][1]
+                    expectedOutput: testCases[0][1],
+                    testCaseIndex: 0,
+                    totalTestCases: testCases.length,
                 }
             });
 
