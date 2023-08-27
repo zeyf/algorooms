@@ -13,11 +13,30 @@ export default ({
 
     useEffect(() => {
 
-    }, [ codeTestIteration ]);
+  }, [ codeTestIteration ]);
+
+  const {
+    state,
+    userOutput,
+    expectedOutput,
+    testCaseIndex,
+    totalTestCases
+  } = useStorage(r => r.ranCodeOutputOnQuestion);
 
   return (
     <div className="bg-darkAccent w-full h-full rounded text-white font-mono p-5">
-      Try running your code!
+      {
+        testCaseIndex === -1 ? 
+        <div></div>
+        :
+        <section>
+          <section>{ `EXPECTED OUTPUT: ${expectedOutput}` }</section>
+          <section>{ `USER OUTPUT: ${userOutput}` }</section>
+          <section>{ `STATE: ${state}` }</section>
+          <section>{ `PASSED ${testCaseIndex + 1} / ${totalTestCases} TEST CASES` }</section>
+        </section>
+      }
     </div>
   );
 };
+
