@@ -131,8 +131,18 @@ export default ({
 
         const response = await axios.post(buildRoute("/api/rooms/execute"), payload).then(r => r).then(r => r.data);
 
-        storage.set("runCodeInQueue", false);
+        const {
+            state
+        } = response.result
 
+        storage.set("ranCodeOutputOnQuestion", response.result);
+
+        if (state === "ACCEPTED") {
+                toast(`Congratulations on solving ${storage.get("currentQuestion").title}!`);
+        }
+        
+        storage.set("submitCodeInQueue", false);
+        storage.set("runCodeInQueue", false);
     }, [  ]);
 
     const handleSubmitCode = useMutation(async ({

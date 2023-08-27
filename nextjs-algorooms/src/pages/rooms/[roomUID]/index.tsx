@@ -60,10 +60,24 @@ export default ({
     uid: data.uid,
     editorTexts: new LiveObject<EditorTexts>({
       python: "",
-      cpp: "",
-      java: "",
+      // cpp: "",
+      // java: "",
       javascript: ""
     }),
+    resetEditorTexts: new LiveObject<EditorTexts>({
+      python: "",
+      // cpp: "",
+      // java: "",
+      javascript: ""
+    }),
+    hasRanCodeOnQuestion: false,
+    ranCodeOutputOnQuestion: {
+      state: "",
+      userOutput: "",
+      expectedOutput: "",
+      testCaseIndex: -1,
+      totalTestCases: -1
+    },
     runCodeInQueue: false,
     submitCodeInQueue: false,
     voteCount: 0,
