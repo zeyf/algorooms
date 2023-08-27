@@ -199,7 +199,7 @@ router.post("/update/usercount", async(req, res) => {
                         Authorization: `Bearer ${LIVEBLOCKS_API_KEY}`
                     }
                 }
-            ).then(liveBlocksResponse => liveBlocksResponse.data.data.length);
+            )
         }
         catch (err) {
             console.log(err)
