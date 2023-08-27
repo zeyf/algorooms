@@ -1,6 +1,6 @@
 import express from "express";
 import Announcement from "../models/AnnouncementModel";
-import LOG from "../utilities/log";
+import {REQUEST_LOG, RESPONSE_LOG_AND_PASS} from "../utilities/log";
 import shuffle from "../utilities/shuffle";
 import createUID from "../utilities/createUID";
 
@@ -25,7 +25,7 @@ const ROUTE_BASE = "/api/announcements";
 router.post("/create", async (req, res) => {
 
     // For logging and testing
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
 
     // Extract the body
     const {
@@ -46,10 +46,10 @@ router.post("/create", async (req, res) => {
         uid
     }).then(mongoResponse => {
 
-        res.status(200).send({
+        res.status(200).send(RESPONSE_LOG_AND_PASS({
             created: true,
             uid
-        });
+        }));
 
     });
 
@@ -58,7 +58,7 @@ router.post("/create", async (req, res) => {
 router.get("/verify/:announcementUID", async (req, res) => {
 
     // For logging and testing
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
 
     // Extract body data
     const {
@@ -71,10 +71,10 @@ router.get("/verify/:announcementUID", async (req, res) => {
         uid: announcementUID
     }).then(mongoResponse => {
 
-        res.status(200).send({
+        res.status(200).send(RESPONSE_LOG_AND_PASS({
             exists: mongoResponse !== null,
             announcement: mongoResponse
-        });
+        }));
 
     });
 
@@ -83,7 +83,7 @@ router.get("/verify/:announcementUID", async (req, res) => {
 router.get("/all", async (req, res) => {
 
     // For logging and testing
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
 
     await Announcement.find({
 
@@ -91,10 +91,10 @@ router.get("/all", async (req, res) => {
 
         const exists = mongoResponse.length > 0;
 
-        res.status(200).send({
+        res.status(200).send(RESPONSE_LOG_AND_PASS({
             exists,
             announcements: mongoResponse
-        });
+        }));
 
     });
 
