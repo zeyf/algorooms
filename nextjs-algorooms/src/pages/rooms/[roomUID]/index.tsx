@@ -105,18 +105,6 @@ export default ({
   };
 
 
-
-
-
-  // // Re-route to 404 if room does not exists
-  // useEffect(() => {
-
-  //   if (!exists)
-  //     router.push("/404?injectable=room");
-    
-  // }, [  ]);
-
-
   // Establish socket connection with backend
   useEffect(() => {
     socket.connect();
