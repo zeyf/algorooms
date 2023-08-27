@@ -183,9 +183,7 @@ router.post("/update/usercount", async(req, res) => {
         await Room.updateOne(
             { uid: roomUID },
             { occupied: numberOfUsersInRoom }
-        )
-
-        console.log("fuck john, james, and khoa you fucking bums");
+        );
     } else {
         await Room.deleteOne({
             uid: roomUID
