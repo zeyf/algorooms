@@ -185,11 +185,22 @@ export const getServerSideProps = withPageAuthRequired({
     // Make a request to verify the room exists
     const response = await axios.get(`http://localhost:4000/api/rooms/verify/${roomUID}`).then(res => res.data);
 
+
+
     // Pull out the response
     const {
       exists,
       roomData
     } = response;
+
+    if (roomData.occupied === roomData.capacity)
+    return {
+      props: {},
+      redirect: {
+        permanent: true,
+        destination: "/rooms",
+      }
+    };
 
     // Send response as props
     return {
