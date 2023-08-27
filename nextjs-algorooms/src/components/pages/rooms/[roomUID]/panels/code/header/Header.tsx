@@ -94,9 +94,10 @@ export default ({
                 settingsPayload.difficulty,
                 settingsPayload.lobbyAccess
             );
-
-            if (toastMessage !== null)
+            if (toastMessage !== null){
                 toast(toastMessage);
+
+            }
 
         });
 
@@ -109,54 +110,65 @@ export default ({
     // Handle the change of the current editor language
     const handleLanguageChange = useMutation(({ storage }, event) => storage.set("language", event.target.value.toLowerCase()), [  ]);
 
-
-    const handleRunCode = useMutation(async ({
+    const handleCodeExecution = useMutation(async ({
         storage,
-        setMyPresence
-    }, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+        self
+    }, executionType, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
 
         const editorLang:any = storage.get("language");
 
-        storage.set("runCodeInQueue", true);
+        const submission = executionType === "SUBMIT";
+        const run = executionType === "RUN";
 
-        const editorText = storage.get("editorTexts").get(editorLang);
+        if (submission)
+            storage.set("submitCodeInQueue", true);
+        else if (run)
+            storage.set("runCodeInQueue", true);
+
+        const editorText = storage.get("activeEditorTexts").get(editorLang);
+
+        const currentQuestionData = storage.get("currentQuestion");
 
         const payload = {
-            type: "run",
+            username: self.presence.username,
+            type: submission ? "SUBMIT" : ( run ? "RUN" : "ERROR" ),
             clientId,
             clientSecret,
             script: editorText,
+            relativeLanguage: editorLang,
+            timestamp: Date.now(),
+            questionTitle: currentQuestionData.title,
+            questionUID: currentQuestionData.uid,
             ...langMapper[editorLang].jDoodleAPITemplateConfiguration
         };
 
+        payload.executionLanguage = payload.language;
+        
         const response = await axios.post(buildRoute("/api/rooms/execute"), payload).then(r => r).then(r => r.data);
 
-        storage.set("runCodeInQueue", false);
+        const {
+            accepted,
+            outputData
+        } = response;
+
+        if (accepted) {
+            if (submission)
+                toast(`Congratulations on solving ${storage.get("currentQuestion").title}!`);
+            storage.set("ranCodeOutputOnQuestion", "ACCEPTED!");
+            storage.set("inRound", false);
+        } else {
+            storage.set("ranCodeOutputOnQuestion", "WRONG ANSWER...");
+        }
+        
+        storage.set("submitCodeInQueue", false);
 
     }, [  ]);
 
-    const handleSubmitCode = useMutation(async ({
-        storage,
-        setMyPresence
-    }, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
 
-        const editorLang:any = storage.get("language");
+    const handleCodeReset = useMutation(({ storage }) => {
 
-        storage.set("submitCodeInQueue", true);
-
-        const editorText = storage.get("editorTexts").get(editorLang);
-
-        const payload = {
-            type: "submit",
-            clientId,
-            clientSecret,
-            script: editorText,
-            ...langMapper[editorLang].jDoodleAPITemplateConfiguration
-        };
-
-        const response = await axios.post(buildRoute("/api/rooms/execute"), payload).then(r => r).then(r => r.data);
-
-        storage.set("submitCodeInQueue", false);
+        const currentLanguageInView:any = storage.get("language");
+        storage.get("activeEditorTexts").set(currentLanguageInView, storage.get("resetEditorTexts").get(currentLanguageInView));
 
     }, [  ]);
 
@@ -186,8 +198,10 @@ export default ({
                         >
                             <option value={"python"}>Python</option>
                             <option value={"javascript"}>Javascript</option>
+                            {/*
                             <option value={"cpp"}>C++</option>
                             <option value={"java"}>Java</option>
+                            */}
                         </select>
                     </div>
 
@@ -196,9 +210,21 @@ export default ({
                         color="dark"
                         className="drop-shadow-lg"
                         onClick={e => {
+                            e.preventDefault();
+                            handleCodeReset();
+                        }}
+                    >
+                        Reset Code
+                    </Button>
+
+                    <Button
+                        disabled={runningCode || submittingCode}
+                        color="dark"
+                        className="drop-shadow-lg"
+                        onClick={e => {
 
                             e.preventDefault();
-                            handleRunCode();
+                            handleCodeExecution("RUN");
 
                             setRunningCode(true);
                             
@@ -222,7 +248,7 @@ export default ({
                         className="drop-shadow-lg"
                         onClick={e => {
                             e.preventDefault();
-                            handleSubmitCode();
+                            handleCodeExecution("SUBMIT");
 
                             setSubmittingCode(true);
 

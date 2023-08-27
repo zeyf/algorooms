@@ -24,7 +24,6 @@ const ProgressBar = ({
   const completionPercentage: number = Math.floor(
     (numerator / denominator) * 100
   );
-  const completionComplement = 100 - completionPercentage;
 
   return (
     <div
@@ -32,8 +31,10 @@ const ProgressBar = ({
     >
       <div
         className={`w-full h-${height} ${accentColor}`}
-        style={{ width: `${completionComplement}%` }}
-      ></div>
+        style={{width: `${completionPercentage}%`, borderRadius: 10}}
+      >
+
+      </div>
     </div>
   );
 };

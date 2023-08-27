@@ -19,7 +19,6 @@ import { AppUserContext } from '@/contexts/AppUserContextLayer';
 import randomColor from "randomcolor";
 import RoomLoadWrapper from '@/components/pages/rooms/[roomUID]/RoomLoadWrapper';
 import { ClientSideSuspense } from '@liveblocks/react';
-import WhiteBoard from '@/components/pages/rooms/[roomUID]/panels/code/WhiteBoard';
 import Content from '@/components/shared/Content';
 
 export default ({
@@ -58,12 +57,20 @@ export default ({
   // Define the default storage
   const initialStorage: Storage = {
     uid: data.uid,
-    editorTexts: new LiveObject<EditorTexts>({
+    activeEditorTexts: new LiveObject<EditorTexts>({
       python: "",
-      cpp: "",
-      java: "",
+      // cpp: "",
+      // java: "",
       javascript: ""
     }),
+    resetEditorTexts: new LiveObject<EditorTexts>({
+      python: "",
+      // cpp: "",
+      // java: "",
+      javascript: ""
+    }),
+    hasRanCodeOnQuestion: false,
+    ranCodeOutputOnQuestion: "Try running your code!", 
     runCodeInQueue: false,
     submitCodeInQueue: false,
     voteCount: 0,
@@ -148,7 +155,7 @@ export default ({
             >
               {/* Allows for full suspense rendering of hook calls before initial render */}
               <ClientSideSuspense fallback={<p>Loading...</p>}>
-                { () => <RoomLoadWrapper /> }
+                { () => <RoomLoadWrapper roomUID={data.uid}/> }
               </ClientSideSuspense>
             </RoomProvider>
           </RoomContextLayer>  

@@ -88,14 +88,14 @@ export default ({
   return (
     <section className="h-[84px] py-5 border-t-[1px] border-black mx-4 box-border">
       {/* Body */}
+          <p className="text-white absolute bottom-[60px]">
+            { buildUsersTypingMessage() } 
+          </p>
       <form
         onSubmit={e => e.preventDefault()}
         className="flex relative select-text"
       >
         <div className="bg-darkAccent relative rounded w-full">
-          <p className="text-white">
-            { buildUsersTypingMessage() } 
-          </p>
           <input
             type="message"
             

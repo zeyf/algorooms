@@ -27,7 +27,6 @@ export default ({
     if (!exists) router.push("/404?injectable=profile");
   }, []);
 
-
   if (!exists) {
     // router.push('/404?injectable=profile');
     return <></>;
@@ -41,174 +40,142 @@ export default ({
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col">
+        <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col items-center overflow-scroll">
           <Header />
-          <div className="bg-white bg-opacity-25 rounded-[15px] p-6 m-20 h-full">
+          <div className="px-6 pt-6 h-full w-2/3">
             {/* First row */}
-            <div className="flex justify-between items-center col-span-full border-b-2 border-gray pb-4 h-1/2">
+            <div className="flex flex-col h-full items-center">
               {/* User */}
-              <div className="flex-col w-1/2 pr-2 h-full border-r-2 border-gray">
-                {/* Avatar and User Info */}
-                <div>
-                  <div className="flex justify-between">
-                    {/* Avatar */}
-                    <img
-                      className="rounded-full mr-4 mb-4"
-                      src={data.picture}
-                      height={188}
-                      width={188}
-                      alt=""
-                    />
-                    {/* User Info */}
-                    <div className="flex-col w-full">
-                      <Title
-                        text={data.username}
-                        alignment="left"
-                        color="white"
+                <div className='flex w-5/6 justify-center mb-4 px-3'>
+                  <div className="bg-gray-800 flex-col w-2/3 h-full p-6 rounded-lg drop-shadow-lg mr-5">
+                    {/* Avatar and User Info */}
+                    <div>
+                      <div className="flex justify-between">
+                        {/* Avatar */}
+                        <img
+                          className="rounded-lg mr-4 mb-4 drop-shadow-lg h-1/4 w-1/4"
+                          src={data.picture}
+                          alt=""
+                        />
+                        {/* User Info */}
+                        <div className="flex-col w-full">
+                          <h1 className='text-white lg:text-3xl md:text-lg'>{data.username}</h1>
+                          <h2 className='text-white'>Joined: {data.dateJoined}</h2>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Exp bar */}
+                    <div className="flex justify-between items-center">
+                      {/* Level */}
+                      <div className="pr-3">
+                        <Subtitle text="100" alignment="left" color="white" />
+                      </div>
+
+                      {/* Exp Bar */}
+                      <ProgressBar
+                        backgroundColor={'bg-green-300'}
+                        accentColor={'bg-green-800'}
+                        numerator={3}
+                        denominator={3}
+                        width={'full'}
+                        height={'2'}
                       />
-                      <Subtitle
-                        text={`Joined...`}
-                        alignment="left"
-                        color="white"
-                      />
-                      <Subtitle text={'Flair'} alignment="left" color="white" />
                     </div>
                   </div>
-                </div>
-                {/* Exp bar */}
-                <div className="flex justify-between items-center">
-                  {/* Level */}
-                  <div className="pr-3">
-                    <Subtitle text="100" alignment="left" color="white" />
-                  </div>
+                  <div className="w-2/3 h-auto bg-gray-800 rounded-lg drop-shadow-lg ml-5 ">
+                  <h3 className='text-white text-lg m-2'>Solved Problems</h3>
+                  <div className="flex-col justify-between items-center w-auto h-full pl-6">
 
-                  {/* Exp Bar */}
-                  <ProgressBar
-                    backgroundColor={'bg-green-300'}
-                    accentColor={'bg-green-800'}
-                    numerator={3}
-                    denominator={3}
-                    width={'full'}
-                    height={'3'}
-                  />
+                    {/* Easy */}
+                    <section className="flex flex-col items-star m-2">
+                      <div className='flex flex-row space-x-3 items-center'>
+                        <Subtitle text="Easy: " alignment="left" color="white" />
+                        <div className='text-white'>
+                          {data.questionsSolved.simpler} / 128
+                        </div>
+                      </div>
+
+                    <ProgressBar
+                      backgroundColor={'bg-green-800'}
+                      accentColor={'bg-green-300'}
+                      numerator={data.questionsSolved.simpler} // Easy questions completed
+                      denominator={128} // Total easy questions
+                      width={'3/4'}
+                      height={'2'}
+                    />
+                  </section>
+
+                  {/* Medium */}
+                  <section className="flex flex-col items-start m-2">
+                    <div className='flex flex-row space-x-3 items-center'>
+                      <Subtitle text="Medium: " alignment="left" color="white" />
+                      <div className='text-white'>
+                        {data.questionsSolved.simple} / 230
+                      </div>
+                    </div>
+
+                    <ProgressBar
+                      backgroundColor={'bg-yellow-800'}
+                      accentColor={'bg-yellow-300'}
+                      numerator={data.questionsSolved.simple}
+                      denominator={230}
+                      width={'3/4'}
+                      height={'2'}
+                    />
+                  </section>
+
+                  {/* Hard */}
+                  <section className="flex flex-col items-start m-2">
+                  <div className='flex flex-row space-x-3 items-center'>
+                      <Subtitle text="Hard: " alignment="left" color="white" />
+                      <div className='text-white'>
+                        {data.questionsSolved.notSimple} / 120
+                      </div>
+                    </div>
+                    <ProgressBar
+                      backgroundColor={'bg-red-800'}
+                      accentColor={'bg-red-300'}
+                      numerator={data.questionsSolved.notSimple}
+                      denominator={120}
+                      width={'3/4'}
+                      height={'2'}
+                    />
+                  </section>
+                </div>
                 </div>
               </div>
-
               {/* Problems */}
-              <div className="w-1/2 pl-2 h-full">
-                <Title text="Problems" alignment="left" color="white" />
-                <div className="flex-col justify-between items-center w-full h-full">
-                  {/* Simpler */}
-                  <section className="flex flex-col items-start">
-                    <Subtitle text="Simpler" alignment="left" color="white" />
-                    <ProgressBar
-                      backgroundColor={'bg-green-300'}
-                      accentColor={'bg-green-800'}
-                      numerator={5}
-                      denominator={25}
-                      width={'full'}
-                      height={'4'}
-                    />
-                  </section>
-                  {/* Simple */}
-                  <section className="flex flex-col items-start">
-                    <Subtitle text="Simple" alignment="left" color="white" />
-                    <ProgressBar
-                      backgroundColor={'bg-yellow-300'}
-                      accentColor={'bg-yellow-800'}
-                      numerator={5}
-                      denominator={25}
-                      width={'full'}
-                      height={'4'}
-                    />
-                  </section>
-                  {/* Not Simple */}
-                  <section className="flex flex-col items-start">
-                    <Subtitle
-                      text="Not Simple"
-                      alignment="left"
-                      color="white"
-                    />
-                    <ProgressBar
-                      backgroundColor={'bg-red-300'}
-                      accentColor={'bg-red-800'}
-                      numerator={5}
-                      denominator={25}
-                      width={'full'}
-                      height={'4'}
-                    />
-                  </section>
+              
+              <div className="flex flex-col h-full items-center w-full p-3">
+                {/* Recently Solved Problems */}
+                <div className="w-5/6 h-1/2 bg-gray-800 rounded-lg drop-shadow-lg">
+                  <h3 className='text-white p-4 text-lg'>Recently Solved Problems</h3>
+                  <div>
+                  {
+                    data.submissions.map(submission => {
+                      return <Title
+                        text={ submission.questionTitle }
+                        alignment="left"
+                        color="white"
+                      />
+
+                    })
+                  }
+                  </div>
+                </div>
+                {/* Top Topics Solved */}
+                <div className='h-1/2 w-5/6 mt-6 flex'>
+                  <div className='bg-gray-800 h-full w-2/3 mr-5 rounded-lg drop-shadow-lg'>
+                    <h2 className='text-white p-4 text-lg'>Top Topics</h2>
+                  </div>
+                  <div className='bg-gray-800 h-full w-2/3 ml-5 rounded-lg drop-shadow-lg'>
+                    <h2 className='text-white p-4 text-lg'>Announcements</h2>
+                  </div>
                 </div>
               </div>
+
             </div>
 
-            {/* Second row */}
-            <div className="flex flex-row justify-between h-1/2 pt-4">
-              {/* Recently Solved Problems */}
-              <div className="w-1/3 border-r-2 border-gray">
-
-                <Title
-                  text="Recently Solved Problems"
-                  alignment="center"
-                  color="white"
-                />
-
-                <div>
-
-                {
-                  data.submissions.map(submission => {
-
-                    return <Title
-                      text={ submission.questionTitle }
-                      alignment="left"
-                      color="white"
-                    />
-
-                  })
-                }
-
-                </div>
-
-              </div>
-
-              {/* Top Topics Solved */}
-              <div className="w-1/3 border-r-2 border-gray">
-                <Title
-                  text="Top Topics Solved"
-                  alignment="center"
-                  color="white"
-                />
-                <ol className="px-2">
-                  <Title text="1. Arrays" alignment="left" color="white" />
-                  <Title text="2. Graphs" alignment="left" color="white" />
-                  <Title text="3. Hash Maps" alignment="left" color="white" />
-                  <Title text="4. Trees" alignment="left" color="white" />
-                  <Title
-                    text="5. Bit Operations"
-                    alignment="left"
-                    color="white"
-                  />
-                </ol>
-              </div>
-
-              {/* School Affiliation */}
-              <div className="w-1/3">
-                <Title
-                  text="School Affiliation"
-                  alignment="center"
-                  color="white"
-                />
-                <div className="flex justify-center items-center">
-                  <Image
-                    className="text-white"
-                    alt="school"
-                    src="/dummy_data/ucf.png"
-                    width={220}
-                    height={250}
-                  />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </>
@@ -218,7 +185,7 @@ export default ({
 export async function getServerSideProps(context: any) {
   const {
     query: {
-      profileUID
+      profileUID,
     },
   } = context;
 

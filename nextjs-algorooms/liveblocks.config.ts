@@ -35,7 +35,8 @@ export type Presence = {
 // Type schema for storage -- non-unique shared data
 export type Storage = {
     uid: string,
-    editorTexts: LiveObject<EditorTexts>,
+    resetEditorTexts: LiveObject<EditorTexts>,
+    activeEditorTexts: LiveObject<EditorTexts>,
     lobbyAccess: string,
     difficulty: string,
     topics: LiveList<string>,

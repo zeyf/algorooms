@@ -16,7 +16,11 @@ export default () => {
   ] = useState<boolean>(false);
 
   const router = useRouter();
-
+  const date = new Date()
+  let dd = String(date.getDate()).padStart(2, '0');
+  let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+  let yyyy = date.getFullYear();
+  let today = mm + '/' + dd + '/' + yyyy;
   const {
     user,
     isLoading,
@@ -53,7 +57,8 @@ export default () => {
         await axios.post(buildRoute(`/api/users/create`), {
           authuid: user.sub,
           username: inputRef.current.value,
-          picture: user.picture
+          picture: user.picture,
+          dateJoined: today
         }).then(res => router.push("/rooms"));
 
       };
@@ -73,16 +78,19 @@ export default () => {
         </Head>
         <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex justify-center items-center">
           <div className="w-[500px] h-[300px] bg-darkAccent rounded-lg drop-shadow-lg flex flex-col items-center justify-center">
-            <div className="w-[300px]">
+            <p className='text-white'>
+              Enter Username
+            </p>
+            <div className="w-[300px] flex items-center justify-center">
               <input
                 ref={inputRef}
-                placeholder="Username"
-                className="fill-white"
+                placeholder=" Username"
+                className="fill-white rounded-md h-8"
               />
             </div>
             <Button
               onClick={checkUsername}
-              className=""
+              className="m-3"
             >
               Submit Username
             </Button>

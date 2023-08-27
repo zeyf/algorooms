@@ -5,6 +5,7 @@ import axios from 'axios';
 import buildRoute from '@/utilities/buildRoute';
 import { AiOutlineCheck } from 'react-icons/ai';
 import Header from '@/components/shared/Header';
+import StaticRoomSettingsOptionsData from '@/data/StaticRoomSettingsOptionsData';
 
 interface dataInterface {
   title: string;
@@ -19,25 +20,10 @@ interface dataInterface {
   isApproved: Boolean;
 }
 
-const difficultyOptions = [
-  { value: 'Simpler', label: 'Simpler' },
-  { value: 'Simple', label: 'Simple' },
-  { value: 'Not Simple', label: 'Not Simple' },
-];
-
-const topicOptions = [
-  { value: 'Strings', label: 'Strings' },
-  { value: 'Arrays', label: 'Arrays' },
-  { value: 'Stacks', label: 'Stacks' },
-  { value: 'Queues', label: 'Queues' },
-  { value: 'Linked Lists', label: 'Linked Lists' },
-  { value: 'Trees', label: 'Trees' },
-  { value: 'Tries', label: 'Tries' },
-  { value: 'Recursion', label: 'Recursion' },
-  { value: 'Hash Tables', label: 'Hash Tables' },
-  { value: 'Graphs', label: 'Graphs' },
-  { value: 'Bitwise', label: 'Bitwise' },
-];
+const {
+  selectableDifficulties,
+  selectableTopics
+} = StaticRoomSettingsOptionsData
 
 export default () => {
   const [data, setData] = useState<dataInterface>({
@@ -130,7 +116,7 @@ export default () => {
                 placeholder="Select Difficulty"
                 className="w-full text-black h-auto"
                 classNamePrefix="select"
-                options={difficultyOptions}
+                options={selectableDifficulties}
                 onChange={(e: any) =>
                   setData({
                     ...data,
@@ -147,7 +133,7 @@ export default () => {
                 className="w-full rounded text-black"
                 classNamePrefix="select"
                 isMulti={true}
-                options={topicOptions}
+                options={selectableTopics}
                 onChange={(selections: any) =>
                   setData({
                     ...data,

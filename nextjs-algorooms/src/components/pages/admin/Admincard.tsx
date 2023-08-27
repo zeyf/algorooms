@@ -15,6 +15,7 @@ type AdminSubmissionProps = {
     explanation: string;
     constraints: string;
     hints: string;
+    uid: string
 };
 
 const AdminSubmission = ({
@@ -27,7 +28,29 @@ const AdminSubmission = ({
     explanation,
     constraints,
     hints,
+    uid
 }: AdminSubmissionProps) => {
+
+    // This change state is just here so that we can return nothing when approve or deny the question
+    const [change, setChange] = useState(false)
+
+    // If approve, change the isApproved property to true to add the question
+    const handleApprove = async () => {
+        setChange(true)
+        await axios.patch(buildRoute("/api/questions/isApproved"), {
+            questionUID: uid
+        })
+    }
+
+    // If deny, delete the quesiton
+    const handleDelete = async () => {
+        setChange(true)
+        await axios.delete(buildRoute(`/api/questions/delete/${uid}`))
+    }
+
+    // If there is change, then return nothing
+    if (change)
+        return null
     
     return (
         <div className="flex h-[40px] w-[975px] translate-x-[-2px] hover:bg-white hover:bg-opacity-25">
@@ -50,8 +73,10 @@ const AdminSubmission = ({
                 </div>
             </div>
             <div className="w-1/6 flex items-center justify-center text-lg text-white border-t gap-1">
-                <button className="w-[75px] h-[30px] bg-greenAccent text-black rounded hover:scale-110 hover:bg-[#14C786] hover:border hover:border-black">< FaCheck className="ml-2" /></button>
-                <button className="w-[75px] h-[30px] bg-[#EB1313] text-black rounded hover:scale-110 hover:bg-[#B10F0F] hover:border hover:border-black">< FaTimes className="ml-2" /></button>
+                <button className="w-[75px] h-[30px] bg-greenAccent text-black rounded hover:scale-110 hover:bg-[#14C786] hover:border hover:border-black"
+                        onClick={handleApprove}>< FaCheck className="ml-2" /></button>
+                <button className="w-[75px] h-[30px] bg-[#EB1313] text-black rounded hover:scale-110 hover:bg-[#B10F0F] hover:border hover:border-black"
+                        onClick={handleDelete}>< FaTimes className="ml-2" /></button>
             </div>
         </div>
     );
@@ -148,6 +173,7 @@ export default ({
                                         explanation={question.explanation}
                                         constraints={question.constraints}
                                         hints={question.hints}
+                                        uid={question.uid}
                                     />
                                 </div>
                             ))}

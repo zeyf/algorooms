@@ -1,7 +1,7 @@
 // Module imports
 import { useRef } from 'react'
 import CodeMirror, { ReactCodeMirrorRef } from '@uiw/react-codemirror';
-import { sublime } from '@uiw/codemirror-theme-sublime'
+import { sublime, sublimeInit  } from '@uiw/codemirror-theme-sublime'
 import languageMapper from '@/utilities/languageMapper';
 import { useMutation, useOthers, useSelf, useStorage, useUpdateMyPresence } from '../../../../../../../liveblocks.config';
 import { EditorState } from '@codemirror/state';
@@ -24,11 +24,11 @@ const CodeEditor = ({
     const editorLanguage = useStorage(({ language }) => language);
 
     // Get the current editor text based on what the current language is
-    const editorText = useStorage(({ editorTexts }) => editorTexts)[editorLanguage];
+    const editorText = useStorage(({ activeEditorTexts }) => activeEditorTexts)[editorLanguage];
 
-    // Get the LiveObject<EditorTexts> and set the specific language's editor text to the newEditorText onChange
+    // Get the LiveObject<EditorTexts> of active editor texts and set the specific language's editor text to the newEditorText onChange
     const handleEditorTextEdit = useMutation(({ storage }, newEditorText, editorLanguage) => {
-        storage.get("editorTexts").set(editorLanguage.toLowerCase(), newEditorText);
+        storage.get("activeEditorTexts").set(editorLanguage.toLowerCase(), newEditorText);
     }, [  ]);
 
     // Get self presence
@@ -85,6 +85,8 @@ const CodeEditor = ({
                     dom.className = "cm-tooltip-cursor"
                     dom.textContent = userTooltipState.username;
                     dom.style.backgroundColor = userTooltipState.color;
+                    // Z index here is to make it not above white board
+                    dom.style.zIndex = '1';
 
                     return { dom };
                 }
@@ -160,7 +162,12 @@ const CodeEditor = ({
                     ref={codeMirrorRefs}
 
                     // Stores the theme for the text editor
-                    theme={sublime}
+                    theme={sublimeInit({
+                        settings: {
+                            foreground: '#75baff',
+                            lineHighlight: '#8a91991a',
+                        }
+                    })}
                     
                     // Stores the text of the editor based on the current language
                     value={editorText}

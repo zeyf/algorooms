@@ -46,6 +46,7 @@
     "tailwind-scrollbar": "^3.0.0",
     "tw-elements": "^1.0.0-beta1",
     "typescript": "5.0.2",
+    "whiteboard-react": "^1.0.0",
     "y-codemirror.next": "^0.3.2",
     "y-socket.io": "^1.1.0",
     "y-webrtc": "^10.2.5",
