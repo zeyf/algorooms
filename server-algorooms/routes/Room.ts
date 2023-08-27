@@ -184,6 +184,8 @@ router.post("/update/usercount", async(req, res) => {
             { uid: roomUID },
             { occupied: numberOfUsersInRoom }
         );
+
+        
     } else {
         await Room.deleteOne({
             uid: roomUID
