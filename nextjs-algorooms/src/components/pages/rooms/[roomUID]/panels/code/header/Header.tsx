@@ -147,21 +147,17 @@ export default ({
         const response = await axios.post(buildRoute("/api/rooms/execute"), payload).then(r => r).then(r => r.data);
 
         const {
-            accepted,
-            outputData
-        } = response;
+            state
+        } = response.result;
 
-        if (accepted) {
-            if (submission)
-                toast(`Congratulations on solving ${storage.get("currentQuestion").title}!`);
-            storage.set("ranCodeOutputOnQuestion", "ACCEPTED!");
-            storage.set("inRound", false);
-        } else {
-            storage.set("ranCodeOutputOnQuestion", "WRONG ANSWER...");
+        storage.set("ranCodeOutputOnQuestion", response.result);
+
+        if (state === "ACCEPTED") {
+            toast(`Congratulations on solving ${storage.get("currentQuestion").title}!`);
         }
         
         storage.set("submitCodeInQueue", false);
-
+        storage.set("runCodeInQueue", false);
     }, [  ]);
 
 
