@@ -70,7 +70,13 @@ export default ({
       javascript: ""
     }),
     hasRanCodeOnQuestion: false,
-    ranCodeOutputOnQuestion: "Try running your code!", 
+    ranCodeOutputOnQuestion: {
+      state: "",
+      userOutput: "",
+      expectedOutput: "",
+      testCaseIndex: -1,
+      totalTestCases: -1
+    },
     runCodeInQueue: false,
     submitCodeInQueue: false,
     voteCount: 0,
@@ -97,18 +103,6 @@ export default ({
       examples: [  ]
     }
   };
-
-
-
-
-
-  // Re-route to 404 if room does not exists
-  useEffect(() => {
-
-    if (!exists)
-      router.push("/404?injectable=room");
-    
-  }, [  ]);
 
 
   // Establish socket connection with backend
@@ -193,7 +187,16 @@ export const getServerSideProps = withPageAuthRequired({
       roomData
     } = response;
 
-    if (roomData.occupied === roomData.capacity)
+    if (!exists) {
+      return {
+        props: {}, 
+        redirect: {
+          permanent: true,
+          destination: "/404?injectable=room",
+        }
+      }
+    }
+    if (exists && roomData.occupied === roomData.capacity)
     return {
       props: {},
       redirect: {
