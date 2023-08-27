@@ -101,7 +101,13 @@ export default ({
 
     // Reset Code Tester content
     storage.set("hasRanCodeOnQuestion", false);
-    storage.set("ranCodeOutputOnQuestion", "Try running your code!");
+    storage.set("ranCodeOutputOnQuestion", {
+        state: "Try running your code!",
+        userOutput: "",
+        expectedOutput: "",
+        testCaseIndex: 0,
+        totalTestCases: 0,
+    });
 
     // Change status to start the round
     storage.set("inRound", true);
@@ -164,7 +170,13 @@ export default ({
 
     // Reset Code Tester content
     storage.set("hasRanCodeOnQuestion", false);
-    storage.set("ranCodeOutputOnQuestion", "Try running your code!");
+    storage.set("ranCodeOutputOnQuestion", {
+        state: "Try running your code!",
+        userOutput: "",
+        expectedOutput: "",
+        testCaseIndex: 0,
+        totalTestCases: 0,
+    });
 
     // Change status to start the round
     storage.set("inRound", true);

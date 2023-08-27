@@ -19,7 +19,7 @@ export default ({
 
   return (
     <div className="bg-darkAccent w-full h-full rounded text-white font-mono p-5">
-      { codeResult }
+      { codeResult.state }
     </div>
   );
 };

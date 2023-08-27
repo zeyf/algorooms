@@ -56,7 +56,7 @@ export default ({
 
   // Define the default storage
   const initialStorage: Storage = {
-    uid: data.uid,
+    uid: exists ? data.uid : "",
     activeEditorTexts: new LiveObject<EditorTexts>({
       python: "",
       // cpp: "",
@@ -70,16 +70,22 @@ export default ({
       javascript: ""
     }),
     hasRanCodeOnQuestion: false,
-    ranCodeOutputOnQuestion: "Try running your code!", 
+    ranCodeOutputOnQuestion: {
+      state: "Try running your code!",
+      userOutput: "",
+      expectedOutput: "",
+      testCaseIndex: 0,
+      totalTestCases: 0,
+    },
     runCodeInQueue: false,
     submitCodeInQueue: false,
     voteCount: 0,
-    lobbyAccess: data.lobbyAccess,
-    difficulty: data.difficulty,
-    topics: new LiveList<string>(data.topics),
+    lobbyAccess: exists ? data.lobbyAccess : "",
+    difficulty: exists ? data.difficulty : "",
+    topics: exists ? new LiveList<string>(data.topics) : new LiveList<string>(),
     messages: new LiveList<TextChatMessage>(),
-    questions: new LiveList<string>(data.questions),
-    host: data.host,
+    questions: exists ? new LiveList<string>(data.questions) : new LiveList<string>(),
+    host: exists ? data.host : "",
     language: "python",
     startMinutes: 1,
     minutesLeft: 1,
@@ -131,7 +137,7 @@ export default ({
 
 
 
-  return (
+  return exists ? (
     <>
       <Head>
         <title>{`AlgoRooms 🚀 | Room: ${data.name} - ${data.uid} | Topics: ${data.topics.toString().replace(/,/gi, ", ")} | Difficulty: ${data.difficulty} | Lobby Access: ${data.lobbyAccess}`}</title>
@@ -162,7 +168,7 @@ export default ({
         </Content>
       </div>
     </>
-  );
+  ) : (<></>);
 
 
 

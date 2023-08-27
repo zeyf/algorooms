@@ -148,16 +148,16 @@ export default ({
 
         const {
             accepted,
-            outputData
+            result,
         } = response;
 
         if (accepted) {
             if (submission)
                 toast(`Congratulations on solving ${storage.get("currentQuestion").title}!`);
-            storage.set("ranCodeOutputOnQuestion", "ACCEPTED!");
+            storage.set("ranCodeOutputOnQuestion", result);
             storage.set("inRound", false);
         } else {
-            storage.set("ranCodeOutputOnQuestion", "WRONG ANSWER...");
+            storage.set("ranCodeOutputOnQuestion", result);
         }
         
         storage.set("submitCodeInQueue", false);
