@@ -1,6 +1,6 @@
 import express from "express";
 import User from "../models/UserModel";
-import LOG from "../utilities/log";
+import {REQUEST_LOG, RESPONSE_LOG_AND_PASS} from "../utilities/log";
 import Submission from "../models/SubmissionModel";
 
 const router = express.Router();
@@ -25,7 +25,7 @@ const ROUTE_BASE = "/api/users";
 router.get("/verify/:profileUID", async (req, res) => {
 
     // For logging and testing
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
 
     // Extract the profileUID from the parameters
     const {
@@ -38,9 +38,9 @@ router.get("/verify/:profileUID", async (req, res) => {
     if (!profileUID) {
         
         // Sends response with no existence
-        res.status(200).send({
+        res.status(200).send(RESPONSE_LOG_AND_PASS({
             exists: false
-        });
+        }));
 
     } else {
         
@@ -56,10 +56,10 @@ router.get("/verify/:profileUID", async (req, res) => {
         if (!exists) {
             
             // Send response that nothing was found
-            res.status(200).send({
+            res.status(200).send(RESPONSE_LOG_AND_PASS({
                 exists,
                 profileData: foundUserResponse
-            });
+            }));
 
         // Otherwise if the user exists
         } else {
@@ -71,7 +71,7 @@ router.get("/verify/:profileUID", async (req, res) => {
 
 
             // Sends response with existence and data
-            res.status(200).send({
+            res.status(200).send(RESPONSE_LOG_AND_PASS({
                 exists,
                 profileData: {
 
@@ -82,7 +82,7 @@ router.get("/verify/:profileUID", async (req, res) => {
                     submissions: submissions.sort((a, b) => b.timestamp - a.timestamp)
 
                 }
-            });
+            }));
 
         }
 
@@ -94,7 +94,7 @@ router.get("/verify/:profileUID", async (req, res) => {
 router.get("/verifyAuth/:authUID", async (req, res) => {
 
     // For logging and testing
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
 
     // Extract the profileUID from the parameters
     const {
@@ -107,9 +107,9 @@ router.get("/verifyAuth/:authUID", async (req, res) => {
     if (!authUID) {
         
         // Sends response with no existence
-        res.status(200).send({
+        res.status(200).send(RESPONSE_LOG_AND_PASS({
             exists: false
-        });
+        }));
 
     } else {
         
@@ -119,10 +119,10 @@ router.get("/verifyAuth/:authUID", async (req, res) => {
         }).then(response => {
             
             // Sends response with existence and data
-            res.status(200).send({
+            res.status(200).send(RESPONSE_LOG_AND_PASS({
                 exists: response !== null,
                 profileData: response
-            });
+            }));
             
         });
     }
@@ -133,7 +133,7 @@ router.get("/verifyAuth/:authUID", async (req, res) => {
 router.post("/create", async (req, res) => {
 
     // For logging and testing
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
 
     // Extract the Auth0 authuid and desired username from the body
     const {
@@ -149,9 +149,9 @@ router.post("/create", async (req, res) => {
     if (!authuid || !username) {
 
         // Existence is not possible, send back this response
-        res.status(200).send({
+        res.status(200).send(RESPONSE_LOG_AND_PASS({
             exists: false
-        });
+        }));
 
     // Otherwise we have SOMETHING for both the authuid and username in the body
     } else {
@@ -171,9 +171,9 @@ router.post("/create", async (req, res) => {
         }).then((mongoResponse) => {
 
             // Sends response with creation of the new record with the user's data
-            res.status(200).send({
+            res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true
-            })
+            }));
 
         });
     }

@@ -1,6 +1,6 @@
 // Used to log requests to route endpoints
 
-export default function LOG(
+export function REQUEST_LOG(
     routeBase: string,
     {
         method,
@@ -69,3 +69,12 @@ export default function LOG(
     // Log the contents
     console.log(`${logString}${BAR}`);
 };
+
+
+export function RESPONSE_LOG_AND_PASS(sendData:any):any {
+    console.log(`RESPONSE:`);
+    console.log(sendData);
+    console.log("==================");
+    return sendData;
+};
+

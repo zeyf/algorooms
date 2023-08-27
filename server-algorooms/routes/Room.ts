@@ -1,7 +1,7 @@
 import express from "express";
 import Room from "../models/RoomModel";
 import createUID from "../utilities/createUID";
-import LOG from "../utilities/log";
+import {REQUEST_LOG, RESPONSE_LOG_AND_PASS} from "../utilities/log";
 import Question from "../models/QuestionModel";
 import shuffle from "../utilities/shuffle";
 import axios from "axios";
@@ -32,7 +32,7 @@ const ROUTE_BASE = "/api/rooms";
 router.get("/public", async (req, res) => {
 
     // For logging and testing 
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
 
     // Find all rooms that have a public lobby access
     await Room.find({
@@ -40,9 +40,9 @@ router.get("/public", async (req, res) => {
     }).then((response) => {
 
         // Send response
-        res.status(200).send({
+        res.status(200).send(RESPONSE_LOG_AND_PASS({
             rooms: response
-        });
+        }));
 
     });
 
@@ -52,7 +52,7 @@ router.get("/public", async (req, res) => {
 router.get("/verify/:roomUID", async (req, res) => {
 
     // For logging and testing
-    LOG(ROUTE_BASE, req);    
+    REQUEST_LOG(ROUTE_BASE, req);    
 
     // Extract the roomUID from the parameters
     const {
@@ -65,9 +65,9 @@ router.get("/verify/:roomUID", async (req, res) => {
     if (!roomUID) {
 
         // Send response with no existence
-        res.status(200).send({
+        res.status(200).send(RESPONSE_LOG_AND_PASS({
             exists: false
-        });
+        }));
 
     } else {
 
@@ -77,10 +77,10 @@ router.get("/verify/:roomUID", async (req, res) => {
         }).then((response) => {
 
             // Return whether or not it exists
-            res.status(200).send({
+            res.status(200).send(RESPONSE_LOG_AND_PASS({
                 exists: response !== null,
                 roomData: response
-            });
+            }));
 
         });
 
@@ -93,7 +93,7 @@ router.get("/verify/:roomUID", async (req, res) => {
 router.post("/create", async (req, res) => {
 
     // For logging and testing
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
 
     // Destructure the body
     const {
@@ -138,17 +138,17 @@ router.post("/create", async (req, res) => {
     }).then(response => {
         
         // Send response
-        res.status(200).send({
+        res.status(200).send(RESPONSE_LOG_AND_PASS({
             created: true,
             uid
-        });
+        }));
     });
 
 });
 
 // Delete room from MongoDb
 router.post("/delete", async (req, res) => {
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
     const {
         body: {
             roomUID
@@ -161,7 +161,7 @@ router.post("/delete", async (req, res) => {
 router.post("/update/usercount", async(req, res) => {
 
     // for logging and testing
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
     const {
         body: {
             roomUID
@@ -214,7 +214,7 @@ router.post("/update/usercount", async(req, res) => {
 router.post("/update/:roomUID", async (req, res) => {
 
     // for logging and testing
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
 
     const {
         params: {
@@ -235,16 +235,16 @@ router.post("/update/:roomUID", async (req, res) => {
         difficulty
     });
 
-    res.status(200).send({
+    res.status(200).send(RESPONSE_LOG_AND_PASS({
         updated: true
-    });
+    }));
 
 });
 
 router.post("/execute", async (req, res) => {
 
     // for logging and testing
-    LOG(ROUTE_BASE, req);
+    REQUEST_LOG(ROUTE_BASE, req);
 
     const {
         body
@@ -308,7 +308,7 @@ router.post("/execute", async (req, res) => {
             uid
         }).then(mongoResponse => {
 
-            res.status(200).send({
+            res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true,
                 result: {
                     state: CodeExecutionConstants.WRONG_ANSWER,
@@ -317,7 +317,7 @@ router.post("/execute", async (req, res) => {
                     testCaseIndex: 0,
                     totalTestCases: testCases.length
                 }
-            });
+            }));
 
         });
     } else if (outputTokens.length === 0) {
@@ -332,7 +332,7 @@ router.post("/execute", async (req, res) => {
             uid
         }).then(mongoResponse => {
 
-            res.status(200).send({
+            res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true,
                 result: {
                     state: CodeExecutionConstants.WRONG_ANSWER,
@@ -341,7 +341,7 @@ router.post("/execute", async (req, res) => {
                     testCaseIndex: 0,
                     totalTestCases: testCases.length
                 }
-            });
+            }));
 
         });
     } else if (/^WRONGANSWER_[0-9]*$/.test(outputTokens[0])) {
@@ -357,7 +357,7 @@ router.post("/execute", async (req, res) => {
             uid
         }).then(mongoResponse => {
             const testCaseIndex = Number(outputTokens[0].split("_")[1])
-            res.status(200).send({
+            res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true,
                 result: {
                     state: CodeExecutionConstants.WRONG_ANSWER,
@@ -366,7 +366,7 @@ router.post("/execute", async (req, res) => {
                     testCaseIndex: testCaseIndex,
                     totalTestCases: testCases.length,
                 }
-            });
+            }));
 
         });
 
@@ -385,7 +385,7 @@ router.post("/execute", async (req, res) => {
             uid
         }).then(mongoResponse => {
 
-            res.status(200).send({
+            res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true,
                 result: {
                     state: CodeExecutionConstants.ACCEPTED,
@@ -394,7 +394,7 @@ router.post("/execute", async (req, res) => {
                     testCaseIndex: testCases.length - 1,
                     totalTestCases: testCases.length,
                 }
-            });
+            }));
 
         });
 
@@ -411,7 +411,7 @@ router.post("/execute", async (req, res) => {
             uid
         }).then(mongoResponse => {
 
-            res.status(200).send({
+            res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true,
                 result: {
                     state: CodeExecutionConstants.WRONG_ANSWER,
@@ -420,7 +420,7 @@ router.post("/execute", async (req, res) => {
                     testCaseIndex: 0,
                     totalTestCases: testCases.length,
                 }
-            });
+            }));
 
         });
     }
