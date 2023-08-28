@@ -58,7 +58,7 @@ export default ({
             return (
               <div key={index} className="my-2 mx-2">
                 <span className="text-white">
-                  <div className="flex-shrink-0 text-gray-400 w-full">
+                  <div className="flex-shrink-0 text-gray-400 w-full break-words">
                     <span style={{ color: color}}>
                       {`${username}`}
                     </span>
