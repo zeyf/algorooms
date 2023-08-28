@@ -201,7 +201,7 @@ export const getServerSideProps = withPageAuthRequired({
       props: {},
       redirect: {
         permanent: true,
-        destination: "/rooms",
+        destination: "/rooms?is_full=true",
       }
     };
 

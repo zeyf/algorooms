@@ -9,9 +9,12 @@ import axios from 'axios';
 
 import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import buildRoute from '@/utilities/buildRoute';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // eslint-disable-next-line react/display-name
-export default ({ rooms }: any) => {
+export default ({ query, rooms }: any) => {
+
   return (
     <>
       <Head>
@@ -22,6 +25,10 @@ export default ({ rooms }: any) => {
       </Head>
 
       <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col">
+        {
+          query?.is_full === 'true' && toast.error("The room is full, please try aonther room")
+        }
+        <ToastContainer />
         <Header />
         <div className="flex flex-col h-screen justify-center">
           <div className="flex justify-center space-x-[171px]">
@@ -51,6 +58,7 @@ export const getServerSideProps = withPageAuthRequired({
       .get(buildRoute('/api/rooms/public'))
       .then((res) => res.data);
 
+    const { query } = context
     const { rooms } = response;
 
     return {
@@ -61,6 +69,7 @@ export const getServerSideProps = withPageAuthRequired({
             topics: room.topics.toString().replace(/,/gi, ', '),
           };
         }),
+        query,
       },
     };
   },
