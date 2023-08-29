@@ -9,6 +9,7 @@ import axios from "axios";
 import { useSelf } from "../../../../liveblocks.config";
 import { AppUserContext } from "@/contexts/AppUserContextLayer";
 import StaticRoomSettingsOptionsData from "@/data/StaticRoomSettingsOptionsData";
+import {toast} from 'react-toastify';
 
 const {
   selectableDifficulties,
@@ -42,13 +43,18 @@ export default ({
       - Error handling for no topics
     */
 
+  // Check if the room have a name
+  if(data.name.trim() != "") {
     const response = await axios.post(buildRoute("/api/rooms/create"), { ...data, host: username }).then(res => res.data);
-
-    const {
-      uid
-    } = response;
-
-    router.push(`/rooms/${uid}`);
+  
+      const {
+        uid
+      } = response;
+  
+      router.push(`/rooms/${uid}`);
+  } else {
+    toast("Please enter a room name")
+  }
   };
 
   const setButtonColorOnCondition = (condition:boolean):string => condition ? "bg-darkAccent text-white" : "bg-greenAccent text-darkAccent";
