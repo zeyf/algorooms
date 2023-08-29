@@ -170,7 +170,7 @@ const SettingsPopUp = ({
                         menuPortalTarget={document.body}
                         styles={{ menuPortal: (base) => ({ ...base, zIndex: 99 }) }}
                         defaultValue={difficulty}
-                        value={data.tempDifficulty}
+                        value={data.tempDifficulty.value}
                         onChange={({ value, label }) => {setData({ ...data, tempDifficulty: value })}}
                     />
                 </div>

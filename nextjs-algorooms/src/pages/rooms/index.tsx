@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 // Import statements
 import Head from 'next/head';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CreateRoomCard from '@/components/pages/rooms/CreateRoomCard';
 import JoinRoomCard from '@/components/pages/rooms/JoinRoomCard';
 import Header from '@/components/shared/Header';
@@ -15,6 +15,12 @@ import 'react-toastify/dist/ReactToastify.css';
 // eslint-disable-next-line react/display-name
 export default ({ query, rooms }: any) => {
 
+  useEffect(() => {
+    if (query?.is_full === "true") {
+      toast.error("The room is full, please try another room")
+    }
+  }, [query])
+
   return (
     <>
       <Head>
@@ -25,9 +31,6 @@ export default ({ query, rooms }: any) => {
       </Head>
 
       <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col">
-        {
-          query?.is_full === 'true' && toast.error("The room is full, please try aonther room")
-        }
         <ToastContainer />
         <Header />
         <div className="flex flex-col h-screen justify-center">
