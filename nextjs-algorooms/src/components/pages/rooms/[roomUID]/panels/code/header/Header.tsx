@@ -48,6 +48,7 @@ export default ({
 
     const inRound = useStorage(r => r.inRound);
     const awaitingQuestion = useStorage(r => r.awaitingQuestion);
+    const startMinutes = useStorage(r => r.startMinutes);
 
     const buildSettingsChangeToastMessage = (usernameOfChanger, newTopics, newDifficulty, newLobbyAccess) => {
         let toastMessage = [  ];
@@ -63,6 +64,13 @@ export default ({
 
         return toastMessage.length > 0 ? `${usernameOfChanger} had -- ` + toastMessage.join(", ") : null;
     };
+
+    // Change the timer when round end or question get submitted
+    const handleEndRound = useMutation(({ storage }, startMin) => {
+        storage.set("inRound", false);
+        storage.set("minutesLeft", startMin);
+        storage.set("secondsLeft", 0);
+    }, [  ]);
 
     useEffect(() => {
         socket.on("frontendLanguageChange", (usernameOfChanger, language, socketUser) => {
@@ -154,6 +162,7 @@ export default ({
 
         if (state === "ACCEPTED") {
             toast(`Congratulations on solving ${storage.get("currentQuestion").title}!`);
+            handleEndRound(startMinutes);
         }
         
         storage.set("submitCodeInQueue", false);

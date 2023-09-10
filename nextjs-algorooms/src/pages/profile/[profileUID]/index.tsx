@@ -23,6 +23,17 @@ export default ({
 
   const router = useRouter();
 
+  // Essentially filter out submissions with unique questionUID.
+  const uniqueSubmissions = data.submissions.reduce((accumulator, submission) => {
+    const exists = accumulator.some((item) => item.questionUID === submission.questionUID);
+  
+    if (!exists) {
+      accumulator.push(submission);
+    }
+  
+    return accumulator;
+  }, []);
+
   useEffect(() => {
     if (!exists) router.push("/404?injectable=profile");
   }, []);
@@ -151,8 +162,8 @@ export default ({
                 <div className="w-5/6 h-1/2 bg-gray-800 rounded-lg drop-shadow-lg">
                   <h3 className='text-white p-4 text-lg'>Recently Solved Problems</h3>
                   <div>
-                  {
-                    data.submissions.map(submission => {
+                  {         
+                    uniqueSubmissions.map(submission => {
                       return <Title
                         text={ submission.questionTitle }
                         alignment="left"
