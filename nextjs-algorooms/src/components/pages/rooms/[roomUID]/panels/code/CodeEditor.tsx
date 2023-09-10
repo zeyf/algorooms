@@ -8,6 +8,7 @@ import { EditorState } from '@codemirror/state';
 import { Tooltip, showTooltip, EditorView } from '@codemirror/view';
 import { StateField } from '@codemirror/state';
 import Split from 'react-split';
+import { indentUnit } from "@codemirror/language";
 
 import randomColor from "randomcolor";
 import CodeTester from './CodeTester';
@@ -160,7 +161,7 @@ const CodeEditor = ({
             <div className="rounded-lg overflow-auto w-full h-full bg-[#303841] relative z-1" onClick={handleEditorClick}>
                 <CodeMirror
                     ref={codeMirrorRefs}
-
+                    
                     // Stores the theme for the text editor
                     theme={sublimeInit({
                         settings: {
@@ -181,7 +182,10 @@ const CodeEditor = ({
                         cursorTooltipField,
 
                         // Styles the tooltip
-                        cursorTooltipBaseTheme
+                        cursorTooltipBaseTheme,
+
+                        // Change indents to 4 spaces
+                        indentUnit.of("    ")
                     ]}
 
                     // Changes made upon every possible update of the editor state
