@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Select from "react-select";
 import { useState } from "react";
 import { MdContentCopy } from "react-icons/md";
@@ -8,7 +8,7 @@ import { RoomContext } from "@/contexts/RoomContextLayer";
 import { toast } from "react-toastify";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { AppUserContext } from "@/contexts/AppUserContextLayer";
-import {  useMutation } from "../../../../../../liveblocks.config";
+import {  useMutation, useStorage } from "../../../../../../liveblocks.config";
 import { LiveList } from '@liveblocks/client';
 import StaticRoomSettingsOptionsData from "@/data/StaticRoomSettingsOptionsData";
 
@@ -49,6 +49,15 @@ const SettingsPopUp = ({
         trueChange: false
     });
 
+    const minuteInputRef = useRef();
+    const secondInputRef = useRef();
+
+    const timerMinutes = useStorage(({ minutesLeft }) => minutesLeft);
+    const timerSeconds = useStorage(({ secondsLeft }) => secondsLeft);
+    const startSeconds = useStorage(({ startSeconds }) => startSeconds)
+    const [minutes, setMinutes] = useState(timerMinutes);
+    const [seconds, setSeconds] = useState(timerSeconds);
+
     useEffect(() => {
         
         return () => {
@@ -85,11 +94,14 @@ const SettingsPopUp = ({
             difficulty: data.tempDifficulty,
             topics: data.tempTopics,
             lobbyAccess: data.tempLobbyAccess
+
         }).then(res => res.data);
 
         const {
             updated
         } = response;
+
+
         
         // Change to test
         if (updated) {
@@ -101,7 +113,9 @@ const SettingsPopUp = ({
 
             const topicChange = data.tempTopics.sort().toString() !== topics.sort().toString() ? data.tempTopics : null,
                   difficultyChange = data.tempDifficulty !== difficulty ? data.tempDifficulty : null,
-                  lobbyAccessChange = data.tempLobbyAccess !== lobbyAccess ? data.tempLobbyAccess : null
+                  lobbyAccessChange = data.tempLobbyAccess !== lobbyAccess ? data.tempLobbyAccess : null,
+                  minutesChange = minutes !== timerMinutes ? minutes : null,
+                  secondsChange = seconds !== timerSeconds ? seconds : null
 
             socket.emit("backendSettingsChange", {
                 topics: topicChange,
@@ -109,7 +123,7 @@ const SettingsPopUp = ({
                 lobbyAccess: lobbyAccessChange
             }, uid, username, socket.id);
 
-
+s
             setIsSettingsOpen(false);
 
             if (topicChange !== null)
@@ -123,29 +137,41 @@ const SettingsPopUp = ({
                 username,
                 topicChange,
                 difficultyChange,
-                lobbyAccessChange
+                lobbyAccessChange,
+                minutesChange,
+                secondsChange,
+                timerMinutes,
+                timerSeconds
             );
 
             if (toastMessage !== null)
-                handleChanges(topicChange, difficultyChange, lobbyAccessChange)
+                handleChanges(topicChange, difficultyChange, lobbyAccessChange, minutesChange, secondsChange)
                 toast(toastMessage);
         };
     };
 
     // Changes the setting of the room
-    const handleChanges = useMutation(( { storage }, topicChange, difficultyChange, lobbyAccessChange) => {
-        if(topicChange !== null)
+    const handleChanges = useMutation(( { storage }, topicChange, difficultyChange, lobbyAccessChange, minutesChange, secondsChange) => {
+      if(topicChange !== null)
             storage.set("topics", new LiveList<string>(topicChange));
         if(difficultyChange !== null)
             storage.set("difficulty", difficultyChange);
         if(lobbyAccessChange !== null)
             storage.set("lobbyAccess", lobbyAccessChange);
+        if(minutesChange !== null) {
+          storage.set("startMinutes", minutesChange);
+          storage.set("minutesLeft", minutesChange);
+        }
+        if(secondsChange !== null) {
+          storage.set("startSeconds", secondsChange);
+          storage.set("secondsLeft", secondsChange);
+        }
     }, [ ])
 
     return (
-        <div className="w-auto h-[300px]">
-            <div className="h-auto flex flex-col rounded-2xl  shadow-xl border-black border-[3px] items-center bg-[#222C4A]">
-                <div className="flex flex-col justify-center z-50 text-white w-[185px] mt-3 ml-2 mr-2">
+      <div className="w-auto h-[300px]">
+            <div className="h-auto flex flex-col rounded-2xl  shadow-xl border-black border-[3px] items-center bg-[#222C4A] gap-2 p-2">
+                <div className="z-50 text-white w-[185px]">
                     <Select
                         name="colors"
                         className="w-full basic-multi-select text-black"
@@ -160,7 +186,7 @@ const SettingsPopUp = ({
                         onChange={(selections:any) => setData({ ...data, tempTopics: selections.map((selection:any) => selection.value) })}
                     />
                 </div>
-                <div className="text-white w-[185px] mt-2 ml-2 mr-2">
+                  <div className="text-white w-[185px]">
                     <Select
                         name="colors"
                         className="w-full basic-multi-select text-black"
@@ -173,7 +199,11 @@ const SettingsPopUp = ({
                         value={data.tempDifficulty.value}
                         onChange={({ value, label }) => {setData({ ...data, tempDifficulty: value })}}
                     />
-                </div>
+                  </div>
+                  <div className="w-[185px]">
+                    <input className="w-1/2" type="number" max={60} min={0} ref={minuteInputRef} value={minutes} onChange={(e) =>  setMinutes(Number(e.target.value))}/>
+                    <input className="w-1/2" type="number" max={59} min={0} ref={secondInputRef} value={seconds < 10 ? seconds.toString().padStart(2, '0') : seconds} onChange={(e) =>  setSeconds(Number(e.target.value))} />
+                  </div>
                 <div className="flex flex-col justify-center items-center">
                     <div className="mt-2">
                         <button
