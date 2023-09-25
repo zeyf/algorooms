@@ -249,7 +249,7 @@ router.post("/execute", async (req, res) => {
     } = req;
 
     const {
-        username,
+        usernames,
         questionUID,
         questionTitle,
         timestamp,
@@ -294,8 +294,9 @@ router.post("/execute", async (req, res) => {
     const uid = createUID(50);
     const outputTokens = output.split(TestingConstants.TEST_INJECTION_PLACEMENT_TERM_SWAP).filter(term => term !== "" && term !== "\n")
 
-    if (output === null) {
-        await Submission.create({
+    // Create an array to be able to create multiple Submission documents
+    const wrongAns = usernames.map(username => {
+        return {
             result: CodeExecutionConstants.WRONG_ANSWER,
             questionTitle,
             username,
@@ -304,7 +305,24 @@ router.post("/execute", async (req, res) => {
             language,
             code: body.script,
             uid
-        }).then(mongoResponse => {
+        }
+    })
+
+    const acceptAns = usernames.map(username => {
+        return {
+            result: CodeExecutionConstants.ACCEPTED,
+            questionTitle,
+            username,
+            questionUID,
+            timestamp,
+            language,
+            code: body.script,
+            uid
+        }
+    })
+
+    if (output === null) {
+        await Submission.create(wrongAns).then(mongoResponse => {
 
             res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true,
@@ -319,16 +337,7 @@ router.post("/execute", async (req, res) => {
 
         });
     } else if (outputTokens.length === 0) {
-        await Submission.create({
-            result: CodeExecutionConstants.WRONG_ANSWER,
-            questionTitle,
-            username,
-            questionUID,
-            timestamp,
-            language,
-            code: body.script,
-            uid
-        }).then(mongoResponse => {
+        await Submission.create(wrongAns).then(mongoResponse => {
 
             res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true,
@@ -344,16 +353,7 @@ router.post("/execute", async (req, res) => {
         });
     } else if (/^WRONGANSWER_[0-9]*$/.test(outputTokens[0])) {
 
-        await Submission.create({
-            result: CodeExecutionConstants.WRONG_ANSWER,
-            questionTitle,
-            username,
-            questionUID,
-            timestamp,
-            language,
-            code: body.script,
-            uid
-        }).then(mongoResponse => {
+        await Submission.create(wrongAns).then(mongoResponse => {
             const testCaseIndex = Number(outputTokens[0].split("_")[1])
             res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true,
@@ -372,16 +372,7 @@ router.post("/execute", async (req, res) => {
     // Must be extended further to handle
     } else if (/^ACCEPTED$/.test(outputTokens[0])) {
 
-        await Submission.create({
-            result: CodeExecutionConstants.ACCEPTED,
-            username,
-            questionUID,
-            questionTitle,
-            timestamp,
-            language,
-            code: body.script,
-            uid
-        }).then(mongoResponse => {
+        await Submission.create(acceptAns).then(mongoResponse => {
 
             res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true,
@@ -398,16 +389,7 @@ router.post("/execute", async (req, res) => {
 
     } else {
         outputTokens[0] = outputTokens[0].replaceAll(/WRONGANSWER_[0-9]*$/gi, "").replaceAll(/ACCEPTED/gi, "")
-        await Submission.create({
-            result: CodeExecutionConstants.WRONG_ANSWER,
-            username,
-            questionUID,
-            questionTitle,
-            timestamp,
-            language,
-            code: body.script,
-            uid
-        }).then(mongoResponse => {
+        await Submission.create(wrongAns).then(mongoResponse => {
 
             res.status(200).send(RESPONSE_LOG_AND_PASS({
                 created: true,
