@@ -11,7 +11,7 @@ import CountdownTimer from "./CountdownTimer";
 import { RoomContext } from "@/contexts/RoomContextLayer";
 import { toast } from "react-toastify";
 import { AppUserContext } from "@/contexts/AppUserContextLayer";
-import { useMutation, useOthers, useStorage } from "../../../../../../../../liveblocks.config";
+import { useMutation, useStorage, useOthers } from "../../../../../../../../liveblocks.config";
 import languageMapper from "@/utilities/languageMapper";
 import buildRoute from "@/utilities/buildRoute";
 import axios from "axios";
@@ -51,6 +51,7 @@ export default ({
     const awaitingQuestion = useStorage(r => r.awaitingQuestion);
     const startMinutes = useStorage(r => r.startMinutes);
     const startSeconds = useStorage(r => r.startSeconds);
+
     const others = useOthers();
     // Get others people usernames
     const othersUsernames = others.map(other => other.presence.username);
@@ -162,7 +163,7 @@ export default ({
         const currentQuestionData = storage.get("currentQuestion");
 
         const payload = {
-            username: self.presence.username,
+            usernames: [self.presence.username, ...othersUsernames],
             type: submission ? "SUBMIT" : ( run ? "RUN" : "ERROR" ),
             clientId,
             clientSecret,
@@ -186,11 +187,7 @@ export default ({
 
         if (state === "ACCEPTED") {
             toast(`Congratulations on solving ${storage.get("currentQuestion").title}!`);
-            
-            // handleEndRound(startMinutes, startSeconds);
-            storage.set("minutesLeft", startMinutes);
-            storage.set("secondsLeft", startSeconds);
-            storage.set("inRound", false);
+            handleEndRound(startMinutes, startSeconds);
         }
         
         storage.set("submitCodeInQueue", false);

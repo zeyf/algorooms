@@ -18,7 +18,7 @@ export default ({
     const questionBody = useStorage(r => r.currentQuestion.description);
 
     return (
-        <div className="bg-darkAccent text-white h-full relative -z-1">
+        <div className="bg-darkAccent text-white h-full relative -z-1 overflow-auto">
             <QuestionHeader />
             <section className="px-2 py-4">
                 <div className="whitespace-pre-line break-normal"> { questionBody } </div>
