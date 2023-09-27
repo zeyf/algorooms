@@ -23,7 +23,6 @@ export default ({
         uid
     } = useContext(RoomContext);
 
-
     const changeTime = useMutation(({ storage }, min, sec) => {
 
         if (sec > 0)
@@ -37,7 +36,7 @@ export default ({
 
     }, [  ]);
 
-    const handleEndRound = useMutation(({ storage }, startMinutes,startSeconds) => {
+    const handleEndRound = useMutation(({ storage }, startMinutes, startSeconds) => {
       storage.set("minutesLeft", startMinutes);
       storage.set("secondsLeft", startSeconds);
       storage.set("inRound", false);
@@ -49,7 +48,7 @@ export default ({
         if (inRound && minutesLeft !== null && secondsLeft !== null) {
 
             const timerID = setInterval(() => {
-                if (minutesLeft === 0 && secondsLeft === 0) {
+                if ((minutesLeft === 0 && secondsLeft === 0) || !inRound) {
                     handleEndRound(startMinutes, startSeconds);
                     clearInterval(timerID);
 

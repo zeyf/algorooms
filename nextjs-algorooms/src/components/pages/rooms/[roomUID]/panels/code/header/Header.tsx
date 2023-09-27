@@ -15,6 +15,7 @@ import { useMutation, useOthers, useStorage } from "../../../../../../../../live
 import languageMapper from "@/utilities/languageMapper";
 import buildRoute from "@/utilities/buildRoute";
 import axios from "axios";
+import { start } from "repl";
 
 export default ({
 
@@ -48,8 +49,6 @@ export default ({
 
     const inRound = useStorage(r => r.inRound);
     const awaitingQuestion = useStorage(r => r.awaitingQuestion);
-    const minutesLeft = useStorage(r => r.minutesLeft);
-    const secondsLeft = useStorage(r => r.secondsLeft);
     const startMinutes = useStorage(r => r.startMinutes);
     const startSeconds = useStorage(r => r.startSeconds);
     const others = useOthers();
@@ -91,10 +90,10 @@ export default ({
 
     // Change the timer when round end or question get submitted
     const handleEndRound = useMutation(({ storage }, startMinutes, startSeconds) => {
-        storage.set("inRound", false);
-        storage.set("minutesLeft", startMinutes);
-        storage.set("secondsLeft", startSeconds);
-    }, [  ]);
+      storage.set("minutesLeft", startMinutes);
+      storage.set("secondsLeft", startSeconds);
+      storage.set("inRound", false);
+  }, [  ]);
 
     useEffect(() => {
         socket.on("frontendLanguageChange", (usernameOfChanger, language, socketUser) => {
@@ -146,7 +145,7 @@ export default ({
     const handleCodeExecution = useMutation(async ({
         storage,
         self
-    }, executionType, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+    }, executionType, startMinutes, startSeconds, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
 
         const editorLang:any = storage.get("language");
 
@@ -187,7 +186,11 @@ export default ({
 
         if (state === "ACCEPTED") {
             toast(`Congratulations on solving ${storage.get("currentQuestion").title}!`);
-            handleEndRound(startMinutes, startSeconds);
+            
+            // handleEndRound(startMinutes, startSeconds);
+            storage.set("minutesLeft", startMinutes);
+            storage.set("secondsLeft", startSeconds);
+            storage.set("inRound", false);
         }
         
         storage.set("submitCodeInQueue", false);
@@ -254,7 +257,7 @@ export default ({
                         onClick={e => {
 
                             e.preventDefault();
-                            handleCodeExecution("RUN");
+                            handleCodeExecution("RUN", startMinutes, startSeconds);
 
                             setRunningCode(true);
                             
@@ -278,7 +281,7 @@ export default ({
                         className="drop-shadow-lg"
                         onClick={e => {
                             e.preventDefault();
-                            handleCodeExecution("SUBMIT");
+                            handleCodeExecution("SUBMIT", startMinutes, startSeconds);
 
                             setSubmittingCode(true);
 

@@ -52,11 +52,11 @@ const SettingsPopUp = ({
     const minuteInputRef = useRef();
     const secondInputRef = useRef();
 
-    const timerMinutes = useStorage(({ minutesLeft }) => minutesLeft);
-    const timerSeconds = useStorage(({ secondsLeft }) => secondsLeft);
+    const minutesLeft = useStorage(({ minutesLeft }) => minutesLeft);
+    const secondsLeft = useStorage(({ secondsLeft }) => secondsLeft);
     const startSeconds = useStorage(({ startSeconds }) => startSeconds)
-    const [minutes, setMinutes] = useState(timerMinutes);
-    const [seconds, setSeconds] = useState(timerSeconds);
+    const [minutes, setMinutes] = useState(minutesLeft);
+    const [seconds, setSeconds] = useState(secondsLeft);
 
     useEffect(() => {
         
@@ -114,8 +114,8 @@ const SettingsPopUp = ({
             const topicChange = data.tempTopics.sort().toString() !== topics.sort().toString() ? data.tempTopics : null,
                   difficultyChange = data.tempDifficulty !== difficulty ? data.tempDifficulty : null,
                   lobbyAccessChange = data.tempLobbyAccess !== lobbyAccess ? data.tempLobbyAccess : null,
-                  minutesChange = minutes !== timerMinutes ? minutes : null,
-                  secondsChange = seconds !== timerSeconds ? seconds : null
+                  minutesChange = minutes !== minutesLeft ? minutes : null,
+                  secondsChange = seconds !== secondsLeft ? seconds : null
 
             socket.emit("backendSettingsChange", {
                 topics: topicChange,
@@ -123,7 +123,7 @@ const SettingsPopUp = ({
                 lobbyAccess: lobbyAccessChange
             }, uid, username, socket.id);
 
-s
+
             setIsSettingsOpen(false);
 
             if (topicChange !== null)
@@ -140,8 +140,8 @@ s
                 lobbyAccessChange,
                 minutesChange,
                 secondsChange,
-                timerMinutes,
-                timerSeconds
+                minutesLeft,
+                secondsLeft
             );
 
             if (toastMessage !== null)
@@ -152,20 +152,27 @@ s
 
     // Changes the setting of the room
     const handleChanges = useMutation(( { storage }, topicChange, difficultyChange, lobbyAccessChange, minutesChange, secondsChange) => {
-      if(topicChange !== null)
-            storage.set("topics", new LiveList<string>(topicChange));
-        if(difficultyChange !== null)
-            storage.set("difficulty", difficultyChange);
-        if(lobbyAccessChange !== null)
-            storage.set("lobbyAccess", lobbyAccessChange);
-        if(minutesChange !== null) {
-          storage.set("startMinutes", minutesChange);
-          storage.set("minutesLeft", minutesChange);
-        }
-        if(secondsChange !== null) {
-          storage.set("startSeconds", secondsChange);
-          storage.set("secondsLeft", secondsChange);
-        }
+      if(topicChange !== null) {
+        storage.set("topics", new LiveList<string>(topicChange));
+      }
+      
+      if(difficultyChange !== null) {
+        storage.set("difficulty", difficultyChange);
+      }
+      
+      if(lobbyAccessChange !== null) {
+        storage.set("lobbyAccess", lobbyAccessChange);
+      }
+      
+      if(minutesChange !== null) {
+        storage.set("startMinutes", minutesChange);
+        storage.set("minutesLeft", minutesChange);
+      }
+      
+      if(secondsChange !== null) {
+        storage.set("startSeconds", secondsChange);
+        storage.set("secondsLeft", secondsChange);
+      }
     }, [ ])
 
     return (
