@@ -56,8 +56,27 @@ router.post("/filter", async (req, res) => {
     } = req;
 
     // Find questions by difficulty and searching for at least of the request body topics' in the topics field in a given record in the questions collection
-    await Question.find({
-        difficulty,
+    
+    if (difficulty.length > 0) {
+      await Question.find({
+          difficulty,
+          topics: {
+              "$in" : topics
+          }
+      }).then(response => {
+  
+          // Shuffle the response for pseudo-randomized ordering
+          shuffle(response);
+  
+          // Send the questions!
+          res.status(200).send(RESPONSE_LOG_AND_PASS({
+              exists: response.length > 0,
+              questions: response.map(question => question.uid)
+          }));
+  
+      });
+    } else {
+      await Question.find({
         topics: {
             "$in" : topics
         }
@@ -71,8 +90,8 @@ router.post("/filter", async (req, res) => {
             exists: response.length > 0,
             questions: response.map(question => question.uid)
         }));
-
     });
+    }
 
 });
 

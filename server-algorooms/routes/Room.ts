@@ -111,18 +111,34 @@ router.post("/create", async (req, res) => {
     const uid = createUID();
 
     // Find questions by difficulty and searching for at least of the request body topics' in the topics field in a given record in the questions collection
-    const questions = await Question.find({
-        difficulty,
-        topics: {
-            "$in" : topics
-        }
-    }).then(response => {
+    
+    let questions = null;
+    if (difficulty.length > 0) {
+      questions = await Question.find({
+          difficulty,
+          topics: {
+              "$in" : topics
+          }
+      }).then(response => {
+  
+          // Shuffle the response for pseudo-randomized ordering
+          shuffle(response);
+  
+          return response.map(question => question.uid);
+      });
+    } else {
+        questions = await Question.find({
+          topics: {
+              "$in" : topics
+          }
+      }).then(response => {
 
-        // Shuffle the response for pseudo-randomized ordering
-        shuffle(response);
+          // Shuffle the response for pseudo-randomized ordering
+          shuffle(response);
 
-        return response.map(question => question.uid);
-    });
+          return response.map(question => question.uid);
+      });
+    }
 
     // Create the room's record in mongoDB
     await Room.create({
