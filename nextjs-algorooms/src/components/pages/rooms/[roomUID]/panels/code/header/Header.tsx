@@ -1,5 +1,5 @@
 // Module imports
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Button } from "flowbite-react";
 import SettingsPop from "../../../shared/SettingsPopUp";
 import { FaCog } from "react-icons/fa";
@@ -114,6 +114,22 @@ export default ({
 
     }, [  ]);
 
+    // Handle closing the settings popup when user clicks away
+    const settingsButtonRef = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+          if (isSettingsOpen && !settingsButtonRef.current.contains(event.target)) {
+            setIsSettingsOpen(false);
+          }
+        };
+      
+        document.addEventListener("click", handleOutsideClick);
+      
+        return () => {
+          document.removeEventListener("click", handleOutsideClick);
+        };
+    }, [isSettingsOpen]);  
 
     // Get the current editor language
     const editorLanguage = useStorage(({ language }) => language);
@@ -288,6 +304,7 @@ export default ({
                     <CountdownTimer />
                     
                     <button 
+                        ref={settingsButtonRef}
                         onClick={() => setIsSettingsOpen(!isSettingsOpen)} 
                         className={` ${inRound ? "opacity-50" : ""} w-[71px] h-[46px] bg-darkAccent font-bold py-2 rounded-[15px] border-white border-[3px]` }
 
