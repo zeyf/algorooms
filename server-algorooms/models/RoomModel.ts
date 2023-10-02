@@ -35,7 +35,7 @@ export const roomSchematic = new Schema({
     },
     difficulty: {
         type: String,
-        required: true
+        required: false
     },
     topics: {
         type: Array<String>,
