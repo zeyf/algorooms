@@ -24,7 +24,7 @@ export default ({
     name: "",
     capacity: 1,
     topics: [  ],
-    difficulty: "Easy",
+    difficulty: "",
     lobbyAccess: "Public"
   });
 
