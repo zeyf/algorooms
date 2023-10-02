@@ -15,13 +15,13 @@ export default ({
     const minutesLeft = useStorage(r => r.minutesLeft);
     const secondsLeft = useStorage(r => r.secondsLeft);
     const startMinutes = useStorage(r => r.startMinutes);
+    const startSeconds = useStorage(r => r.startSeconds);
     const inRound = useStorage(r => r.inRound);
 
     const {
         socket,
         uid
     } = useContext(RoomContext);
-
 
     const changeTime = useMutation(({ storage }, min, sec) => {
 
@@ -36,11 +36,11 @@ export default ({
 
     }, [  ]);
 
-    const handleEndRound = useMutation(({ storage }, startMin) => {
-        storage.set("inRound", false);
-        storage.set("minutesLeft", startMin);
-        storage.set("secondsLeft", 0);
-    }, [  ]);
+    const handleEndRound = useMutation(({ storage }, startMinutes, startSeconds) => {
+      storage.set("minutesLeft", startMinutes);
+      storage.set("secondsLeft", startSeconds);
+      storage.set("inRound", false);
+  }, [  ]);
 
     useEffect(() => {   
 
@@ -48,9 +48,9 @@ export default ({
         if (inRound && minutesLeft !== null && secondsLeft !== null) {
 
             const timerID = setInterval(() => {
-                if (minutesLeft === 0 && secondsLeft === 0) {
+                if ((minutesLeft === 0 && secondsLeft === 0) || !inRound) {
+                    handleEndRound(startMinutes, startSeconds);
                     clearInterval(timerID);
-                    handleEndRound(startMinutes);
 
                     toast("The round is over!");
                 } else
