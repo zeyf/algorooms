@@ -176,9 +176,8 @@ const SettingsPopUp = ({
     }, [ ])
 
     return (
-      <div className="w-auto h-[300px]">
             <div className="h-auto flex flex-col rounded-2xl  shadow-xl border-black border-[3px] items-center bg-[#222C4A] gap-2 p-2">
-                <div className="z-50 text-white w-[185px]">
+                <div className="flex flex-col justify-center z-50 text-white w-[185px] mt-3 ml-2 mr-2">
                     <Select
                         name="colors"
                         className="w-full basic-multi-select text-black"
@@ -249,12 +248,6 @@ const SettingsPopUp = ({
                         </button>
                     </div>
                 </div>
-                
-            </div>
-
-
-
-
         </div>
     );
 };

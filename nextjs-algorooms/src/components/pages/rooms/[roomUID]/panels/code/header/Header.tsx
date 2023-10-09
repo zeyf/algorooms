@@ -1,9 +1,13 @@
 // Module imports
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Button } from "flowbite-react";
 import SettingsPop from "../../../shared/SettingsPopUp";
 import { FaCog } from "react-icons/fa";
 import WhiteBoard from "../WhiteBoard";
+import ReactModal from 'react-modal';
+import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
+
 
 // Interface imports
 import { headerInterface } from "./Interfaces";
@@ -136,6 +140,22 @@ export default ({
 
     }, [  ]);
 
+    // Handle closing the settings popup when user clicks away
+    const settingsButtonRef = useRef(null);
+
+    // useEffect(() => {
+    //     const handleOutsideClick = (event) => {
+    //       if (isSettingsOpen && !settingsButtonRef.current.contains(event.target)) {
+    //         setIsSettingsOpen(false);
+    //       }
+    //     };
+      
+    //     document.addEventListener("click", handleOutsideClick);
+      
+    //     return () => {
+    //       document.removeEventListener("click", handleOutsideClick);
+    //     };
+    // }, [isSettingsOpen]);  
 
     // Get the current editor language
     const editorLanguage = useStorage(({ language }) => language);
@@ -194,6 +214,7 @@ export default ({
         storage.set("runCodeInQueue", false);
     }, [  ]);
 
+    Modal.setAppElement('#__next');
 
     const handleCodeReset = useMutation(({ storage }) => {
 
@@ -310,6 +331,7 @@ export default ({
                     <CountdownTimer />
                     
                     <button 
+                        ref={settingsButtonRef}
                         onClick={() => setIsSettingsOpen(!isSettingsOpen)} 
                         className={` ${inRound ? "opacity-50" : ""} w-[71px] h-[46px] bg-darkAccent font-bold py-2 rounded-[15px] border-white border-[3px]` }
 
@@ -317,8 +339,25 @@ export default ({
                     >   
                         <FaCog className="text-white text-2xl ml-[21px]" />
                     </button>
-                    {isSettingsOpen && (
-                        <div className="absolute z-50 translate-x-[-75px] translate-y-[195px]">
+                    <ReactModal isOpen={isSettingsOpen} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} onRequestClose={() => setIsSettingsOpen(!isSettingsOpen)}
+                    style={{overlay: {
+                        backdropFilter: "blur(10px)",
+                        backgroundColor: "rgb(#121212)",
+                        zIndex: 2,
+                    },
+                            content: {
+                                width: "209px",
+                                padding: "0px",
+                                height: "fit-content",
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                background: "none",
+                                border: "none",
+                            }
+                        }}
+                        >
                             <SettingsPop
                                 {...{
                                     isSettingsOpen,
@@ -326,8 +365,10 @@ export default ({
                                     buildSettingsChangeToastMessage
                                 }   }
                             />
-                        </div>
-                    )}
+                    </ReactModal>
+
+                    {/* {isSettingsOpen && (
+                    )} */}
                 </div>
             </div>
         </section>
