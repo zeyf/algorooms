@@ -66,7 +66,7 @@ export default ({
         return <p>Loading...</p>
 
     return (
-        <div className="text-white bg-[#051135] flex justify-center items-center rounded-xl drop-shadow-lg">
+        <div className="text-white bg-[#051135] flex justify-center items-center rounded-xl drop-shadow-lg w-[81px] h-[46px] border-white border-[3px]">
             <h3 className="font-bold text-lg">
                 {`${minutesLeft.toString()} : ${secondsLeft.toString().padStart(2, '0')}`}
             </h3>
