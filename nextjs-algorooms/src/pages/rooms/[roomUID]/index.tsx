@@ -88,6 +88,7 @@ export default ({
     host: data.host,
     language: "python",
     startMinutes: 1,
+    startSeconds: 0,
     minutesLeft: 1,
     secondsLeft: 0,
     inRound: false,

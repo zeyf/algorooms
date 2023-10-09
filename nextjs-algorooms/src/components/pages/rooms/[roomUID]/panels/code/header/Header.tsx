@@ -19,6 +19,7 @@ import { useMutation, useStorage, useOthers } from "../../../../../../../../live
 import languageMapper from "@/utilities/languageMapper";
 import buildRoute from "@/utilities/buildRoute";
 import axios from "axios";
+import { start } from "repl";
 
 export default ({
 
@@ -53,11 +54,13 @@ export default ({
     const inRound = useStorage(r => r.inRound);
     const awaitingQuestion = useStorage(r => r.awaitingQuestion);
     const startMinutes = useStorage(r => r.startMinutes);
+    const startSeconds = useStorage(r => r.startSeconds);
+
     const others = useOthers();
     // Get others people usernames
     const othersUsernames = others.map(other => other.presence.username);
 
-    const buildSettingsChangeToastMessage = (usernameOfChanger, newTopics, newDifficulty, newLobbyAccess) => {
+    const buildSettingsChangeToastMessage = (usernameOfChanger, newTopics, newDifficulty, newLobbyAccess, newMinutes, newSeconds, oldMinutes, oldSeconds) => {
         let toastMessage = [  ];
 
         if (newDifficulty !== null)
@@ -69,15 +72,33 @@ export default ({
         if (newLobbyAccess !== null)
             toastMessage.push(`Lobby Access changed to: ${newLobbyAccess}`);
 
+        if (newMinutes !== null || newSeconds !== null) {
+          const displayMinutes = newMinutes !== null ? newMinutes : oldMinutes;
+          let secondsBuffer = oldSeconds;
+          let displaySeconds = "";
+
+          if (newSeconds !== null) {
+              secondsBuffer = newSeconds;
+          }
+          if (secondsBuffer < 10) {
+              displaySeconds = secondsBuffer.toString().padStart(2, '0');
+          } else {
+              displaySeconds = secondsBuffer.toString();
+          }
+          
+          toastMessage.push(`Lobby timer changed to: ${displayMinutes}:${displaySeconds}`);
+        }
+
+
         return toastMessage.length > 0 ? `${usernameOfChanger} had -- ` + toastMessage.join(", ") : null;
     };
 
     // Change the timer when round end or question get submitted
-    const handleEndRound = useMutation(({ storage }, startMin) => {
-        storage.set("inRound", false);
-        storage.set("minutesLeft", startMin);
-        storage.set("secondsLeft", 0);
-    }, [  ]);
+    const handleEndRound = useMutation(({ storage }, startMinutes, startSeconds) => {
+      storage.set("minutesLeft", startMinutes);
+      storage.set("secondsLeft", startSeconds);
+      storage.set("inRound", false);
+  }, [  ]);
 
     useEffect(() => {
         socket.on("frontendLanguageChange", (usernameOfChanger, language, socketUser) => {
@@ -95,26 +116,27 @@ export default ({
             }, 3000);
         });
 
-        socket.on("frontendSettingsChange", (settingsPayload, senderUsername, socketUser) => {
+        // socket.on("frontendSettingsChange", (settingsPayload, senderUsername, socketUser) => {
 
-            setIsSettingsOpen(false);
+        //     setIsSettingsOpen(false);
 
-            setTopics(settingsPayload.topics);
-            setDifficulty(settingsPayload.difficulty);
-            setLobbyAccess(settingsPayload.lobbyAccess);
+        //     setTopics(settingsPayload.topics);
+        //     setDifficulty(settingsPayload.difficulty);
+        //     setLobbyAccess(settingsPayload.lobbyAccess);
 
-            const toastMessage = buildSettingsChangeToastMessage(
-                senderUsername,
-                settingsPayload.topics,
-                settingsPayload.difficulty,
-                settingsPayload.lobbyAccess
-            );
-            if (toastMessage !== null){
-                toast(toastMessage);
+        //     const toastMessage = buildSettingsChangeToastMessage(
+        //         senderUsername,
+        //         settingsPayload.topics,
+        //         settingsPayload.difficulty,
+        //         settingsPayload.lobbyAccess,
 
-            }
+        //     );
+        //     if (toastMessage !== null){
+        //         toast(toastMessage);
 
-        });
+        //     }
+
+        // });
 
     }, [  ]);
 
@@ -144,7 +166,7 @@ export default ({
     const handleCodeExecution = useMutation(async ({
         storage,
         self
-    }, executionType, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
+    }, executionType, startMinutes, startSeconds, langMapper = languageMapper, clientId = CLIENT_ID, clientSecret = CLIENT_SECRET) => {
 
         const editorLang:any = storage.get("language");
 
@@ -185,7 +207,7 @@ export default ({
 
         if (state === "ACCEPTED") {
             toast(`Congratulations on solving ${storage.get("currentQuestion").title}!`);
-            handleEndRound(startMinutes);
+            handleEndRound(startMinutes, startSeconds);
         }
         
         storage.set("submitCodeInQueue", false);
@@ -253,7 +275,7 @@ export default ({
                         onClick={e => {
 
                             e.preventDefault();
-                            handleCodeExecution("RUN");
+                            handleCodeExecution("RUN", startMinutes, startSeconds);
 
                             setRunningCode(true);
                             
@@ -277,7 +299,7 @@ export default ({
                         className="drop-shadow-lg"
                         onClick={e => {
                             e.preventDefault();
-                            handleCodeExecution("SUBMIT");
+                            handleCodeExecution("SUBMIT", startMinutes, startSeconds);
 
                             setSubmittingCode(true);
 
