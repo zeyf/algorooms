@@ -17,7 +17,7 @@ export const client = createClient({
 export type EditorTexts = {
   python: string,
   javascript: string,
-  // cpp: string,
+  // cpp: string,is
   // java: string
 };
 
@@ -55,6 +55,7 @@ export type Storage = {
   submitCodeInQueue: boolean,
   voteCount: number,
   hasRanCodeOnQuestion: boolean,
+  isVotingOpen: boolean,
   ranCodeOutputOnQuestion: {
     state: string,
     userOutput: string,

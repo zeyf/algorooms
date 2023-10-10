@@ -7,6 +7,7 @@ import WhiteBoard from "../WhiteBoard";
 import ReactModal from 'react-modal';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import VotingPopUp from "../../../shared/VotingPopUp";
 
 
 // Interface imports
@@ -33,6 +34,13 @@ export default ({
         setIsSettingsOpen
     ] = useState(false);
 
+    // Move to LiveBlocks
+    // const [isVotingOpen, setIsVotingOpen] = useState(false);
+
+    const setIsVotingOpen = useMutation(({ storage }, newIsVotingOpen) => {
+        storage.set("isVotingOpen", newIsVotingOpen);
+    }, [ ]);
+
     const {
         socket,
         uid,
@@ -55,6 +63,7 @@ export default ({
     const awaitingQuestion = useStorage(r => r.awaitingQuestion);
     const startMinutes = useStorage(r => r.startMinutes);
     const startSeconds = useStorage(r => r.startSeconds);
+    const isVotingOpen = useStorage(r => r.isVotingOpen);
 
     const others = useOthers();
     // Get others people usernames
@@ -299,24 +308,47 @@ export default ({
                         className="drop-shadow-lg"
                         onClick={e => {
                             e.preventDefault();
-                            handleCodeExecution("SUBMIT", startMinutes, startSeconds);
 
-                            setSubmittingCode(true);
+                            setIsVotingOpen(!isVotingOpen);
+                            // handleCodeExecution("SUBMIT", startMinutes, startSeconds);
 
-                            const submitMessage = `${username} is submitting code!`;
-                            toast(submitMessage);
+                            // setSubmittingCode(true);
+
+                            // const submitMessage = `${username} is submitting code!`;
+                            // toast(submitMessage);
 
                             // socket.emit("backendCodeExecution", submitMessage, uid, socket.uid);
 
                             // Will be replaced with an async await (on response from execution)
-                            setInterval(() => {
-                                setRunningCode(false);
-                                setSubmittingCode(false);
-                            }, 3000);
+                            // setInterval(() => {
+                            //     setRunningCode(false);
+                            //     setSubmittingCode(false);
+                            // }, 3000);
                         }}
                     >
                         Submit
                     </Button>
+                    <ReactModal isOpen={isVotingOpen} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} onRequestClose={() => setIsVotingOpen(!isVotingOpen)}
+                    style={{overlay: {
+                        backdropFilter: "blur(10px)",
+                        backgroundColor: "rgb(#121212)",
+                        zIndex: 2,
+                    },
+                            content:{
+                                width:"209px",
+                                padding: "0px",
+                                height: "fit-content",
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                background: "none",
+                                border: "none",
+                            }
+                        }} 
+                        >
+                            <VotingPopUp />
+                    </ReactModal>
                     <Button
                         color="dark"
                         className="drop-shadow-lg"

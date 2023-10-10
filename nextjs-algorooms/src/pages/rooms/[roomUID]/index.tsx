@@ -93,6 +93,7 @@ export default ({
     secondsLeft: 0,
     inRound: false,
     awaitingQuestion: false,
+    isVotingOpen: false,
     currentQuestion: {
       title: "You should start a round!",
       uid: "BRUH",

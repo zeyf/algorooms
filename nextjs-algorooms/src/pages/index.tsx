@@ -26,6 +26,7 @@ export default () => {
   if (username)
     router.push("/rooms");
 
+
   return (
     <>
       <Head>
