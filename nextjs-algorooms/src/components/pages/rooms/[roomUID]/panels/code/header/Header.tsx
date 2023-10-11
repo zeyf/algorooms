@@ -347,7 +347,7 @@ export default ({
                             }
                         }} 
                         >
-                            <VotingPopUp />
+                            <VotingPopUp occupied={others.length + 1}/>
                     </ReactModal>
                     <Button
                         color="dark"

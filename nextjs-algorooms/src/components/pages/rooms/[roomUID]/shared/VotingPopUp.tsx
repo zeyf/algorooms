@@ -2,7 +2,9 @@ import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Button } from "flowbite-react";
 
-const VotingPopUp = () => {
+const VotingPopUp = (occupied) => {
+    const majorNum = Math.ceil(occupied / 2); 
+
     const renderTime = ({ remainingTime }) => {
         return (
             <div className="">
@@ -26,7 +28,12 @@ const VotingPopUp = () => {
             <div className="flex flex-row justify-around">
                 <div>
                     <Button color="dark" 
-                    className="drop-shadow-lg">
+                    className="drop-shadow-lg"
+                    onClick={(e) => {
+                        e.preventDefault();
+
+
+                    }}>
                         Agree
                     </Button>
                 </div>
