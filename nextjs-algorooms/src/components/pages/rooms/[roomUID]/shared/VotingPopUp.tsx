@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Button } from "flowbite-react";
+import { useMutation, useStorage } from "../../../../../../liveblocks.config";
 
 const VotingPopUp = (occupied) => {
     const majorNum = Math.ceil(occupied / 2); 
+
+    
+    // Keep track of whether or not 
+    const [hasAccepted, setHasAccepted] = useState(false);
+    const [hasRejected, setHasRejected] = useState(false);
+
+    const acceptVoteCount = useStorage(r => r.acceptVoteCount);
+    const rejectVoteCount = useStorage(r => r.rejectVoteCount);
+
+    const setAcceptVoteCount = useMutation(({storage}, newAcceptVoteCount) => {
+      storage.set("acceptVoteCount", newAcceptVoteCount)
+    }, []);
+
+    const setRejectVoteCount = useMutation(({storage}, newRejectVoteCount) => {
+      storage.set("rejectVoteCount", newRejectVoteCount)
+    }, []);
 
     const renderTime = ({ remainingTime }) => {
         return (
@@ -24,23 +41,54 @@ const VotingPopUp = (occupied) => {
                 colorsTime={[8, 6, 3, 0]}
             >
                 {renderTime}
-            </CountdownCircleTimer>
+          </CountdownCircleTimer>
             <div className="flex flex-row justify-around">
                 <div>
-                    <Button color="dark" 
-                    className="drop-shadow-lg"
-                    onClick={(e) => {
-                        e.preventDefault();
+                    <Button
+                      color="dark" 
+                      className="drop-shadow-lg"
+                      disabled={hasAccepted}
+                      onClick={(e) => {
+                          e.preventDefault();
 
+                          if (hasAccepted) {
+                            return;
+                          }
 
-                    }}>
+                          if (hasRejected) {
+                            setHasRejected(false);
+                            setRejectVoteCount(rejectVoteCount - 1);
+                          }
+
+                          setHasAccepted(true);
+                          setAcceptVoteCount(acceptVoteCount + 1);
+                      }}
+                    >
                         Agree
                     </Button>
                 </div>
                 <div>
-                    <Button color="dark" 
-                    className="drop-shadow-lg">
-                        Reject
+                    <Button
+                      color="dark" 
+                      className="drop-shadow-lg"
+                      disabled={hasRejected}
+                      onClick={(e) => {
+                        e.preventDefault();
+
+                        if (hasRejected) {
+                          return;
+                        }
+
+                        if (hasAccepted) {
+                          setHasAccepted(false);
+                          setAcceptVoteCount(acceptVoteCount - 1);
+                        }
+
+                        setHasRejected(true);
+                        setRejectVoteCount(rejectVoteCount + 1);
+                    }}
+                    >
+                      Reject
                     </Button>
                 </div>
             </div>

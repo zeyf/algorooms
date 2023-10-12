@@ -53,7 +53,7 @@ export type Storage = {
   currentQuestion: any, // to be question object
   runCodeInQueue: boolean,
   submitCodeInQueue: boolean,
-  voteCount: number,
+  // voteCount: number,
   hasRanCodeOnQuestion: boolean,
   isVotingOpen: boolean,
   ranCodeOutputOnQuestion: {
@@ -61,8 +61,10 @@ export type Storage = {
     userOutput: string,
     expectedOutput: string,
     testCaseIndex: number,
-    totalTestCases: number
-  }
+    totalTestCases: number,
+  },
+  acceptVoteCount: number,
+  rejectVoteCount: number
 };
 
 // Type schema for text chat messages

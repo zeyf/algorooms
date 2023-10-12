@@ -79,7 +79,7 @@ export default ({
     },
     runCodeInQueue: false,
     submitCodeInQueue: false,
-    voteCount: 0,
+    // voteCount: 0,
     lobbyAccess: data.lobbyAccess,
     difficulty: data.difficulty,
     topics: new LiveList<string>(data.topics),
@@ -103,7 +103,9 @@ export default ({
       constraints: [  ],
       hints: [  ],
       examples: [  ]
-    }
+    },
+    acceptVoteCount: 0,
+    rejectVoteCount: 0
   };
 
 
