@@ -34,9 +34,6 @@ export default ({
         setIsSettingsOpen
     ] = useState(false);
 
-    // Move to LiveBlocks
-    // const [isVotingOpen, setIsVotingOpen] = useState(false);
-
     const setIsVotingOpen = useMutation(({ storage }, newIsVotingOpen) => {
         storage.set("isVotingOpen", newIsVotingOpen);
     }, [ ]);

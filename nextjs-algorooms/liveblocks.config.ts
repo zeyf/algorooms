@@ -29,7 +29,9 @@ export type Presence = {
   color: string,
   cursorLocationData: any,
   joined: number,
-  votedToExecuteCode: boolean
+  // votedToExecuteCode: boolean
+  hasAccepted: boolean,
+  hasRejected: boolean
 };
 
 // Type schema for storage -- non-unique shared data
