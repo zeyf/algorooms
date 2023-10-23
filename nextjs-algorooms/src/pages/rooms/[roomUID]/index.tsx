@@ -105,7 +105,8 @@ export default ({
       examples: [  ]
     },
     acceptVoteCount: 0,
-    rejectVoteCount: 0
+    rejectVoteCount: 0,
+    remainingTime: 60
   };
 
 

@@ -12,33 +12,29 @@ const VotingPopUp = ({ occupied }) => {
 
     const CLIENT_ID = process.env.EXEC_CLIENT_ID, CLIENT_SECRET = process.env.EXEC_CLIENT_SECRET;
     
-    // Keep track of whether or not user has voted for accept or reject
-    // Need both in the case user has not selected either  option
-    // const [hasAccepted, setHasAccepted] = useState(false);
-    // const [hasRejected, setHasRejected] = useState(false);
-
     const acceptVoteCount = useStorage(r => r.acceptVoteCount);
     const rejectVoteCount = useStorage(r => r.rejectVoteCount);
     const isVotingOpen = useStorage(r => r.isVotingOpen);
     const startMinutes = useStorage(r => r.startMinutes);
     const startSeconds = useStorage(r => r.startSeconds);
+    const remainingTime = useStorage(r => r.remainingTime);
 
     const myPresence = useSelf(me => me.presence);
     const others = useOthers();
     const othersUsernames = others.map(other => other.presence.username);
 
-  const updatePresence = useUpdateMyPresence();
+    const updatePresence = useUpdateMyPresence();
 
     // Update self presence to reflect typing onChange or onFocus of the input element
     const handleAcceptVote = () => {
       updatePresence({
-      ...myPresence,
-      hasAccepted: true,
-      hasRejected: false
-    })
-    setAcceptVoteCount(acceptVoteCount + 1);
-    setRejectVoteCount(rejectVoteCount - 1);
-  };
+        ...myPresence,
+        hasAccepted: true,
+        hasRejected: false
+      })
+      setAcceptVoteCount(acceptVoteCount + 1);
+      setRejectVoteCount(rejectVoteCount - 1);
+    };
 
     const handleRejectVote = () => {
       updatePresence({
@@ -129,6 +125,11 @@ const VotingPopUp = ({ occupied }) => {
 
     const resetVoting = () => {
       setIsVotingOpen(!isVotingOpen);
+      // This timer acts as a buffer so that the 
+      // non-hosts timers doesn't overwrite the time reset
+      setTimeout(() => {
+        changeRemainingTime(60);
+      }, 250)
       resetMyVote();
       setRejectVoteCount(0);
       setAcceptVoteCount(0);
@@ -151,16 +152,19 @@ const VotingPopUp = ({ occupied }) => {
           await handleCodeExecution("SUBMIT", startMinutes, startSeconds);
         }
 
-        // Close the voting modal and reset the vote counts to 0
+        // Close the voting modal and reset voting info
         resetVoting();
-
-        
-        
       })();
 
     }, [acceptVoteCount, rejectVoteCount]);
+    
+    const changeRemainingTime = useMutation(({ storage }, remainingTime) => {
+        storage.set("remainingTime", remainingTime);
+    }, [ ]);
+
 
     const renderTime = ({ remainingTime }) => {
+        changeRemainingTime(remainingTime)
         return (
             <div className="">
                 <div>{remainingTime}</div>
@@ -174,9 +178,20 @@ const VotingPopUp = ({ occupied }) => {
             <span className="">Do you want to submit?</span>
             <CountdownCircleTimer
                 isPlaying
-                duration={15}
+                duration={60}
+                initialRemainingTime={remainingTime}
                 colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
                 colorsTime={[8, 6, 3, 0]}
+                onComplete={() => {
+                  // Submit the code if the timer runs out
+                  (async () => {
+                    toast("Submitting the code...")
+                    await handleCodeExecution("SUBMIT", startMinutes, startSeconds);
+                  })();
+
+                  // Close the voting modal and reset voting info
+                  resetVoting();
+                }}
             >
                 {renderTime}
           </CountdownCircleTimer>
@@ -194,8 +209,6 @@ const VotingPopUp = ({ occupied }) => {
                             return;
                           }
 
-                          // If the user already voted to reject, but wants to change their vote,
-                          // take away their reject vote
                           handleAcceptVote();                       
                       }}
                     >
@@ -210,13 +223,12 @@ const VotingPopUp = ({ occupied }) => {
                       onClick={(e) => {
                         e.preventDefault();
 
+                        // If the user wants to vote to reject again, don't allow them
                         if (myPresence.hasRejected) {
                           return;
                         }
 
                         handleRejectVote();
-
-
                     }}
                     >
                       Reject

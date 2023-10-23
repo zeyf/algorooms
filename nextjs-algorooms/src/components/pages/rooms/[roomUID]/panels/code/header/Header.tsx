@@ -325,7 +325,7 @@ export default ({
                     >
                         Submit
                     </Button>
-                    <ReactModal isOpen={isVotingOpen} shouldCloseOnOverlayClick={true} shouldCloseOnEsc={true} onRequestClose={() => setIsVotingOpen(!isVotingOpen)}
+                    <ReactModal isOpen={isVotingOpen} shouldCloseOnOverlayClick={false} shouldCloseOnEsc={false} onRequestClose={() => setIsVotingOpen(!isVotingOpen)}
                     style={{overlay: {
                         backdropFilter: "blur(10px)",
                         backgroundColor: "rgb(#121212)",
