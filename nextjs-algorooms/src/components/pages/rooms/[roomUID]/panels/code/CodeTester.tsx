@@ -33,7 +33,7 @@ export default ({
           <section>{ `EXPECTED OUTPUT: ${expectedOutput}` }</section>
           <section>{ `USER OUTPUT: ${userOutput}` }</section>
           <section>{ `STATE: ${state}` }</section>
-          <section>{ `PASSED ${testCaseIndex + 1} / ${totalTestCases} TEST CASES` }</section>
+          <section>{ `PASSED ${testCaseIndex + Number(state === 'ACCEPTED')} / ${totalTestCases} TEST CASES` }</section>
         </section>
       }
     </div>
