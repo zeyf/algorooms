@@ -327,10 +327,10 @@ export default ({
                     </Button>
                     <ReactModal isOpen={isVotingOpen} shouldCloseOnOverlayClick={false} shouldCloseOnEsc={false} onRequestClose={() => setIsVotingOpen(!isVotingOpen)}
                     style={{overlay: {
-                        backdropFilter: "blur(10px)",
-                        backgroundColor: "rgb(#121212)",
-                        zIndex: 2,
-                    },
+                              backdropFilter: "blur(5px)",
+                              backgroundColor: "#141924cc",
+                              zIndex: 2,
+                            },
                             content:{
                                 width:"209px",
                                 padding: "0px",

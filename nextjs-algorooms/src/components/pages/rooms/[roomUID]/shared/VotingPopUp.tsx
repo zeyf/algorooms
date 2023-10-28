@@ -166,22 +166,21 @@ const VotingPopUp = ({ occupied }) => {
     const renderTime = ({ remainingTime }) => {
         changeRemainingTime(remainingTime)
         return (
-            <div className="">
+            <div className="text-4xl">
                 <div>{remainingTime}</div>
-                <div>seconds</div>
             </div>
         )
     }
 
     return (
-        <div className="text-white h-auto flex flex-col rounded-2xl  shadow-xl border-black border-[3px] items-center bg-[#222C4A]">
-            <span className="">Do you want to submit?</span>
+        <div className="text-white h-auto flex flex-col rounded-2xl shadow-xl items-center bg-[#222C4A]">
+            <span className="font-bold">Do you want to submit?</span>
             <CountdownCircleTimer
                 isPlaying
                 duration={60}
                 initialRemainingTime={remainingTime}
                 colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-                colorsTime={[8, 6, 3, 0]}
+                colorsTime={[45, 30, 15, 0]}
                 onComplete={() => {
                   // Submit the code if the timer runs out
                   (async () => {
@@ -195,7 +194,7 @@ const VotingPopUp = ({ occupied }) => {
             >
                 {renderTime}
           </CountdownCircleTimer>
-            <div className="flex flex-row justify-around">
+            <div className="flex flex-row justify-around w-full p-2">
                 <div>
                     <Button
                       color="dark" 
