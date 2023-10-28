@@ -79,7 +79,7 @@ export default ({
     },
     runCodeInQueue: false,
     submitCodeInQueue: false,
-    voteCount: 0,
+    // voteCount: 0,
     lobbyAccess: data.lobbyAccess,
     difficulty: data.difficulty,
     topics: new LiveList<string>(data.topics),
@@ -93,6 +93,7 @@ export default ({
     secondsLeft: 0,
     inRound: false,
     awaitingQuestion: false,
+    isVotingOpen: false,
     currentQuestion: {
       title: "You should start a round!",
       uid: "BRUH",
@@ -102,7 +103,10 @@ export default ({
       constraints: [  ],
       hints: [  ],
       examples: [  ]
-    }
+    },
+    acceptVoteCount: 0,
+    rejectVoteCount: 0,
+    remainingTime: 60
   };
 
 

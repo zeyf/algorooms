@@ -17,7 +17,7 @@ export const client = createClient({
 export type EditorTexts = {
   python: string,
   javascript: string,
-  // cpp: string,
+  // cpp: string,is
   // java: string
 };
 
@@ -29,7 +29,9 @@ export type Presence = {
   color: string,
   cursorLocationData: any,
   joined: number,
-  votedToExecuteCode: boolean
+  // votedToExecuteCode: boolean
+  hasAccepted: boolean,
+  hasRejected: boolean
 };
 
 // Type schema for storage -- non-unique shared data
@@ -53,15 +55,19 @@ export type Storage = {
   currentQuestion: any, // to be question object
   runCodeInQueue: boolean,
   submitCodeInQueue: boolean,
-  voteCount: number,
+  // voteCount: number,
   hasRanCodeOnQuestion: boolean,
+  isVotingOpen: boolean,
   ranCodeOutputOnQuestion: {
     state: string,
     userOutput: string,
     expectedOutput: string,
     testCaseIndex: number,
-    totalTestCases: number
-  }
+    totalTestCases: number,
+  },
+  acceptVoteCount: number,
+  rejectVoteCount: number,
+  remainingTime: number,
 };
 
 // Type schema for text chat messages
