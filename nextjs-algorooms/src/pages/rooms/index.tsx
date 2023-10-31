@@ -18,6 +18,10 @@ export default ({ query, rooms }: any) => {
   useEffect(() => {
     if (query?.is_full === "true") {
       toast.error("The room is full, please try another room")
+      const { pathname } = window.location
+      window.history.replaceState({}, '', pathname)
+      // This is here to account for weird behaviour that rooms is not load when going back
+      window.history.go(-1)
     }
   }, [query])
 
