@@ -24,7 +24,7 @@ export default ({
   const router = useRouter();
 
   // Essentially filter out submissions with unique questionUID.
-  const uniqueSubmissions = data.submissions.reduce((accumulator, submission) => {
+  let uniqueSubmissions = data.submissions.reduce((accumulator, submission) => {
     const exists = accumulator.some((item) => item.questionUID === submission.questionUID);
   
     if (!exists) {
@@ -33,6 +33,7 @@ export default ({
   
     return accumulator;
   }, []);
+  uniqueSubmissions = uniqueSubmissions.length > 6 ? uniqueSubmissions.slice(-4) : uniqueSubmissions
 
   useEffect(() => {
     if (!exists) router.push("/404?injectable=profile");

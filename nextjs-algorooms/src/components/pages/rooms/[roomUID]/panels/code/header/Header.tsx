@@ -61,6 +61,7 @@ export default ({
     const startMinutes = useStorage(r => r.startMinutes);
     const startSeconds = useStorage(r => r.startSeconds);
     const isVotingOpen = useStorage(r => r.isVotingOpen);
+    const isFirstTime = useStorage(r => r.isFirstTime)
 
     const others = useOthers();
     // Get others people usernames
@@ -275,7 +276,7 @@ export default ({
                     </Button>
 
                     <Button
-                        disabled={runningCode || submittingCode}
+                        disabled={runningCode || submittingCode || isFirstTime}
                         color="dark"
                         className="drop-shadow-lg"
                         onClick={e => {
@@ -300,7 +301,7 @@ export default ({
                         Run
                     </Button>
                     <Button
-                        disabled={runningCode || submittingCode}
+                        disabled={runningCode || submittingCode || isFirstTime}
                         color="dark"
                         className="drop-shadow-lg"
                         onClick={e => {

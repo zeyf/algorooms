@@ -61,7 +61,9 @@ export default ({
   const completedQuestions = questionUIDs.length === 0;
 
 
-
+  const firstTimeChange = useMutation( ({ storage }) => {
+    storage.set("isFirstTime", false)
+  }, [])
 
 
   // Performs mutation on the room storage
@@ -206,8 +208,10 @@ export default ({
               // NOTE: add condition for if no changes have been made to the settings like topics and difficulty
 
               // If we have NOT completed all questions, start a new round
-              if (!completedQuestions)
+              if (!completedQuestions){
                 nextQuestion();
+                firstTimeChange()
+              }
 
               // Otherwise if we have completed all questions, toast and repopulate questions
               else {
