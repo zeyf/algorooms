@@ -33,7 +33,7 @@ export default ({
   
     return accumulator;
   }, []);
-  uniqueSubmissions = uniqueSubmissions.length > 6 ? uniqueSubmissions.slice(-4) : uniqueSubmissions
+  uniqueSubmissions = uniqueSubmissions.length > 4 ? uniqueSubmissions.slice(0, 4) : uniqueSubmissions
 
   useEffect(() => {
     if (!exists) router.push("/404?injectable=profile");
