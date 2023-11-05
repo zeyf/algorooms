@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '@/components/shared/Header';
-import AdminCard from '@/components/pages/admin/AdminCard';
+import AdminCard from '@/components/pages/admin/Admincard';
 import Head from 'next/head';
 import buildRoute from "@/utilities/buildRoute";
 import axios from "axios";
