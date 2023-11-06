@@ -34,15 +34,15 @@ export default ({ query, rooms }: any) => {
         <ToastContainer />
         <Header />
         <div className="flex flex-col h-screen justify-center">
-          <div className="flex justify-center space-x-[171px]">
-            <div className="text-center">
-              <h2 className="text-5xl font-bold text-white mb-[40px]">
+          <div className="text-center xl:flex xl:justify-center xl:space-x-6">
+            <div className="mb-6 xl:mb-0">
+              <h2 className="text-5xl font-bold text-white mb-4 xl:mb-40">
                 Join a room
               </h2>
               <JoinRoomCard rooms={rooms} />
             </div>
-            <div className="text-center">
-              <h2 className="text-5xl font-bold text-white mb-[40px]">
+            <div className="mb-6 xl:mb-0">
+              <h2 className="text-5xl font-bold text-white mb-4 xl:mb-40">
                 Create a room
               </h2>
               <CreateRoomCard />
