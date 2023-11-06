@@ -33,7 +33,7 @@ export default ({
   
     return accumulator;
   }, []);
-  uniqueSubmissions = uniqueSubmissions.length > 4 ? uniqueSubmissions.slice(0, 4) : uniqueSubmissions
+  uniqueSubmissions = uniqueSubmissions.length > 10 ? uniqueSubmissions.slice(0, 10) : uniqueSubmissions
 
   useEffect(() => {
     if (!exists) router.push("/404?injectable=profile");
@@ -160,16 +160,12 @@ export default ({
               
               <div className="flex flex-col h-full items-center w-full p-3">
                 {/* Recently Solved Problems */}
-                <div className="w-5/6 h-1/2 bg-gray-800 rounded-lg drop-shadow-lg">
+                <div className="w-5/6 h-1/2 bg-gray-800 rounded-lg drop-shadow-lg flex flex-col">
                   <h3 className='text-white p-4 text-lg'>Recently Solved Problems</h3>
-                  <div>
+                  <div className='flex flex-col overflow-scroll h-fit'>
                   {         
                     uniqueSubmissions.map(submission => {
-                      return <Title
-                        text={ submission.questionTitle }
-                        alignment="left"
-                        color="white"
-                      />
+                      return <div className=' text-white bg-gray-700 ml-4 mb-3 rounded-lg pl-3 mr-3'>{submission.questionTitle}</div>
 
                     })
                   }
