@@ -27,29 +27,32 @@ const VotingPopUp = ({ occupied }) => {
 
     // Update self presence to reflect typing onChange or onFocus of the input element
     const handleAcceptVote = () => {
+      const hasRejected = myPresence.hasRejected ? 1 : 0;
+      setAcceptVoteCount(acceptVoteCount + 1);
+      setRejectVoteCount(rejectVoteCount - hasRejected);
       updatePresence({
         ...myPresence,
         hasAccepted: true,
         hasRejected: false
       })
-      setAcceptVoteCount(acceptVoteCount + 1);
-      setRejectVoteCount(rejectVoteCount - 1);
     };
 
     const handleRejectVote = () => {
+      const hasAccepted = myPresence.hasAccepted ? 1 : 0;
+      setRejectVoteCount(rejectVoteCount + 1);
+      setAcceptVoteCount(acceptVoteCount - hasAccepted);
       updatePresence({
-      ...myPresence,
-      hasAccepted: false,
-      hasRejected: true
-    })
-    setAcceptVoteCount(acceptVoteCount - 1);
-    setRejectVoteCount(rejectVoteCount + 1);
+        ...myPresence,
+        hasAccepted: false,
+        hasRejected: true
+      });
   };
 
     const resetMyVote = () => {
       updatePresence({
+        ...myPresence,
         hasAccepted: false,
-      hasRejected: false
+        hasRejected: false
       })
     };
 
@@ -124,26 +127,32 @@ const VotingPopUp = ({ occupied }) => {
   }, [  ]);
 
     const resetVoting = () => {
-      setIsVotingOpen(!isVotingOpen);
+      console.log("RESETTING");
+      setIsVotingOpen(false);
       // This timer acts as a buffer so that the 
       // non-hosts timers doesn't overwrite the time reset
       setTimeout(() => {
         changeRemainingTime(60);
-      }, 250)
-      resetMyVote();
-      setRejectVoteCount(0);
-      setAcceptVoteCount(0);
+        resetMyVote();
+        setRejectVoteCount(0);
+        setAcceptVoteCount(0);
+      }, 350)
     }
 
     useEffect(() => {
+      console.log("ACCEPT", acceptVoteCount, "REJECT", rejectVoteCount, "MAJOR", majorNum);
+      console.log("TRYING TO SUBMIT")
+      // If there has not been enough votes for either action, wait until there are
+      if ((acceptVoteCount < majorNum) && (rejectVoteCount < majorNum)) {
+        return;
+      }
+      const isReject = rejectVoteCount >= majorNum;
+      // Close the voting modal and reset voting info
+      resetVoting();
+
       (async () => {
-
-        // If there has not been enough votes for either action, wait until there are
-        if ((acceptVoteCount < majorNum) && (rejectVoteCount < majorNum)) {
-          return;
-        }
-
-        if (rejectVoteCount >= majorNum) {
+        console.log("MAJORITY");
+        if (isReject) {
           // If there are enough votes to reject, notify the room
           toast("Voting cancelled");
         } else {
@@ -152,8 +161,6 @@ const VotingPopUp = ({ occupied }) => {
           await handleCodeExecution("SUBMIT", startMinutes, startSeconds);
         }
 
-        // Close the voting modal and reset voting info
-        resetVoting();
       })();
 
     }, [acceptVoteCount, rejectVoteCount]);
@@ -183,13 +190,13 @@ const VotingPopUp = ({ occupied }) => {
                 colorsTime={[45, 30, 15, 0]}
                 onComplete={() => {
                   // Submit the code if the timer runs out
+                  resetVoting();
                   (async () => {
                     toast("Submitting the code...")
                     await handleCodeExecution("SUBMIT", startMinutes, startSeconds);
                   })();
 
                   // Close the voting modal and reset voting info
-                  resetVoting();
                 }}
             >
                 {renderTime}
