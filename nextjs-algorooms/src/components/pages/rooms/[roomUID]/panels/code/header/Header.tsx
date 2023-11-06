@@ -212,7 +212,7 @@ export default ({
 
         storage.set("ranCodeOutputOnQuestion", response.result);
 
-        if (state === "ACCEPTED") {
+        if (state === "ACCEPTED" && submission) {
             toast(`Congratulations on solving ${storage.get("currentQuestion").title}!`);
             handleEndRound(startMinutes, startSeconds);
         }
