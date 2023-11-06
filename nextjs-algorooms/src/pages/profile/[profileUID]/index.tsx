@@ -165,11 +165,6 @@ export default ({
                   <div className='flex flex-col overflow-scroll h-fit'>
                   {         
                     uniqueSubmissions.map(submission => {
-                      // return <Title
-                      //   text={ submission.questionTitle }
-                      //   alignment="left"
-                      //   color="white"
-                      // />
                       return <div className=' text-white bg-gray-700 ml-4 mb-3 rounded-lg pl-3 mr-3'>{submission.questionTitle}</div>
 
                     })
