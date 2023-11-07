@@ -1,6 +1,7 @@
 // Module imports
 import React, { useState } from "react";
 
+
 // Interface imports
 import { questionHintInterface } from "./Interfaces";
 
@@ -19,15 +20,14 @@ export default ({
 
     return (
         <section>
-            <span
-                onClick={() => setShowHint(!showHint)}
-            >
+            <button className="hover:bg-gray-600" onClick={() => setShowHint(!showHint)}>
                 { `Hint ${oneIndexing}` }
-            </span>
+            </button>
+
 
             {
                 showHint &&
-                <span>{ questionHint }</span>
+                <div className="p-2 bg-black/30 m-2 rounded-lg">{ questionHint }</div>
             }
 
         </section>
