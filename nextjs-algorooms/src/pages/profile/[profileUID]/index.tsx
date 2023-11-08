@@ -64,8 +64,10 @@ export default ({
                     <div>
                       <div className="flex justify-between">
                         {/* Avatar */}
-                        <img
-                          className="rounded-lg mr-4 mb-4 drop-shadow-lg h-1/4 w-1/4"
+                        <Image
+                          width={75}
+                          height={75}
+                          className="rounded-lg mr-4 mb-4 drop-shadow-lg"
                           src={data.picture}
                           alt=""
                         />
@@ -162,11 +164,10 @@ export default ({
                 {/* Recently Solved Problems */}
                 <div className="w-5/6 h-1/2 bg-gray-800 rounded-lg drop-shadow-lg flex flex-col">
                   <h3 className='text-white p-4 text-lg'>Recently Solved Problems</h3>
-                  <div className='flex flex-col overflow-scroll h-fit'>
+                  <div className='flex flex-col overflow-scroll h-fit no-scrollbar'>
                   {         
                     uniqueSubmissions.map(submission => {
-                      return <div className=' text-white bg-gray-700 ml-4 mb-3 rounded-lg pl-3 mr-3'>{submission.questionTitle}</div>
-
+                      return <div key={submission.questionTitle} className=' text-white bg-gray-700 ml-4 mb-3 rounded-lg pl-3 mr-3'>{submission.questionTitle}</div>
                     })
                   }
                   </div>
