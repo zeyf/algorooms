@@ -52,7 +52,7 @@ export default ({
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col items-center overflow-scroll">
+        <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col items-center">
           <Header />
           <div className="px-6 pt-6 h-full w-2/3">
             {/* First row */}
@@ -160,9 +160,9 @@ export default ({
               </div>
               {/* Problems */}
               
-              <div className="flex flex-col h-full items-center w-full p-3">
+              <div className="flex flex-col h-full items-center w-full p-3 mb-3">
                 {/* Recently Solved Problems */}
-                <div className="w-5/6 h-1/2 bg-gray-800 rounded-lg drop-shadow-lg flex flex-col">
+                <div className="w-5/6 bg-gray-800 rounded-lg drop-shadow-lg flex flex-col flex-1">
                   <h3 className='text-white p-4 text-lg'>Recently Solved Problems</h3>
                   <div className='flex flex-col overflow-scroll h-fit no-scrollbar'>
                   {         
@@ -173,14 +173,14 @@ export default ({
                   </div>
                 </div>
                 {/* Top Topics Solved */}
-                <div className='h-1/2 w-5/6 mt-6 flex'>
+                {/* <div className='h-1/2 w-5/6 mt-6 flex'>
                   <div className='bg-gray-800 h-full w-2/3 mr-5 rounded-lg drop-shadow-lg'>
                     <h2 className='text-white p-4 text-lg'>Top Topics</h2>
                   </div>
                   <div className='bg-gray-800 h-full w-2/3 ml-5 rounded-lg drop-shadow-lg'>
                     <h2 className='text-white p-4 text-lg'>Announcements</h2>
                   </div>
-                </div>
+                </div> */}
               </div>
 
             </div>
