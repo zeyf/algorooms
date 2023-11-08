@@ -16,17 +16,18 @@ export default ({
     const questionTopics = useStorage(r => r.currentQuestion.topics);
 
     return (
-        <section>
-            <p>Topics</p>
-            <br/>
-            
-            {
-                // Display all question topics
-
-                questionTopics.map(
-                    (topic: string) => <QuestionTopic questionTopic={ topic } />
-                )
-            }
+        <section className="py-2">
+            <p className="mb-2 font-bold">Topics</p>
+            <div className="flex flex-row flex-wrap w-full">
+              <div>
+                {
+                    // Display all question topics
+                    questionTopics.map(
+                        (topic: string) => <QuestionTopic questionTopic={ topic } />
+                    )
+                }
+              </div>
+            </div>
 
         </section>
     );

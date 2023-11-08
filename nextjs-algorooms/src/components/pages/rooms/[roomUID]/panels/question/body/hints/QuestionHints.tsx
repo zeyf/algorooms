@@ -16,9 +16,8 @@ export default ({
     const questionHints = useStorage(r => r.currentQuestion.hints);
 
     return (
-        <section>
-            <p>Hints</p>
-            <br/>
+        <section className="pt-4 pb-2">
+            <div className="font-bold">Hints</div>
 
             {
                 // Display all question hints
