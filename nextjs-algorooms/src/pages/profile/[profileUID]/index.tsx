@@ -54,7 +54,7 @@ export default ({
 
         <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col items-center">
           <Header />
-          <div className="px-6 pt-6 h-full w-2/3">
+          <div className="p-6 h-full w-2/3">
             {/* First row */}
             <div className="flex flex-col h-full items-center">
               {/* User */}
@@ -160,14 +160,14 @@ export default ({
               </div>
               {/* Problems */}
               
-              <div className="flex flex-col h-full items-center w-full p-3 mb-3">
+              <div className="flex flex-col flex-1 items-center w-full px-3 pt-3">
                 {/* Recently Solved Problems */}
-                <div className="w-5/6 bg-gray-800 rounded-lg drop-shadow-lg flex flex-col flex-1">
+                <div className="w-5/6 bg-gray-800 rounded-lg drop-shadow-lg flex flex-col">
                   <h3 className='text-white p-4 text-lg'>Recently Solved Problems</h3>
-                  <div className='flex flex-col overflow-scroll h-fit no-scrollbar'>
-                  {         
+                  <div className='flex flex-col overflow-y-auto min-h-min no-scrollbar'>
+                  {
                     uniqueSubmissions.map(submission => {
-                      return <div key={submission.questionTitle} className=' text-white bg-gray-700 ml-4 mb-3 rounded-lg pl-3 mr-3'>{submission.questionTitle}</div>
+                      return <div key={submission.questionTitle} className=' text-white bg-gray-700 rounded-lg ml-4 mb-3  pl-3 mr-3'>{submission.questionTitle}</div>
                     })
                   }
                   </div>
