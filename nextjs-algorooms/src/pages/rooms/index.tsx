@@ -33,7 +33,7 @@ export default ({ query, rooms }: any) => {
       <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-full flex flex-col">
         <ToastContainer />
         <Header />
-        <div className="flex flex-col flex-1 h-full mb-[250px]">
+        <div className="flex flex-col flex-1 mb-[110px]">
           <div className="flex flex-row flex-wrap justify-around">
             <div className="text-center">
               <h2 className="text-5xl font-bold text-white mb-[40px] mt-10">
