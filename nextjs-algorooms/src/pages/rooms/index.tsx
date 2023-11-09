@@ -30,19 +30,19 @@ export default ({ query, rooms }: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col">
+      <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-full flex flex-col">
         <ToastContainer />
         <Header />
-        <div className="flex flex-col h-screen justify-center">
-          <div className="text-center xl:flex xl:justify-center xl:space-x-6">
-            <div className="mb-6 xl:mb-0">
-              <h2 className="text-5xl font-bold text-white mb-4 xl:mb-40">
+        <div className="flex flex-col flex-1 h-full mb-[250px]">
+          <div className="flex flex-row flex-wrap justify-around">
+            <div className="text-center">
+              <h2 className="text-5xl font-bold text-white mb-[40px] mt-10">
                 Join a room
               </h2>
               <JoinRoomCard rooms={rooms} />
             </div>
-            <div className="mb-6 xl:mb-0">
-              <h2 className="text-5xl font-bold text-white mb-4 xl:mb-40">
+            <div className="text-center">
+              <h2 className="text-5xl font-bold text-white mb-[40px] mt-10">
                 Create a room
               </h2>
               <CreateRoomCard />
