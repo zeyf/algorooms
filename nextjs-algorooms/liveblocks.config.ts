@@ -13,6 +13,8 @@ export const client = createClient({
   publicApiKey: process.env.LB_PUBLIC_API_KEY
 });
 
+import LiveblocksProvider from "@liveblocks/yjs";
+
 // Type schema for the editor texts for the different languages supported as of right now
 export type EditorTexts = {
   python: string,
@@ -78,6 +80,27 @@ export type TextChatMessage = {
   timestamp: number,
   color: string
 };
+
+type UserMeta = {
+  id: string; // Accessible through `user.id`
+  info: {
+    name: string;
+    color: string;
+    picture: string;
+  }; // Accessible through `user.info`
+};
+
+type RoomEvent = {
+  // type: "NOTIFICATION",
+  // ...
+};
+
+export type TypedLiveblocksProvider = LiveblocksProvider<
+  Presence,
+  Storage,
+  UserMeta,
+  RoomEvent
+>
 
 // Access to context provider and hooks
 export const {
