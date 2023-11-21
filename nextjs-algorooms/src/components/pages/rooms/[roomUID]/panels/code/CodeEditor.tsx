@@ -40,30 +40,36 @@ const CodeEditor = ({
         setElement(node);
     }, []);
     const myPresence = useSelf(me => me.presence)
-
+    const handleEditorTextEdit = useMutation(({ storage }, newEditorText, editorLanguage) => {
+        storage.get("activeEditorTexts").set(editorLanguage.toLowerCase(), newEditorText);
+        }, [  ]);
+    const editorText = useStorage(({ activeEditorTexts }) => activeEditorTexts)[editorLanguage];
+    // console.log(handleEditorTextEdit)
     // Set up Liveblocks Yjs provider and attach CodeMirror editor
     useEffect(() => {
         let provider: TypedLiveblocksProvider;
         let ydoc: Y.Doc;
         let view: EditorView;
-        let language = new Compartment
+        
         if (!element || !room ) {
-        return;
+            return;
         }
 
         // Create Yjs provider and document
         ydoc = new Y.Doc();
         provider = new LiveblocksProvider(room as any, ydoc);
         const ytext = ydoc.getText("codemirror");
+        ytext.delete(0, ytext.toString().length)
+        console.log(editorText)
+        ytext.insert(0,editorText)
         const undoManager = new Y.UndoManager(ytext);
         setYUndoManager(undoManager);
-
         // Set up CodeMirror and extensions
         const state = EditorState.create({
         doc: ytext.toString(),
         extensions: [
             basicSetup,
-            language.of(languageMapper[editorLanguage].syntaxHighlightingExtension()),
+            languageMapper[editorLanguage].syntaxHighlightingExtension(),
             yCollab(ytext, provider.awareness, { undoManager }),
             cobalt,
             indentUnit.of('    '),
@@ -87,7 +93,7 @@ const CodeEditor = ({
         provider?.destroy();
         view?.destroy();
         };
-    }, [element, room, LanguageSelector]);
+    }, [element, room, editorLanguage, editorText]);
 
     return (
         <div className="h-full w-full" >
