@@ -73,7 +73,7 @@ export default ({
                         />
                         {/* User Info */}
                         <div className="flex-col w-full">
-                          <h1 className='text-white lg:text-3xl md:text-lg'>{data.username}</h1>
+                          <h1 className='text-white lg:text-xl md:text-lg'>{data.username}</h1>
                           <h2 className='text-white'>Joined: {data.dateJoined}</h2>
                         </div>
                       </div>
@@ -96,12 +96,12 @@ export default ({
                       />
                     </div>
                   </div>
-                  <div className="w-2/3 h-auto bg-gray-800 rounded-lg drop-shadow-lg ml-5 ">
-                  <h3 className='text-white text-lg m-2'>Solved Problems</h3>
-                  <div className="flex-col justify-between items-center w-auto h-full pl-6">
+                  <div className="w-2/3 h-auto bg-gray-800 rounded-lg drop-shadow-lg ml-5 p-6">
+                  <h3 className='text-white text-lg'>Solved Problems</h3>
+                  <div>
 
                     {/* Easy */}
-                    <section className="flex flex-col items-star m-2">
+                    <section className="flex flex-col justify-between">
                       <div className='flex flex-row space-x-3 items-center'>
                         <Subtitle text="Easy: " alignment="left" color="white" />
                         <div className='text-white'>
@@ -120,7 +120,7 @@ export default ({
                   </section>
 
                   {/* Medium */}
-                  <section className="flex flex-col items-start m-2">
+                  <section className="flex flex-col items-start">
                     <div className='flex flex-row space-x-3 items-center'>
                       <Subtitle text="Medium: " alignment="left" color="white" />
                       <div className='text-white'>
@@ -139,7 +139,7 @@ export default ({
                   </section>
 
                   {/* Hard */}
-                  <section className="flex flex-col items-start m-2">
+                  <section className="flex flex-col items-start">
                   <div className='flex flex-row space-x-3 items-center'>
                       <Subtitle text="Hard: " alignment="left" color="white" />
                       <div className='text-white'>

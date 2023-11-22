@@ -7,7 +7,7 @@ interface SubtitleInterface {
 }
 
 function Subtitle({ text, alignment, color }: SubtitleInterface) {
-  return <h3 className={`text-lg text-${alignment} text-${color}`}>{text}</h3>;
+  return <h2 className={`text-${alignment} text-${color}`}>{text}</h2>;
 }
 
 export default Subtitle;
