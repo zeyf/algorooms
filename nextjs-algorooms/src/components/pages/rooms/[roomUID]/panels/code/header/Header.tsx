@@ -186,6 +186,7 @@ export default ({
             storage.set("runCodeInQueue", true);
 
         const editorText = storage.get("activeEditorTexts").get(editorLang);
+        console.log(editorText)
 
         const currentQuestionData = storage.get("currentQuestion");
 
@@ -238,7 +239,7 @@ export default ({
                         <select
 
                             // If you are the host, true. Otherwise, false.
-                            disabled={runningCode || submittingCode}
+                            disabled={!inRound || runningCode || submittingCode}
                             
                             // This will hold the value of the current langauge
                             value={editorLanguage}

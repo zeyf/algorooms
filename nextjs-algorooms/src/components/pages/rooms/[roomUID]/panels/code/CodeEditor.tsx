@@ -44,6 +44,9 @@ const CodeEditor = ({
         storage.get("activeEditorTexts").set(editorLanguage.toLowerCase(), newEditorText);
         }, [  ]);
     const editorText = useStorage(({ activeEditorTexts }) => activeEditorTexts)[editorLanguage];
+
+    const inRound = useStorage((storage) => storage.inRound);
+
     // console.log(handleEditorTextEdit)
     // Set up Liveblocks Yjs provider and attach CodeMirror editor
     useEffect(() => {
@@ -55,27 +58,23 @@ const CodeEditor = ({
             return;
         }
 
+        console.log("making new ydoc")
+        const newTextState = !inRound ? "" : editorText;
+        
         // Create Yjs provider and document
         ydoc = new Y.Doc();
         provider = new LiveblocksProvider(room as any, ydoc);
-        const ytext = ydoc.getText("codemirror");
-        ytext.delete(0, ytext.toString().length)
-        console.log(editorText)
-        ytext.insert(0,editorText)
+        const ytext = ydoc.getText(editorLanguage);
+
+        // if (ytext.doc.store.clients.values().next().value != undefined){
+        //     console.log("Deleting")
+        //     ytext.doc.store.clients.values().next().value.pop()
+        // }
+        
+        ytext.insert(0, editorText)
+        console.log(ytext)
         const undoManager = new Y.UndoManager(ytext);
-        setYUndoManager(undoManager);
         // Set up CodeMirror and extensions
-        const state = EditorState.create({
-        doc: ytext.toString(),
-        extensions: [
-            basicSetup,
-            languageMapper[editorLanguage].syntaxHighlightingExtension(),
-            yCollab(ytext, provider.awareness, { undoManager }),
-            cobalt,
-            indentUnit.of('    '),
-            keymap.of([indentWithTab])
-        ],
-        });
 
         provider.awareness.setLocalStateField("user", {
             name: myPresence.username,
@@ -84,8 +83,20 @@ const CodeEditor = ({
 
         // Attach CodeMirror to element
         view = new EditorView({
-        state,
-        parent: element,
+            state: EditorState.create({
+                doc: ytext.toString(),
+                extensions: [
+                    basicSetup,
+                    languageMapper[editorLanguage].syntaxHighlightingExtension(),
+                    yCollab(ytext, provider.awareness, { undoManager }),
+                    cobalt,
+                    EditorView.updateListener.of((e) => {
+                        console.log(ytext.toString())
+                        handleEditorTextEdit(ytext.toString(), editorLanguage)
+                    })
+                ],
+                }),
+            parent: element,
         });
 
         return () => {
@@ -93,11 +104,11 @@ const CodeEditor = ({
         provider?.destroy();
         view?.destroy();
         };
-    }, [element, room, editorLanguage, editorText]);
+    }, [element, room, editorLanguage, inRound]);
 
     return (
         <div className="h-full w-full" >
-            <div className="h-full w-full rounded-lg overflow-auto" ref={ref}></div>
+            <div className="h-full w-full rounded-lg overflow-auto" ref={ref} onChange={(e) => {console.log("Change")}}></div>
         </div>
     );
 
