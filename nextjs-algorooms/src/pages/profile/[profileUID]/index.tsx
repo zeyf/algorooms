@@ -27,13 +27,14 @@ export default ({
   let uniqueSubmissions = data.submissions.reduce((accumulator, submission) => {
     const exists = accumulator.some((item) => item.questionUID === submission.questionUID);
   
-    if (!exists) {
+    if (!exists && submission.hasOwnProperty("isAccepted") && submission.isAccepted) {
       accumulator.push(submission);
     }
   
     return accumulator;
   }, []);
   uniqueSubmissions = uniqueSubmissions.length > 10 ? uniqueSubmissions.slice(0, 10) : uniqueSubmissions
+  console.log(data)
 
   useEffect(() => {
     if (!exists) router.push("/404?injectable=profile");
