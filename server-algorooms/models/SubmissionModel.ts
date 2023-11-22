@@ -41,6 +41,10 @@ export const submissionSchematic = new Schema({
     code: {
         type: String,
         required: true
+    },
+    isAccepted: {
+      type: Boolean,
+      required: true,
     }
 });
 

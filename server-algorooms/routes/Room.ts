@@ -7,6 +7,7 @@ import shuffle from "../utilities/shuffle";
 import axios from "axios";
 import Submission from "../models/SubmissionModel";
 import { CodeExecutionConstants, TestingConstants } from "../data/CONSTANTS";
+import UserModel from "../models/UserModel";
 
 const router = express.Router();
 const ROUTE_BASE = "/api/rooms";
@@ -278,7 +279,8 @@ router.post("/execute", async (req, res) => {
 
 
     const {
-        templates
+        templates,
+        difficulty
     } = question;
 
     console.log(templates)
@@ -320,20 +322,22 @@ router.post("/execute", async (req, res) => {
             timestamp,
             language,
             code: body.script,
-            uid
+            uid,
+            isAccepted: false
         }
     })
 
     const acceptAns = usernames.map(username => {
         return {
-            result: CodeExecutionConstants.ACCEPTED,
-            questionTitle,
+            uid,
             username,
             questionUID,
+            questionTitle,
             timestamp,
             language,
             code: body.script,
-            uid
+            result: CodeExecutionConstants.ACCEPTED,
+            isAccepted: true,
         }
     })
 
@@ -387,6 +391,28 @@ router.post("/execute", async (req, res) => {
     // If wrong answer or other case...
     // Must be extended further to handle
     } else if (/^ACCEPTED$/.test(outputTokens[0])) {
+
+        for (const username of usernames) {
+          const acceptedSubmissionsCount = await Submission.find({
+            questionUID,
+            username,
+            isAccepted: true,
+          }).count();
+
+          if (acceptedSubmissionsCount === 0) {
+            let res;
+            
+            if (difficulty === "Easy") {
+              res = await UserModel.updateOne({username: username}, {$inc: { "questionsSolved.simpler" : 1}});  
+            }
+            else if (difficulty === "Medium") {
+              res = await UserModel.updateOne({username: username}, {$inc: { "questionsSolved.simple" : 1}});  
+            }
+            else {
+              res = await UserModel.updateOne({username: username}, {$inc: { "questionsSolved.notSimple" : 1}});  
+            }
+          }
+        }
 
         await Submission.create(acceptAns).then(mongoResponse => {
 
