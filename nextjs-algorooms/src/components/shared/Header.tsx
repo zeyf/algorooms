@@ -74,12 +74,12 @@ const Header = ({}: headerInterface) => {
           ></IoPersonCircleOutline>
         ) : (
           <Link href={`/profile/${username}`}>
-            <img
-              className="text-white w-6 h-6 rounded-full"
+            <Image
+              className="text-white rounded-full"
               alt="user"
               src={isLoading || !user ? '' : user.picture || ''}
-              width={120}
-              height={120}
+              width={30}
+              height={30}
             />
           </Link>
         )}

@@ -68,6 +68,7 @@ export type Storage = {
   acceptVoteCount: number,
   rejectVoteCount: number,
   remainingTime: number,
+  isFirstTime: boolean
 };
 
 // Type schema for text chat messages

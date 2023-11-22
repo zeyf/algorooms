@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import RoomContextLayer from '@/contexts/RoomContextLayer';
 import { RoomContext } from '@/contexts/RoomContextLayer';
 import Head from 'next/head';
+import buildRoute from '@/utilities/buildRoute';
 
 import { EditorTexts, Presence, RoomProvider, Storage, TextChatMessage } from '../../../../liveblocks.config';
 import { LiveList, LiveObject } from '@liveblocks/client';
@@ -50,7 +51,9 @@ export default ({
     cursorLocationData: {  },
     color: randomColor(),
     joined: Date.now(),
-    votedToExecuteCode: false,
+    // votedToExecuteCode: false,
+    hasAccepted: false,
+    hasRejected: false,
     username
   };
 
@@ -106,7 +109,8 @@ export default ({
     },
     acceptVoteCount: 0,
     rejectVoteCount: 0,
-    remainingTime: 60
+    remainingTime: 60,
+    isFirstTime: true
   };
 
 
@@ -182,7 +186,7 @@ export const getServerSideProps = withPageAuthRequired({
     } = context;
 
     // Make a request to verify the room exists
-    const response = await axios.get(`http://localhost:4000/api/rooms/verify/${roomUID}`).then(res => res.data);
+    const response = await axios.get(buildRoute(`/api/rooms/verify/${roomUID}`)).then(res => res.data);
 
 
 

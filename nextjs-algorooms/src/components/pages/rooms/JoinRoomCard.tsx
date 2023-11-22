@@ -3,6 +3,7 @@ import { MdPeople } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import CreateRoomCard from './CreateRoomCard';
 import Link from 'next/link';
+import { Button } from 'flowbite-react';
 
 type RoomJoinSectionProps = {
   name: string;
@@ -64,6 +65,8 @@ export default ({ rooms }: any) => {
       style={{ scrollSnapType: 'y mandatory' }}
     >
       <div className="h-full flex flex-col rounded-2xl bg-white bg-opacity-25 drop-shadow-xl divide-y divide-gray-300 overflow-y-auto pb-[30px]  ">
+          <Button color="dark" onClick={() => {window.location.reload()}}>Refresh List</Button>
+
         <div className="flex flex-col items-center justify-center flex-grow">
           {rooms.map(
             (

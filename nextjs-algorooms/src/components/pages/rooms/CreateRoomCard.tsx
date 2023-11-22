@@ -17,7 +17,8 @@ const {
 } = StaticRoomSettingsOptionsData;
 
 export default ({
-
+  isPress,
+  setIsPress
 }) => {
 
   const [ data, setData ] = useState<any>({
@@ -45,6 +46,7 @@ export default ({
 
   // Check if the room have a name
   if(data.name.trim() != "") {
+    setIsPress(true)
     const response = await axios.post(buildRoute("/api/rooms/create"), { ...data, host: username }).then(res => res.data);
   
       const {
@@ -154,6 +156,7 @@ export default ({
             <button
               type="button"
               className="bg-greenAccent hover:bg-darkAccent hover:text-white text-black w-[200px] h-[60px] font-bold rounded"
+              disabled={isPress}
               onClick={createRoom}
               >
                 Create Room

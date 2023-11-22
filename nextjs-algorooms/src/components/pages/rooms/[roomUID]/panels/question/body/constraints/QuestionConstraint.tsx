@@ -11,9 +11,9 @@ export default ({
     // Code
 
     return (
-        <span>
+        <div>
             { questionConstraint }
-        </span>
+        </div>
     );
 
 };

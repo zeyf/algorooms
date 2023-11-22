@@ -13,12 +13,14 @@ export default ({
     // Code
 
     return (
+      <span className="rounded-full bg-black bg-opacity-30 w-full p-2 mx-1">
         <Link
             href={`/topics/${createTopicURLSlug(questionTopic)}`}
-            className="font-bold hover:text-accentColor"
+            className="hover:text-accentColor"
         >
             { questionTopic }
         </Link>
+      </span>
     );
 
 };

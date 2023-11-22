@@ -24,7 +24,7 @@ export default ({
   const router = useRouter();
 
   // Essentially filter out submissions with unique questionUID.
-  const uniqueSubmissions = data.submissions.reduce((accumulator, submission) => {
+  let uniqueSubmissions = data.submissions.reduce((accumulator, submission) => {
     const exists = accumulator.some((item) => item.questionUID === submission.questionUID);
   
     if (!exists) {
@@ -33,6 +33,7 @@ export default ({
   
     return accumulator;
   }, []);
+  uniqueSubmissions = uniqueSubmissions.length > 10 ? uniqueSubmissions.slice(0, 10) : uniqueSubmissions
 
   useEffect(() => {
     if (!exists) router.push("/404?injectable=profile");
@@ -51,9 +52,9 @@ export default ({
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col items-center overflow-scroll">
+        <div className="bg-gradient-to-tr from-darkAccent to to-gradientEnd w-screen h-screen flex flex-col items-center">
           <Header />
-          <div className="px-6 pt-6 h-full w-2/3">
+          <div className="p-6 h-full w-2/3">
             {/* First row */}
             <div className="flex flex-col h-full items-center">
               {/* User */}
@@ -63,14 +64,16 @@ export default ({
                     <div>
                       <div className="flex justify-between">
                         {/* Avatar */}
-                        <img
-                          className="rounded-lg mr-4 mb-4 drop-shadow-lg h-1/4 w-1/4"
+                        <Image
+                          width={75}
+                          height={75}
+                          className="rounded-lg mr-4 mb-4 drop-shadow-lg"
                           src={data.picture}
                           alt=""
                         />
                         {/* User Info */}
                         <div className="flex-col w-full">
-                          <h1 className='text-white lg:text-3xl md:text-lg'>{data.username}</h1>
+                          <h1 className='text-white lg:text-xl md:text-lg'>{data.username}</h1>
                           <h2 className='text-white'>Joined: {data.dateJoined}</h2>
                         </div>
                       </div>
@@ -93,12 +96,12 @@ export default ({
                       />
                     </div>
                   </div>
-                  <div className="w-2/3 h-auto bg-gray-800 rounded-lg drop-shadow-lg ml-5 ">
-                  <h3 className='text-white text-lg m-2'>Solved Problems</h3>
-                  <div className="flex-col justify-between items-center w-auto h-full pl-6">
+                  <div className="w-2/3 h-auto bg-gray-800 rounded-lg drop-shadow-lg ml-5 p-6">
+                  <h3 className='text-white text-lg'>Solved Problems</h3>
+                  <div>
 
                     {/* Easy */}
-                    <section className="flex flex-col items-star m-2">
+                    <section className="flex flex-col justify-between">
                       <div className='flex flex-row space-x-3 items-center'>
                         <Subtitle text="Easy: " alignment="left" color="white" />
                         <div className='text-white'>
@@ -117,7 +120,7 @@ export default ({
                   </section>
 
                   {/* Medium */}
-                  <section className="flex flex-col items-start m-2">
+                  <section className="flex flex-col items-start">
                     <div className='flex flex-row space-x-3 items-center'>
                       <Subtitle text="Medium: " alignment="left" color="white" />
                       <div className='text-white'>
@@ -136,7 +139,7 @@ export default ({
                   </section>
 
                   {/* Hard */}
-                  <section className="flex flex-col items-start m-2">
+                  <section className="flex flex-col items-start">
                   <div className='flex flex-row space-x-3 items-center'>
                       <Subtitle text="Hard: " alignment="left" color="white" />
                       <div className='text-white'>
@@ -157,32 +160,27 @@ export default ({
               </div>
               {/* Problems */}
               
-              <div className="flex flex-col h-full items-center w-full p-3">
+              <div className="flex flex-col flex-1 items-center w-full px-3 pt-3">
                 {/* Recently Solved Problems */}
-                <div className="w-5/6 h-1/2 bg-gray-800 rounded-lg drop-shadow-lg">
+                <div className="w-5/6 bg-gray-800 rounded-lg drop-shadow-lg flex flex-col">
                   <h3 className='text-white p-4 text-lg'>Recently Solved Problems</h3>
-                  <div>
-                  {         
+                  <div className='flex flex-col overflow-y-auto min-h-min no-scrollbar'>
+                  {
                     uniqueSubmissions.map(submission => {
-                      return <Title
-                        text={ submission.questionTitle }
-                        alignment="left"
-                        color="white"
-                      />
-
+                      return <div key={submission.questionTitle} className=' text-white bg-gray-700 rounded-lg ml-4 mb-3  pl-3 mr-3'>{submission.questionTitle}</div>
                     })
                   }
                   </div>
                 </div>
                 {/* Top Topics Solved */}
-                <div className='h-1/2 w-5/6 mt-6 flex'>
+                {/* <div className='h-1/2 w-5/6 mt-6 flex'>
                   <div className='bg-gray-800 h-full w-2/3 mr-5 rounded-lg drop-shadow-lg'>
                     <h2 className='text-white p-4 text-lg'>Top Topics</h2>
                   </div>
                   <div className='bg-gray-800 h-full w-2/3 ml-5 rounded-lg drop-shadow-lg'>
                     <h2 className='text-white p-4 text-lg'>Announcements</h2>
                   </div>
-                </div>
+                </div> */}
               </div>
 
             </div>

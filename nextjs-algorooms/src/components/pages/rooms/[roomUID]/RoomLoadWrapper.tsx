@@ -91,9 +91,9 @@ export default ({
 
   return (
       <div className="w-full h-full flex justify-center items-center">
-        {
+        {/* {
           whiteBoard && <WhiteBoard />
-        }
+        } */}
         <Split sizes={[25, 60, 15]} minSize={[0, 822, 0]} className="w-full flex h-full">
           <QuestionPanel />
           <CodePanel />

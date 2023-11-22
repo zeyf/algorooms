@@ -16,10 +16,8 @@ export default ({
     const questionConstraints = useStorage(r => r.currentQuestion.constraints);
 
     return (
-        <section>
-            <span>Constraints</span>
-            <br/>
-
+        <section className="py-2">
+            <div className="font-bold">Constraints</div>
             {
                 // Display all question constraints
 
