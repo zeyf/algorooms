@@ -224,10 +224,7 @@ export default ({
     Modal.setAppElement('#__next');
 
     const handleCodeReset = useMutation(({ storage }) => {
-
-        const currentLanguageInView:any = storage.get("language");
-        storage.get("activeEditorTexts").set(currentLanguageInView, storage.get("resetEditorTexts").get(currentLanguageInView));
-
+        storage.set("resetCode", true)
     }, [  ]);
 
     return (
@@ -238,7 +235,7 @@ export default ({
                         <select
 
                             // If you are the host, true. Otherwise, false.
-                            disabled={runningCode || submittingCode}
+                            disabled={!inRound || runningCode || submittingCode}
                             
                             // This will hold the value of the current langauge
                             value={editorLanguage}
