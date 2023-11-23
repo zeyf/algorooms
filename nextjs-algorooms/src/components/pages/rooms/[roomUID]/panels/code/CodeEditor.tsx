@@ -61,7 +61,6 @@ const CodeEditor = ({
         let provider: TypedLiveblocksProvider;
         let ydoc: Y.Doc;
         let view: EditorView;
-        const ytextCode = Math.random() * (1000 - 1) + 1;
         if (!element || !room) {
             return;
         }
@@ -69,7 +68,7 @@ const CodeEditor = ({
         // Create Yjs provider and document
         ydoc = new Y.Doc();
         provider = new LiveblocksProvider(room as any, ydoc);
-        const ytext = ydoc.getText(editorLanguage + String(ytextCode));
+        const ytext = ydoc.getText(editorLanguage);
 
         if (resetCode) {
             if (inRound) {
@@ -78,16 +77,15 @@ const CodeEditor = ({
                 handleEditorTextEdit("", editorLanguage);
             }
 
-            ytext.insert(0, passiveResetEditorText);
             changeResetCodeState(resetCode);
         } else {
-            ytext.insert(0, activeEditorText);
+            // idk
         }
         
         const undoManager = new Y.UndoManager(ytext);
         // Set up CodeMirror and extensions
 
-        provider.awareness.setLocalStateField("user",{
+        provider.awareness.setLocalStateField("user", {
             name: myPresence.username,
             color: myPresence.color,
             colorLight: myPresence.color + "80"
