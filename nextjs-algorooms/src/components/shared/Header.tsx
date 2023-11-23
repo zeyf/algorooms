@@ -44,9 +44,9 @@ const Header = ({}: headerInterface) => {
             Rooms
           </Link>
 
-          <Link href="/submitquestions" className="text-white mx-2">
+          {/* <Link href="/submitquestions" className="text-white mx-2">
             Submit Questions
-          </Link>
+          </Link> */}
 
 
           {user ? (

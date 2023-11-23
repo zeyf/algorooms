@@ -258,19 +258,20 @@ export default ({
                             */}
                         </select>
                     </div>
-
-                    <Button
-                        disabled={runningCode || submittingCode}
-                        color="dark"
-                        className="drop-shadow-lg"
-                        onClick={e => {
-                            e.preventDefault();
-                            handleCodeReset();
-                        }}
-                    >
-                        Reset Code
-                    </Button>
-
+                    
+                    {/*
+                        <Button
+                            disabled={runningCode || submittingCode}
+                            color="dark"
+                            className="drop-shadow-lg"
+                            onClick={e => {
+                                e.preventDefault();
+                                handleCodeReset();
+                            }}
+                        >
+                            Reset Code
+                        </Button>
+                    */}
                     <Button
                         disabled={runningCode || submittingCode || isFirstTime}
                         color="dark"
