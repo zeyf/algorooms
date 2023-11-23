@@ -186,7 +186,6 @@ export default ({
             storage.set("runCodeInQueue", true);
 
         const editorText = storage.get("activeEditorTexts").get(editorLang);
-        console.log(editorText)
 
         const currentQuestionData = storage.get("currentQuestion");
 
@@ -225,10 +224,7 @@ export default ({
     Modal.setAppElement('#__next');
 
     const handleCodeReset = useMutation(({ storage }) => {
-
-        const currentLanguageInView:any = storage.get("language");
-        storage.get("activeEditorTexts").set(currentLanguageInView, storage.get("resetEditorTexts").get(currentLanguageInView));
-
+        storage.set("resetCode", true)
     }, [  ]);
 
     return (

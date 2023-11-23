@@ -1,6 +1,6 @@
 // Module imports
 // import { useRef } from 'react'
-// import CodeMirror, { ReactCodeMirrorRef } from '@uiw/react-codemirror';
+//import CodeMirror, { ReactCodeMirrorRef } from '@uiw/react-codemirror';
 // import { sublime, sublimeInit  } from '@uiw/codemirror-theme-sublime'
 // import languageMapper from '@/utilities/languageMapper';
 // import { useMutation, useOthers, useSelf, useStorage, useUpdateMyPresence } from '../../../../../../../liveblocks.config';
@@ -16,7 +16,7 @@
 import * as Y from "yjs";
 import { yCollab } from "y-codemirror.next";
 import { EditorView, basicSetup } from "codemirror";
-import { EditorState, Compartment } from "@codemirror/state";
+import { EditorState } from "@codemirror/state";
 import languageMapper from '@/utilities/languageMapper';
 import { useCallback, useEffect, useState } from "react";
 import LiveblocksProvider from "@liveblocks/yjs";
@@ -40,12 +40,14 @@ const CodeEditor = ({
         setElement(node);
     }, []);
     const myPresence = useSelf(me => me.presence)
+    const others = useOthers()
+    console.log(others)
     const handleEditorTextEdit = useMutation(({ storage }, newEditorText, editorLanguage) => {
         storage.get("activeEditorTexts").set(editorLanguage.toLowerCase(), newEditorText);
         }, [  ]);
     const editorText = useStorage(({ activeEditorTexts }) => activeEditorTexts)[editorLanguage];
-
     const inRound = useStorage((storage) => storage.inRound);
+    let resetCode = useStorage((storage) => storage.resetCode)
 
     // console.log(handleEditorTextEdit)
     // Set up Liveblocks Yjs provider and attach CodeMirror editor
@@ -53,18 +55,17 @@ const CodeEditor = ({
         let provider: TypedLiveblocksProvider;
         let ydoc: Y.Doc;
         let view: EditorView;
-        
-        if (!element || !room ) {
+        const ytextCode = Math.random() * (1000 - 1) + 1;
+        if (!element || !room) {
             return;
         }
 
         console.log("making new ydoc")
-        const newTextState = !inRound ? "" : editorText;
         
         // Create Yjs provider and document
         ydoc = new Y.Doc();
         provider = new LiveblocksProvider(room as any, ydoc);
-        const ytext = ydoc.getText(editorLanguage);
+        const ytext = ydoc.getText(editorLanguage + String(ytextCode));
 
         // if (ytext.doc.store.clients.values().next().value != undefined){
         //     console.log("Deleting")
@@ -72,15 +73,16 @@ const CodeEditor = ({
         // }
         
         ytext.insert(0, editorText)
-        console.log(ytext)
+        
         const undoManager = new Y.UndoManager(ytext);
         // Set up CodeMirror and extensions
 
-        provider.awareness.setLocalStateField("user", {
+        provider.awareness.setLocalStateField("user",{
             name: myPresence.username,
-            color: myPresence.color,    
-          });
-
+            color: myPresence.color,
+            colorLight: myPresence.color + "80"
+        })
+        
         // Attach CodeMirror to element
         view = new EditorView({
             state: EditorState.create({
@@ -91,9 +93,9 @@ const CodeEditor = ({
                     yCollab(ytext, provider.awareness, { undoManager }),
                     cobalt,
                     EditorView.updateListener.of((e) => {
-                        console.log(ytext.toString())
                         handleEditorTextEdit(ytext.toString(), editorLanguage)
-                    })
+                    }),
+                    
                 ],
                 }),
             parent: element,
@@ -104,11 +106,11 @@ const CodeEditor = ({
         provider?.destroy();
         view?.destroy();
         };
-    }, [element, room, editorLanguage, inRound]);
+    }, [element, room, editorLanguage, inRound, resetCode]);
 
     return (
         <div className="h-full w-full" >
-            <div className="h-full w-full rounded-lg overflow-auto" ref={ref} onChange={(e) => {console.log("Change")}}></div>
+            <div className="h-full w-full rounded-lg overflow-auto" ref={ref}></div>
         </div>
     );
 
