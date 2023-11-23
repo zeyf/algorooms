@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { Button } from "flowbite-react";
 import SettingsPop from "../../../shared/SettingsPopUp";
 import { FaCog } from "react-icons/fa";
-import WhiteBoard from "../WhiteBoard";
 import ReactModal from 'react-modal';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
@@ -344,15 +343,6 @@ export default ({
                         >
                             <VotingPopUp occupied={others.length + 1}/>
                     </ReactModal>
-                    <Button
-                        color="dark"
-                        className="drop-shadow-lg"
-                        onClick={() => {
-                            setWhiteBoard(!whiteBoard)
-                        }}
-                    >
-                        WhiteBoard
-                    </Button>
                 </div>
                 <div className="flex items-center gap-[21px]">
                     <CountdownTimer />
