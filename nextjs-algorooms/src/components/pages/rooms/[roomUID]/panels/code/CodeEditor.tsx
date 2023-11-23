@@ -41,13 +41,19 @@ const CodeEditor = ({
     }, []);
     const myPresence = useSelf(me => me.presence)
     const others = useOthers()
-    console.log(others)
     const handleEditorTextEdit = useMutation(({ storage }, newEditorText, editorLanguage) => {
         storage.get("activeEditorTexts").set(editorLanguage.toLowerCase(), newEditorText);
         }, [  ]);
-    const editorText = useStorage(({ activeEditorTexts }) => activeEditorTexts)[editorLanguage];
+    const activeEditorText = useStorage(({ activeEditorTexts }) => activeEditorTexts)[editorLanguage];
+    const passiveResetEditorText = useStorage(({ resetEditorTexts }) => resetEditorTexts)[editorLanguage];
+    
+
     const inRound = useStorage((storage) => storage.inRound);
-    let resetCode = useStorage((storage) => storage.resetCode)
+    let resetCode = useStorage((storage) => storage.resetCode);
+    const changeResetCodeState = useMutation(({ storage }, currentResetCodeState) => {
+        storage.set("resetCode", !currentResetCodeState);
+    }, []);
+    
 
     // console.log(handleEditorTextEdit)
     // Set up Liveblocks Yjs provider and attach CodeMirror editor
@@ -59,20 +65,24 @@ const CodeEditor = ({
         if (!element || !room) {
             return;
         }
-
-        console.log("making new ydoc")
         
         // Create Yjs provider and document
         ydoc = new Y.Doc();
         provider = new LiveblocksProvider(room as any, ydoc);
         const ytext = ydoc.getText(editorLanguage + String(ytextCode));
 
-        // if (ytext.doc.store.clients.values().next().value != undefined){
-        //     console.log("Deleting")
-        //     ytext.doc.store.clients.values().next().value.pop()
-        // }
-        
-        ytext.insert(0, editorText)
+        if (resetCode) {
+            if (inRound) {
+                handleEditorTextEdit(passiveResetEditorText, editorLanguage);
+            } else {
+                handleEditorTextEdit("", editorLanguage);
+            }
+
+            ytext.insert(0, passiveResetEditorText);
+            changeResetCodeState(resetCode);
+        } else {
+            ytext.insert(0, activeEditorText);
+        }
         
         const undoManager = new Y.UndoManager(ytext);
         // Set up CodeMirror and extensions

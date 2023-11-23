@@ -110,7 +110,8 @@ export default ({
     acceptVoteCount: 0,
     rejectVoteCount: 0,
     remainingTime: 60,
-    isFirstTime: true
+    isFirstTime: true,
+    resetCode: false
   };
 
 
