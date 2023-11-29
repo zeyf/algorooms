@@ -26,6 +26,7 @@ import {indentUnit} from "@codemirror/language"
 import {indentWithTab} from "@codemirror/commands"
 import { keymap } from "@codemirror/view";
 import LanguageSelector from "./header/LanguageSelector";
+import { NonceProvider } from "react-select";
 
 
 const CodeEditor = ({
@@ -94,17 +95,18 @@ const CodeEditor = ({
         // Attach CodeMirror to element
         view = new EditorView({
             state: EditorState.create({
-                doc: ytext.toString(),
-                extensions: [
-                    basicSetup,
-                    languageMapper[editorLanguage].syntaxHighlightingExtension(),
-                    yCollab(ytext, provider.awareness, { undoManager }),
-                    cobalt,
-                    EditorView.updateListener.of((e) => {
-                        handleEditorTextEdit(ytext.toString(), editorLanguage)
-                    }),
-                    
-                ],
+                    doc: ytext.toString(),
+                    extensions: [
+                        basicSetup,
+                        languageMapper[editorLanguage].syntaxHighlightingExtension(),
+                        yCollab(ytext, provider.awareness, { undoManager }),
+                        cobalt,
+                        EditorView.updateListener.of((e) => {
+                            handleEditorTextEdit(ytext.toString(), editorLanguage)
+                        }),
+                        keymap.of([indentWithTab]),
+                        indentUnit.of("    "),
+                    ],
                 }),
             parent: element,
         });
